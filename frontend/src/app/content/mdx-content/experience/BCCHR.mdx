@@ -1,0 +1,119 @@
+# BC Children's Hostpital Research Institute (BCCHR)
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin:24px 0;">
+  <div>
+    <strong>Type</strong><br/>
+    <p>Software Engineer Co-op / Data platform analyst</p>
+    </div>
+    <div>
+    <strong>Timespan</strong><br/>
+    Jan 2026 - Apr 2026
+    </div>
+    <div>
+    <strong>Tools</strong><br/>
+    Figma, React, Expo, Django, Linux
+    </div>
+</div>
+
+## Overview
+
+At BCCHR, I had the opportunity to join the AI and Data Science Unit, where my work was primarily focused around two projects for researchers within the institute (internal software and data science services). 
+
+My role combined software engineering, data analysis, and user experience design, translating researcher requirements into technical solutions.
+
+**Please note that only one of the projects is shown here due to pending confidentiality agreements.**
+
+## Core Contributions 
+
+1. STARFISH - Self-management Techniques for
+Adolescents Recovering from Injury, Surgery
+or Hospitalization
+
+## STARFISH
+
+**My Contributions**
+
+- **UI/UX Design**
+- **Translating researcher requirements** into technical specifications
+- Contributing to **React Native application development**
+- Developing a configuration-based onboarding form engine
+- Creating local SQLite database scaffolding
+- Planning offline-first data architecture
+
+### Problem
+
+Adolescents recovering from injury, surgery, or hospitalization are often encouraged to practice wellness activities such as breathing exercises, meditation, and symptom monitoring. However, these resources are frequently disconnected from patients' daily routines, making it difficult to maintain engagement and build healthy habits outside of clinical settings.
+
+STARFISH was created to provide a centralized mobile platform that helps patients discover wellness activities, track their progress, and receive personalized recommendations throughout their recovery journey.
+
+### Research & Requirements
+
+Several key requirements emerged during the planning process:
+
+- Patients should be able to access wellness activities immediately without creating an account.
+- The application should support both guest and authenticated experiences.
+- Activities needed to be easy to discover, revisit, and save for later use.
+- Progress tracking and daily check-ins should encourage habit formation without feeling overwhelming.
+- The application should remain functional without a network connection.
+- User data should be recoverable if patients later chose to create an account.
+- The interface needed to be accessible and approachable for adolescent users.
+
+These requirements informed both the user experience design and the underlying application architecture. 
+
+This guides us to our key guiding questions:
+
+1. How might we reduce barriers to getting started?
+2. How might we help users discover relevant wellness activities?
+3. How might we encourage long-term engagement?
+4. How might we support patients with unreliable connectivity?
+
+### Design Implementation
+
+To address the identified requirements, we designed STARFISH with a focus on simplicity, accessibility, and engagement. The application features a clean and intuitive interface that allows users to easily browse and access wellness activities without the need for an account.
+
+**How might we reduce barriers to getting started?**
+
+One of the primary goals was allowing patients to begin using the application immediately without requiring account creation. To support this, the onboarding flow was designed around a guest-first experience while still providing pathways for authenticated accounts and future data synchronization.
+
+While not shown in this screen as it is confidential, the onboarding process also includes a recommendation questionnaire designed by the researchers used to personalize suggested integrative medicine (IM) modalities for each user. The recommendation workflow is powered by a configuration-based form engine that I developed. Question text, field types, conditional logic, and response options are defined through configuration, allowing researchers to modify and iterate on questionnaires without requiring changes to application code.
+
+![onboarding ui](/adsu/starfish-1.png)
+
+**How might we help users discover relevant wellness activities?**
+
+Patients needed an intuitive way to browse and revisit techniques recommended throughout their recovery journey. Activities were organized into categories and designed with clear information hierarchies to improve discoverability and reduce cognitive load.
+
+![techniques ui](/adsu/starfish-2.png)
+
+**How might we encourage long-term engagement?**
+
+Recovery often spans weeks or months. To encourage continued use, the application included personalized recommendations, progress tracking, and activity management features that helped users build routines and maintain consistency.
+
+![home + activities](/adsu/starfish-3.png)
+
+**How might we support self-reflection and progress tracking?**
+
+Regular wellness check-ins allow users to monitor their recovery journey while providing researchers with valuable longitudinal data. The check-in experience was designed to be approachable, quick to complete, and easy to revisit over time.
+
+![check-in ui](/adsu/starfish-4.png)
+
+### Technical Architecture
+
+Beyond the user experience design, I also contributed to the technical planning of the application. One of the primary architectural goals was supporting offline-first usage through local persistence while maintaining pathways for future account synchronization and cloud integration.
+
+My contributions included:
+
+- Designing local database schemas
+- Planning offline-first data flows
+- Defining service layer interactions
+- Translating researcher requirements into technical specifications
+- Designing onboarding and authentication workflows
+- Initial development of the React Native application, including creating the onboarding form engine and local SQLite scaffolding.
+
+![architecture diagram](/adsu/starfish-5.png)
+
+A local-first architecture was chosen to support offline functionality, improve responsiveness, and reduce privacy concerns for guest users. I contributed to the planning of local persistence, synchronization pathways, and service-layer interactions, ensuring the application remained adaptable to future cloud synchronization and analytics requirements.
+
+## Reflection
+
+Working at BCCHR exposed me to the intersection of healthcare, research, and software engineering. Unlike many traditional software projects, success depended not only on technical implementation but also on understanding researcher workflows, patient needs, and long-term maintainability. This experience strengthened my ability to translate ambiguous stakeholder requirements into scalable technical solutions.

@@ -1,0 +1,97 @@
+# Moment Energy
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin:24px 0;">
+  <div>
+    <strong>Type</strong><br/>
+    <p>Fullstack Software Engineer Co-op</p>
+    </div>
+    <div>
+    <strong>Timespan</strong><br/>
+    Jan 2025 - Aug 2025
+    </div>
+    <div>
+    <strong>Tools</strong><br/>
+    React, MUI, NestJS, AWS (IoT Core, Athena, S3, SES), MySQL
+    </div>
+</div>
+
+<figure style="max-width:600px; margin:24px auto;">
+  <img
+    src="/experience/team-photo-luna-june2025.jpeg"
+    alt="Moment Energy Team"
+    style="width:100%; border-radius:8px;"
+  />
+  <figcaption style="margin-top:8px; font-size:0.875rem; color:#666;">
+    Team photo! Source: <a href="...">Moment Energy</a>
+  </figcaption>
+</figure>
+
+
+## Overview
+
+At Moment Energy, I worked on the cloud monitoring platform used to manage battery energy storage systems. My work spanned React frontend development, NestJS backend services, telemetry analytics, cloud fault detection, and AWS infrastructure.
+
+## Core Contributions
+
+In addition to general frontend and backend development, I made significant contributions to:
+
+1.  [Telemetry Dashboard Query Optimization](#telemetry-dashboard-query-optimization)
+2.  [Cloud Fault Detection System](#cloud-fault-detection-system)
+
+### Additional Contributions
+
+Throughout my co-op, I also contributed to a variety of platform features and infrastructure improvements, including:
+
+- Building React + MUI interfaces for deployment and monitoring workflows
+- Developing multi-step provisioning and firmware management tools
+- Implementing dynamic filtering and search functionality across dashboard tables
+- Creating reusable chart, table, and form components
+- Developing backend API endpoints and business logic in NestJS
+- Integrating AWS IoT Core job templates for firmware provisioning
+- Supporting role-based access control and user management features
+- Performing bug fixes, code reviews, testing, and quality-of-life improvements across the platform across the platform
+
+### Telemetry Dashboard Query Optimization
+
+BMS telemetry data continuously generates telemetry pack metrics. I was given the task of refractoring and optimizing the telemetry backend service to greatly improve the performance of dashboards which were previously experiencing significant latency in the legacy backend.
+
+I helped diagnose, migrate, and redesign the aggregawtion pipeline that takes data using Athena -> backend -> frontend payloard suitable for visualization. 
+
+**This involved:**
+
+- Building Athena queries for telemetry aggregation
+- Implementing timestamp-based downsampling
+- Moving expensive calculations from application code into SQL
+- Creating multiple aggregation levels based on selected time range
+- Reducing redundant frontend processing
+
+**This resulted in:**
+- **Reduced live telemetry API response times by approximately 70%**
+- expanded live telemetry query ranges from days to weeks, decreasing long queries from minutes to seconds
+- improved user experience and usability of the telemetry dashboard
+- lowered backend processing load
+
+### Cloud Fault Detection System
+
+I contributed to the development of a cloud-based fault detection system that monitored live telemetry streams and automatically generated fault events when abnormal conditions were detected. The system consumed live telemetry from AWS IoT Core MQTT topics and evaluated measurements against configurable thresholds retrieved from backend services.
+
+**This involved:**
+- Implementing telemetry monitoring services in NestJS
+- Consuming and processing live MQTT telemetry streams
+- Developing threshold-based fault detection logic
+- Caching threshold configurations to reduce database lookups
+- Supporting historical fault investigation through Parquet-based data warehousing
+- Implementing Athena-backed fault retrieval APIs
+- Integrating **E2E fault detection** with alerting and notification systems, including AWS SES for email notifications and frontend dashboard alerts
+
+The telemetry platform also utilized **Exponential Moving Average** (EMA) calculations when processing telemetry queries. This helped preserve significant events during downsampling and reduced the likelihood of important spikes being omitted from visualizations.
+
+**This resulted in:**
+- A designed feature that was successfully implemented and deployed to production, providing real-time fault detection capabilities for battery monitoring
+- Reduced alert noise through telemetry smoothing
+- Faster fault investigation through centralized fault storage
+- Near real-time detection of abnormal system behavior
+
+## Reflection
+
+My co-op at Moment Energy gave me valuable experience building and maintaining production software that supported real-world energy storage systems. Working across React, NestJS, AWS, and data infrastructure taught me how frontend applications, backend services, and cloud systems interact at scale. Most importantly, I developed stronger problem-solving and ownership skills by tackling complex technical challenges and delivering solutions that improved both system performance and user experience.
