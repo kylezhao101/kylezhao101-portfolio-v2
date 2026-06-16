@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { Separator } from "@/components/ui/separator";
 import TopLoadingBarProvider from "@/components/layout/TopLoadingBarProvider";
 import "github-markdown-css/github-markdown-light.css";
+import { Suspense } from "react";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,9 +27,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         <div className="h-14"></div>
-        <TopLoadingBarProvider>
-          <div className="w-full">{children}</div>
-        </TopLoadingBarProvider>
+        <Suspense fallback={null}>
+          <TopLoadingBarProvider>
+            <div className="w-full">{children}</div>
+          </TopLoadingBarProvider>
+        </Suspense>
         <Separator />
         <Footer />
       </body>
