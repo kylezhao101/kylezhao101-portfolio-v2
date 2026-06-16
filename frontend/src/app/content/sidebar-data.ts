@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import matter from "gray-matter";
 
 export interface SidebarLink {
     name: string;
@@ -27,8 +28,21 @@ export function getSidebarData(): SidebarSection[] {
             .map((item) => {
                 const slug = item.replace(/\.mdx$/, "");
 
+                let name = formatTitle(slug);
+
+                if (item.endsWith(".mdx")) {
+                    const filePath = path.join(sectionPath, item);
+                    const fileContent = fs.readFileSync(filePath, "utf8");
+
+                    const { data } = matter(fileContent);
+
+                    if (data.title) {
+                        name = data.title;
+                    }
+                }
+
                 return {
-                    name: formatTitle(slug),
+                    name,
                     href: `/content/${section}/${slug}`,
                 };
             });

@@ -4,31 +4,31 @@ const clients = [
     {
         name: "Celtix",
         sub: "osu!",
-        logo: "/art-clients/celtix.jpg",
+        logo: "/art-clients/celtix.webp",
         link: "https://soundcloud.com/rhe4"
     },
     {
         name: "osu! world cup design",
         sub: "osu!",
-        logo: "/art-clients/osu.png",
+        logo: "/art-clients/osu.webp",
         link: "https://www.youtube.com/@osugamearchive"
     },
     {
         name: "SFU Studio SIAT",
         sub: "SFU",
-        logo: "/art-clients/studiosiat.jpg",
+        logo: "/art-clients/studiosiat.webp",
         link: "https://www.sfu.ca/siat/studiosiat.html"
     },
     {
         name: "metahumanboi",
         sub: "osu!",
-        logo: "/art-clients/mhbz.jpg",
+        logo: "/art-clients/mhbz.webp",
         link: "https://soundcloud.com/metahumanboi"
     },
     {
         name: "A.SAKA",
         sub: "osu!",
-        logo: "/art-clients/asaka.png",
+        logo: "/art-clients/asaka.webp",
         link: "https://soundcloud.com/a-saka1"
     }
 ]

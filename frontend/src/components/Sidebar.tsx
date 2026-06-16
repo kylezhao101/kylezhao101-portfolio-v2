@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
+import matter from "gray-matter";
 
 interface SidebarLink {
   name: string;

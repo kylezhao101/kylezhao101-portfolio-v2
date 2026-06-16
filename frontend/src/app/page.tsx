@@ -111,21 +111,21 @@ export default function Home() {
               <CarouselContent>
                 <CarouselItem>
                   <img
-                    src="/artworks/pc.jpg"
+                    src="/artworks/pc.webp"
                     alt="celtix - Primordial Complex"
                     className="w-full aspect-video object-cover rounded-md"
                   />
                 </CarouselItem>
                 <CarouselItem>
                   <img
-                    src="/artworks/mo.png"
+                    src="/artworks/mo.webp"
                     alt="Studio SIAT"
                     className="w-full aspect-video object-contain rounded-md"
                   />
                 </CarouselItem>
                 <CarouselItem>
                   <img
-                    src="/artworks/kagutsuchi_owc.png"
+                    src="/artworks/kagutsuchi_owc.webp"
                     alt="A.SAKA - Kagutsuchi"
                     className="w-full aspect-video object-cover rounded-md"
                   />
