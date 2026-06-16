@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import TopLoadingBarProvider from "@/components/layout/TopLoadingBarProvider";
 import "github-markdown-css/github-markdown-light.css";
 import { Suspense } from "react";
+import { getLastUpdated } from "@/lib/getLastUpdated";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,6 +23,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const lastUpdated = getLastUpdated();
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -33,7 +35,7 @@ export default function RootLayout({
           </TopLoadingBarProvider>
         </Suspense>
         <Separator />
-        <Footer />
+        <Footer lastUpdated={lastUpdated} />
       </body>
     </html>
   );

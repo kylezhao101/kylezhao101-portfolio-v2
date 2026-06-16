@@ -4,7 +4,11 @@ import { IconCheck, IconCopy } from "@tabler/icons-react";
 import { useState } from "react";
 import { Status, StatusIndicator, StatusLabel } from '../ui/status';
 
-export default function Footer() {
+export default function Footer({
+    lastUpdated,
+}: {
+    lastUpdated: string;
+}) {
     const [isCopied, setIsCopied] = useState(false);
 
     const copyToClipboard = async (text: string) => {
@@ -27,10 +31,11 @@ export default function Footer() {
                             <StatusIndicator />
                             <StatusLabel />
                         </Status>
-
-                        <li className='opacity-60'>
-                            <p className="text-sm">Last updated 2026-05-16</p>
-                        </li>
+                        {lastUpdated && (
+                            <li className='opacity-60'>
+                                <p className="text-sm">Last updated {lastUpdated}</p>
+                            </li>)
+                        }
                     </ul>
                 </div>
 
