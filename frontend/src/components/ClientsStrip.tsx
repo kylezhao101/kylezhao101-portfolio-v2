@@ -59,7 +59,8 @@ export function ClientStrip() {
                                 src={logo}
                                 alt={name}
                                 className="
-                                max-w-20
+                                max-w-12
+                                sm:max-w-20
                                 w-auto
                                 rounded-md
                                 object-contain

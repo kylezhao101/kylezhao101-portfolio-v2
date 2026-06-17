@@ -27,7 +27,7 @@ export default function ProfileMetaTable() {
                         {label}
                     </span>
 
-                    <div className="flex justify-end text-gray-700 text-xs">
+                    <div className="flex justify-end text-end text-gray-700 text-xs">
                         {value}
                     </div>
                 </div>

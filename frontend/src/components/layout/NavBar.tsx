@@ -87,7 +87,7 @@ export default function Navbar() {
           </ul>
           <ul className='flex space-x-6 items-center'>
             <li>
-              <Button variant="default" size="sm" asChild className='rounded-full px-4 bg-gray-800'>
+              <Button variant="default" size="sm" asChild className='rounded-full px-4 bg-gray-800 text-sm'>
                 <Link href="https://drive.google.com/file/d/1FpxQdZE-Wm5pSH9rOnXge2l8yihFaSTd/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                   Resume
                 </Link>
@@ -108,7 +108,7 @@ export default function Navbar() {
         <ul className='flex flex-col gap-2'>
           <li className="mb-2">
             <Link onClick={toggleMobileMenu} href="/">
-              <span className="font-semibold">/Kylezhao101-api</span>
+              <span className="font-semibold">/Kylezhao101</span>
             </Link>
           </li>
           <li>

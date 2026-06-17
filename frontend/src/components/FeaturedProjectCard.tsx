@@ -40,7 +40,7 @@ export default function FeaturedProjectCard({
                     </CardDescription>
                 </CardHeader>
 
-                <CardContent className="flex items-center justify-between pt-0">
+                <CardContent className="flex items-start gap-6 justify-between pt-0 flex-col lg:flex-row">
                     <div className="flex flex-wrap gap-2">
                         {project.technologies.map((tech) => (
                             <span

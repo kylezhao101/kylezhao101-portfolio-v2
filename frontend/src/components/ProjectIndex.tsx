@@ -67,7 +67,7 @@ export function ProjectIndex() {
                             {project.timeframe}
                         </p>
 
-                        <div className="col-span-3">
+                        <div className="col-span-6 sm:col-span-3">
                             <p className="text-sm font-medium group-hover:text-cyan-500 text-gray-800 group-hover:transition-colors group-hover:duration-200">
                                 {project.title}
                             </p>
@@ -77,7 +77,7 @@ export function ProjectIndex() {
                             </p>
                         </div>
 
-                        <div className="col-span-3 md:col-span-2 flex justify-end items-start gap-2 flex-wrap">
+                        <div className="col-span-6 sm:col-span-3 md:col-span-2 flex justify-end items-start gap-2 flex-wrap">
                             {project.tags?.map((tag) => (
                                 <span
                                     key={tag}

@@ -20,13 +20,12 @@ export default function Footer({
             setIsCopied(false);
         }, 2000);
     };
-
     return (
-        <nav className="w-full min-h-14 pb-16 z-10 container" id="contact">
+        <nav className="max-w-screen-2xl mx-auto px-2 sm:px-8 min-h-14 pb-16 z-10 " id="contact">
             <div className='flex flex-col md:max-w-screen-2xl mx-auto'>
 
                 <div className='flex justify-between items-center py-6'>
-                    <ul className="flex flex-col sm:flex-row sm:items-center sm:space-x-6">
+                    <ul className="flex flex-col sm:flex-row sm:items-center gap-6 sm:space-x-6">
                         <Status status="open-to-work" variant="outline" >
                             <StatusIndicator />
                             <StatusLabel />
