@@ -82,25 +82,25 @@ One of the primary goals was allowing patients to begin using the application im
 
 While not shown in this screen as it is confidential, the onboarding process also includes a recommendation questionnaire designed by the researchers used to personalize suggested integrative medicine (IM) modalities for each user. The recommendation workflow is powered by a configuration-based form engine that I developed. Question text, field types, conditional logic, and response options are defined through configuration, allowing researchers to modify and iterate on questionnaires without requiring changes to application code.
 
-![onboarding ui](/adsu/starfish-1.png)
+![onboarding ui](/images/adsu/starfish-1.png)
 
 **How might we help users discover relevant wellness activities?**
 
 Patients needed an intuitive way to browse and revisit techniques recommended throughout their recovery journey. Activities were organized into categories and designed with clear information hierarchies to improve discoverability and reduce cognitive load.
 
-![techniques ui](/adsu/starfish-2.png)
+![techniques ui](/images/adsu/starfish-2.png)
 
 **How might we encourage long-term engagement?**
 
 Recovery often spans weeks or months. To encourage continued use, the application included personalized recommendations, progress tracking, and activity management features that helped users build routines and maintain consistency.
 
-![home + activities](/adsu/starfish-3.png)
+![home + activities](/images/adsu/starfish-3.png)
 
 **How might we support self-reflection and progress tracking?**
 
 Regular wellness check-ins allow users to monitor their recovery journey while providing researchers with valuable longitudinal data. The check-in experience was designed to be approachable, quick to complete, and easy to revisit over time.
 
-![check-in ui](/adsu/starfish-4.png)
+![check-in ui](/images/adsu/starfish-4.png)
 
 ### Technical Architecture
 
@@ -115,7 +115,7 @@ My contributions included:
 - Designing onboarding and authentication workflows
 - Initial development of the React Native application, including creating the onboarding form engine and local SQLite scaffolding.
 
-![architecture diagram](/adsu/starfish-5.png)
+![architecture diagram](/images/adsu/starfish-5.png)
 
 A local-first architecture was chosen to support offline functionality, improve responsiveness, and reduce privacy concerns for guest users. I contributed to the planning of local persistence, synchronization pathways, and service-layer interactions, ensuring the application remained adaptable to future cloud synchronization and analytics requirements.
 

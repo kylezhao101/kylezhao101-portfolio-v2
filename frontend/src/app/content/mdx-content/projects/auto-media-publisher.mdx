@@ -1,0 +1,103 @@
+# Auto Media Publisher
+
+03.2026 - ongoing - Last updated June 16 2026
+
+https://github.com/kylezhao101/auto-media-publisher/releases
+
+## Overview
+Auto Media Publisher is a desktop application that automates the process of preparing and publishing long-form media content to online platforms. Originally developed for my church's weekly video publishing workflow, the application **reduced a roughly 1.5-hour manual process** involving video preparation, editing, and uploading into a largely one-click workflow for non-technical users.
+
+The latest application combines a React-based desktop interface with a Python processing pipeline to provide a simple, guided publishing experience for non-technical users.
+
+The project originally began as a cloud-based media processing platform hosted on Azure using student credits. However, because recordings frequently exceeded tens of gigabytes and required long-running video processing workloads, cloud hosting costs and storage limitations quickly became impractical. The system was subsequently redesigned into a desktop-first application that leveraged local compute resources while preserving many of the automation features developed in the original cloud architecture.
+###  Problem
+Publishing recorded services involved several manual steps:
+
+- Exporting and transcoding large video files
+- Creating thumbnails
+- Entering titles and descriptions
+- Uploading videos
+- Monitoring upload progress
+- Managing errors and failed uploads
+
+This process was time-consuming and difficult to delegate to volunteers with varying technical backgrounds.
+
+**How might we reduce the technical overhead of publishing media content while making the workflow accessible to non-technical users?**
+
+### Requirements
+1. Support large video files (including MXF recordings)
+2. Provide a simple guided workflow
+3. Display processing progress and status updates
+4. Automatically generate publish-ready assets
+5. Continue functioning on a standard consumer PC
+6. Handle failed processing gracefully
+7. Minimize user interaction
+
+### Desktop Implementation
+
+<figure style="max-width:600px; margin:24px auto;">
+  <img
+    src="/images/projects/amp-1.webp"
+    alt="Desktop app"
+    style="width:100%; border-radius:8px;"
+  />
+</figure>
+
+**The application follows a job-based processing pipeline:**
+
+1. Select video files and thumbnail
+2. Enter metadata such as title and description
+3. Launch a background processing job
+4. Transcode and prepare media assets using FFmpeg
+5. Upload assets and monitor publishing progress
+6. Surface warnings, errors, and completion status to the user
+
+The desktop interface is built with Electron and React, while media processing is delegated to a Python worker process. Long-running tasks execute independently of the user interface and communicate progress updates back to the renderer through IPC events. This architecture keeps the application responsive even when processing multi-gigabyte video files.
+
+### Cloud Implementation
+
+![cloud diagram](/images/projects/amp-2.webp)
+
+The project originally began as a cloud-based media processing platform built on Azure. The system was designed around asynchronous job processing to support large media uploads and long-running transcoding tasks.
+
+Media files and generated assets were stored in Azure Blob Storage, while job requests were submitted through a FastAPI backend and processed by background workers. Azure Queue Storage was used to decouple the user interface from video processing workloads, allowing uploads, transcoding, thumbnail generation, and publishing operations to execute independently. Job progress and status updates were streamed back to the dashboard to provide real-time feedback.
+
+The architecture was intentionally designed around distributed services to improve scalability and fault tolerance. However, because weekly recordings frequently exceeded tens of gigabytes, storage and compute costs quickly became impractical under student cloud credits. This ultimately motivated a redesign into a desktop-first application that leveraged local compute resources while preserving much of the original job-based workflow.
+
+## Desktop Guide
+
+1.  [Installation](#installation)
+2.  [Setup Guide](#setup)
+2.  [Features](#features)
+2.  [Overview](#overview)
+
+### Download
+Download the latest release from:
+https://github.com/kylezhao101/auto-media-publisher/releases
+
+### Initial Setup
+1. Download and run the installer.
+2. Create a Google Cloud project.
+3. Enable the YouTube Data API v3.
+4. Navigate to Credentials → Create Credentials → OAuth Client ID.
+5. Select Desktop App as the application type.
+6. Download the OAuth client credentials JSON file.
+7. Open Auto Media Publisher and select Import Credentials.
+8. Choose the downloaded credentials JSON file.
+9. Click Connect YouTube and authorize the Google account associated with your channel.
+
+> A Google Cloud project and YouTube Data API credentials are required because uploads are performed directly through the official YouTube API on behalf of your channel.
+
+> Once configured, subsequent uploads only require selecting your media files, entering metadata, and clicking Publish.
+
+### Features
+- Import and process multiple media clips in a single publishing job
+- Configure video metadata and preview custom thumbnails
+- Execute long-running FFmpeg workflows in background Python worker processes
+- Select hardware acceleration (CPU or GPU) and adjust thread utilization
+- Monitor rendering and upload progress with real-time status updates
+
+### Planned features
+- Playlist selection
+- visibility settings
+- desktop notifications

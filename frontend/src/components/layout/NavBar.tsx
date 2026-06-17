@@ -67,6 +67,15 @@ export default function Navbar() {
 
                 <li>
                   <Link
+                    href="/content/projects/auto-media-publisher"
+                    className="block pr-6 py-4 text-sm transition-opacity duration-400 group-hover:opacity-30 hover:!opacity-100"
+                  >
+                    Projects
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
                     href="/content/about-this-site/dynamic-generation"
                     className="block pr-6 py-4 text-sm transition-opacity duration-400 group-hover:opacity-30 hover:!opacity-100"
                   >
@@ -114,6 +123,11 @@ export default function Navbar() {
           <li>
             <Link onClick={toggleMobileMenu} href="/content/experience/bcchr">
               Experience
+            </Link>
+          </li>
+          <li>
+            <Link onClick={toggleMobileMenu} href="/content/projects/auto-media-publisher">
+              Projects
             </Link>
           </li>
           <li>
