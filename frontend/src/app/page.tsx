@@ -20,7 +20,7 @@ export default function Home() {
       <header className="relative overflow-hidden">
 
         {/* Hero Container */}
-        <div className="mx-auto max-w-screen-2xl px-2 sm:px-8 py-16 z-40">
+        <div className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-16 z-40">
           {/* Component */}
           <div className="grid items-center justify-items-start gap-4 sm:gap-8 lg:grid-cols-2">
             {/* Hero Content */}
@@ -58,7 +58,7 @@ export default function Home() {
       </header>
 
       <Separator />
-      <section className="mx-auto max-w-screen-2xl px-2 sm:px-8 py-4 md:py-8">
+      <section className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-4 md:py-8">
         <p className="text-gray-500 mb-4">
           02 / Featured Work
         </p>
@@ -73,7 +73,7 @@ export default function Home() {
       </section>
 
       <Separator />
-      <section className="mx-auto max-w-screen-2xl px-2 sm:px-8 py-4 md:py-8">
+      <section className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-4 md:py-8">
         <p className="text-gray-500 mb-4">
           03 / Other
         </p>
@@ -82,7 +82,7 @@ export default function Home() {
 
 
       <Separator />
-      <section className="mx-auto max-w-screen-2xl px-2 sm:px-8 py-4 md:py-8">
+      <section className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-4 md:py-8">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="flex flex-col self-center ">
 
@@ -138,7 +138,7 @@ export default function Home() {
         </div>
       </section>
       <Separator />
-      <section className="mx-auto max-w-screen-2xl px-2 sm:px-8 py-4 md:py-8">
+      <section className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-4 md:py-8">
         <p className="text-gray-500 mb-4">
           05 / About me
         </p>
@@ -159,12 +159,12 @@ export default function Home() {
               className="h-12 w-auto"
             />
             <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Hi! I'm Kyle. I'm a software engineer based in Vancouver B.C.</h2>
-            <p className="mb-4 text-gray-800">
+            <p className="mb-4 text-gray-800 text-sm sm:text-base">
               I enjoy building products that sit at the intersection of systems, design, and
               user experience - whether that's a cloud platform, a developer tool, or a
               personal side project.
             </p>
-            <p className="mb-10 text-gray-800">
+            <p className="mb-10 text-gray-800 text-sm sm:text-base">
               Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
             </p>
             <img src="/gifs/jill.gif" alt="jill" className="w-full rounded-md max-h-96 hidden md:block" />

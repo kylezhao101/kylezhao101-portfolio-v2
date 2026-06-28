@@ -84,12 +84,15 @@ export default function Navbar() {
                 </li>
 
                 <li>
-                  <Link
+                  <a
                     href="#contact"
+                    onClick={() => {
+                      window.dispatchEvent(new Event("contact-nudge"));
+                    }}
                     className="block pr-6 py-4 text-sm transition-opacity duration-400 group-hover:opacity-30 hover:!opacity-100"
                   >
                     Contact
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </li>

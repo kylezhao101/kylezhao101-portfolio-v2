@@ -88,3 +88,34 @@ html {
   list-style-type: disc;
   padding-left: 2rem;
 }
+
+@keyframes copy-wiggle {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  20% {
+    transform: rotate(-16deg) scale(1.2);
+  }
+
+  40% {
+    transform: rotate(12deg) scale(1.2);
+  }
+
+  60% {
+    transform: rotate(-8deg) scale(1.04);
+  }
+
+  80% {
+    transform: rotate(4deg) scale(1.02);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.animate-copy-wiggle {
+  animation: copy-wiggle 750ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
+}
