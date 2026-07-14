@@ -1,11 +1,11 @@
 'use client'
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MenuIcon, GithubIcon } from 'lucide-react';
-import { Button } from '../ui/button';
 import ResumeButton from './ResumeButton';
 import { config } from '@/config/config';
+import { motion } from 'motion/react';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -110,7 +110,19 @@ export default function Navbar() {
             </li>
             <li>
               <Link className="text-sm" href="https://github.com/kylezhao101">
-                <GithubIcon></GithubIcon>
+                <motion.div
+                  whileHover={{
+                    rotate: 12,
+                    scale: 1.10,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 450,
+                    damping: 10,
+                  }}
+                >
+                  <GithubIcon />
+                </motion.div>
               </Link>
             </li>
           </ul>
