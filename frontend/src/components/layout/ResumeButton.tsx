@@ -50,45 +50,45 @@ export default function ResumeButton() {
             left: 0,
         });
 
-        await Promise.all([
-            shapeControls.start({
-                x: [startX, scanEndX, squareX],
-                width: [2, 2, 10],
-                height: [20, 20, 10],
-                transition: {
-                    duration: 0.42,
-                    times: [0, 0.62, 1],
-                    ease: [
-                        [0.42, 0, 1, 0.6],   // ramps up during the scan
-                        [0.22, 1, 0.36, 1],   // smooth line-to-square morph
-                    ],
-                },
-            }),
+        const backgroundAnimation = backgroundControls.start({
+            left: [0, 0, -22, -18],
+            transition: {
+                duration: 0.58,
+                times: [0, 0.45, 0.72, 1],
+                ease: [
+                    "linear",
+                    [0.22, 1, 0.36, 1],
+                    [0.16, 1, 0.3, 1],
+                ],
+            },
+        });
 
-            backgroundControls.start({
-                left: [0, 0, -22, -18],
-                transition: {
-                    duration: 0.58,
-                    times: [0, 0.45, 0.72, 1],
-                    ease: [
-                        "linear",
-                        [0.22, 1, 0.36, 1],
-                        [0.16, 1, 0.3, 1],
-                    ],
-                },
-            }),
-        ]);
+        await shapeControls.start({
+            x: [startX, scanEndX, squareX],
+            width: [2, 2, 10],
+            height: [20, 20, 10],
+            transition: {
+                duration: 0.42,
+                times: [0, 0.62, 1],
+                ease: [
+                    [0.42, 0, 1, 0.6],
+                    [0.22, 1, 0.36, 1],
+                ],
+            },
+        });
 
         if (!isHoveredRef.current) return;
 
         shapeControls.start({
             rotate: 360,
             transition: {
-                duration: 0.95,
+                duration: 0.91,
                 ease: "linear",
                 repeat: Infinity,
             },
         });
+
+        await backgroundAnimation;
     };
 
     const handleHoverEnd = async () => {
