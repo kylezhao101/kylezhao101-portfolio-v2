@@ -123,13 +123,13 @@ export default function Home() {
                     className="w-full aspect-video object-contain rounded-md"
                   />
                 </CarouselItem>
-                <CarouselItem>
+                {/* <CarouselItem>
                   <img
                     src="/artworks/kagutsuchi_owc.webp"
                     alt="A.SAKA - Kagutsuchi"
                     className="w-full aspect-video object-cover rounded-md"
                   />
-                </CarouselItem>
+                </CarouselItem> */}
               </CarouselContent>
               <CarouselPrevious className="left-2" />
               <CarouselNext className="right-2" />
@@ -167,11 +167,11 @@ export default function Home() {
             <p className="mb-10 text-gray-800 text-sm sm:text-base">
               Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
             </p>
-            <img src="/gifs/jill.gif" alt="jill" className="w-full rounded-md max-h-96 hidden md:block" />
+            <img src="/gifs/jill.gif" alt="jill" className="w-full rounded-md max-h-96 hidden md:block object-cover" />
             <Carousel className="w-full block md:hidden">
               <CarouselContent>
                 <CarouselItem>
-                  <img src="/gifs/jill.gif" alt="jill" className="w-full rounded-md max-h-96" />
+                  <img src="/gifs/jill.gif" alt="jill" className="w-full rounded-md max-h-96 object-cover" />
                 </CarouselItem>
                 <CarouselItem>
                   <video
