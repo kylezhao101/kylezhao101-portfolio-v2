@@ -9,7 +9,6 @@ import "github-markdown-css/github-markdown-light.css";
 import { Suspense } from "react";
 import { getLastUpdated } from "@/lib/getLastUpdated";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

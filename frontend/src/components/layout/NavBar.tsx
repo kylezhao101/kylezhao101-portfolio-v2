@@ -4,6 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React, { useEffect, useState } from 'react';
 import { MenuIcon, GithubIcon } from 'lucide-react';
 import { Button } from '../ui/button';
+import ResumeButton from './ResumeButton';
+import { config } from '@/config/config';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -99,11 +101,12 @@ export default function Navbar() {
           </ul>
           <ul className='flex space-x-6 items-center'>
             <li>
-              <Button variant="default" size="sm" asChild className='rounded-full px-4 bg-gray-800 text-sm'>
-                <Link href="https://drive.google.com/file/d/1FpxQdZE-Wm5pSH9rOnXge2l8yihFaSTd/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+              {/* <Button variant="default" size="sm" asChild className='rounded-full px-4 bg-gray-800 text-sm'>
+                <Link href={config.resumeUrl} target="_blank" rel="noopener noreferrer">
                   Resume
                 </Link>
-              </Button>
+              </Button> */}
+              <ResumeButton />
             </li>
             <li>
               <Link className="text-sm" href="https://github.com/kylezhao101">
@@ -136,6 +139,11 @@ export default function Navbar() {
           <li>
             <Link onClick={toggleMobileMenu} href="/content/about-this-site/dynamic-generation">
               About this site
+            </Link>
+          </li>
+          <li>
+            <Link href={config.resumeUrl} target="_blank" rel="noopener noreferrer">
+              Resume
             </Link>
           </li>
         </ul>
