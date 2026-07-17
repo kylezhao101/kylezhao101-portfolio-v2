@@ -53,7 +53,7 @@ export default function ResumeButton() {
         const backgroundAnimation = backgroundControls.start({
             left: [0, 0, -22, -18],
             transition: {
-                duration: 0.58,
+                duration: 0.42,
                 times: [0, 0.45, 0.72, 1],
                 ease: [
                     "linear",
