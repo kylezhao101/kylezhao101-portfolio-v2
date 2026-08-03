@@ -52,7 +52,6 @@ export const otherWork = [
     timeframe: "04.2026 - ongoing",
     type: "Personal Project",
     tags: [
-      "Distributed Systems",
       "Developer Tooling",
     ],
     externalLink: "https://github.com/kylezhao101/halyr"
