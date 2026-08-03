@@ -1,15 +1,69 @@
 # Auto Media Publisher
 
-03.2026 - ongoing - Last updated June 24 2026
+03.2026 - ongoing - Last updated Aug 3rd, 2026
 
-https://github.com/kylezhao101/auto-media-publisher/releases
+## Desktop Guide
 
-## Overview
+1.  [Download](#Download)
+2.  [Initial Setup](#Initial-Setup)
+3.  [Features](#features)
+
+### Download
+Download the latest release from:
+https://github.com/kylezhao101/auto-media-publisher/releases/latest
+
+- Windows: AutoMediaPublisher-Setup-[latest].exe
+- Mac: AutoMediaPublisher-[latest]-arm64.dmg
+
+Because I'm not paying for an Apple Developer account, the Mac version is not signed and will require you to bypass security settings to run the application. 
+
+The command is:
+
+```bash
+xattr -cr /Applications/AutoMediaPublisher.app
+```
+
+Or xattr -cr [path to app] if you installed it somewhere else.
+
+### Initial Setup
+
+**If you already have a gcp project and credentials**, you can skip steps 2-6 and just import your existing credentials JSON file in step 7.
+
+1. Download and run the installer.
+2. Create a Google Cloud project.
+3. Enable the YouTube Data API v3.
+4. Navigate to Credentials → Create Credentials → OAuth Client ID.
+5. Select Desktop App as the application type.
+6. Download the OAuth client credentials JSON file.
+7. Open Auto Media Publisher and click on Import Credentials.
+8. Choose the downloaded credentials JSON file.
+9. Click Connect YouTube, when prompted on a browser window, authorize the Google account associated with your channel.
+
+> A Google Cloud project and YouTube Data API credentials are required because uploads are performed directly through the official YouTube API on behalf of your channel.
+
+> Once configured, subsequent uploads only require selecting your media files, entering metadata, and clicking Publish.
+
+
+### Features
+- Import and process multiple media clips in a single publishing job
+- Configure video metadata and preview custom thumbnails
+- Execute long-running FFmpeg workflows in background Python worker processes
+- Select hardware acceleration (CPU or GPU) and adjust thread utilization
+- Monitor rendering and upload progress with real-time status updates
+- Playlist selection
+- Visibility settings
+- Auto updates (Windows only, again, a Mac developer account is required for signed builds)
+
+### Planned features
+- desktop notifications
+
+## Project Overview
 Auto Media Publisher is a desktop application that automates the process of preparing and publishing long-form media content to online platforms. Originally developed for my church's weekly video publishing workflow, the application **reduced a roughly 1.5-hour manual process** involving video preparation, editing, and uploading into a largely one-click workflow for non-technical users.
 
 The latest application combines a React-based desktop interface with a Python processing pipeline to provide a simple, guided publishing experience for non-technical users.
 
 The project originally began as a cloud-based media processing platform hosted on Azure using student credits. However, because recordings frequently exceeded tens of gigabytes and required long-running video processing workloads, cloud hosting costs and storage limitations quickly became impractical. The system was subsequently redesigned into a desktop-first application that leveraged local compute resources while preserving many of the automation features developed in the original cloud architecture.
+
 ###  Problem
 Publishing recorded services involved several manual steps:
 
@@ -64,41 +118,3 @@ Media files and generated assets were stored in Azure Blob Storage, while job re
 
 The architecture was intentionally designed around distributed services to improve scalability and fault tolerance. However, because weekly recordings frequently exceeded tens of gigabytes, storage and compute costs quickly became impractical under student cloud credits. This ultimately motivated a redesign into a desktop-first application that leveraged local compute resources while preserving much of the original job-based workflow.
 
-## Desktop Guide
-
-1.  [Installation](#installation)
-2.  [Setup Guide](#setup)
-2.  [Features](#features)
-2.  [Overview](#overview)
-
-### Download
-Download the latest release from:
-https://github.com/kylezhao101/auto-media-publisher/releases
-
-### Initial Setup
-1. Download and run the installer.
-2. Create a Google Cloud project.
-3. Enable the YouTube Data API v3.
-4. Navigate to Credentials → Create Credentials → OAuth Client ID.
-5. Select Desktop App as the application type.
-6. Download the OAuth client credentials JSON file.
-7. Open Auto Media Publisher and select Import Credentials.
-8. Choose the downloaded credentials JSON file.
-9. Click Connect YouTube and authorize the Google account associated with your channel.
-
-> A Google Cloud project and YouTube Data API credentials are required because uploads are performed directly through the official YouTube API on behalf of your channel.
-
-> Once configured, subsequent uploads only require selecting your media files, entering metadata, and clicking Publish.
-
-### Features
-- Import and process multiple media clips in a single publishing job
-- Configure video metadata and preview custom thumbnails
-- Execute long-running FFmpeg workflows in background Python worker processes
-- Select hardware acceleration (CPU or GPU) and adjust thread utilization
-- Monitor rendering and upload progress with real-time status updates
-- Playlist selection
-- Visibility settings
-- Auto updates
-
-### Planned features
-- desktop notifications
