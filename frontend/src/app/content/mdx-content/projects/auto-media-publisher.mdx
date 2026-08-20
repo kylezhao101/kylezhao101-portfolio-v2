@@ -1,6 +1,8 @@
 # Auto Media Publisher
 
-03.2026 - ongoing - Last updated Aug 3rd, 2026
+03.2026 - ongoing - Last updated Aug 20th, 2026
+
+Auto Media Publisher is a desktop tool that streamlines publishing workflows for recurring recorded content, automating video processing and YouTube publishing while supporting shared organization workspaces and role-based access.
 
 ## Desktop Guide
 
@@ -25,7 +27,21 @@ xattr -cr /Applications/AutoMediaPublisher.app
 
 Or xattr -cr [path to app] if you installed it somewhere else.
 
-### Initial Setup
+### Organization Setup
+
+Organization members do not need to import personal Google Cloud credentials when publishing through an organization's connected YouTube channel.
+
+Organization owners and administrators can:
+
+- Create and manage organization workspaces
+- Invite members by email
+- Assign role-based permissions
+- Connect a shared YouTube channel
+- Create shared publishing presets
+
+Once invited, members can sign in and switch between Personal and Organization workspaces directly from the desktop application.
+
+### Personal Setup
 
 **If you already have a gcp project and credentials**, you can skip steps 2-6 and just import your existing credentials JSON file in step 7.
 
@@ -52,22 +68,24 @@ If you want to manually drag in your credential files, naming is as follows:
   - `%APPDATA%\Roaming\AutoMediaPublisher\gcp-token.json`
 
 ### Features
-- Import and process multiple media clips in a single publishing job
-- Configure video metadata and preview custom thumbnails
-- Execute long-running FFmpeg workflows in background Python worker processes
-- Select hardware acceleration (CPU or GPU) and adjust thread utilization
-- Monitor rendering and upload progress with real-time status updates
-- Playlist selection
-- Visibility settings
-- Auto updates (Windows only, again, a Mac developer account is required for signed builds)
 
-### Planned features
-- desktop notifications
+- Process multiple media clips through a one-click FFmpeg rendering, audio processing, and YouTube publishing workflow
+- Run long-running media processing in background Python workers with real-time progress updates
+- Configure video titles, descriptions, custom thumbnails, visibility, and playlists
+- Select CPU or GPU hardware acceleration and processing performance
+- Switch between Personal and Organization publishing workspaces
+- Create and manage organizations with owner, admin, publisher, and member roles
+- Invite organization members through email with role-based access control
+- Create and share organization publishing presets
+- Connect and manage shared organization YouTube channels
+- Publish to organization channels without distributing long-lived Google credentials to members
+- Receive desktop notifications for completed uploads and warnings
+- Automatically update Windows installations
 
 ## Project Overview
 Auto Media Publisher is a desktop application that automates the process of preparing and publishing long-form media content to online platforms. Originally developed for my church's weekly video publishing workflow, the application **reduced a roughly 1.5-hour manual process** involving video preparation, editing, and uploading into a largely one-click workflow for non-technical users.
 
-The latest application combines a React-based desktop interface with a Python processing pipeline to provide a simple, guided publishing experience for non-technical users.
+The current application combines an Electron/React desktop interface with a Python media-processing worker and a deployed FastAPI/Supabase backend. Personal publishing remains local-first, while organization workspaces provide shared presets, role-based access, invitations, and centrally managed YouTube connections for team workflows.
 
 The project originally began as a cloud-based media processing platform hosted on Azure using student credits. However, because recordings frequently exceeded tens of gigabytes and required long-running video processing workloads, cloud hosting costs and storage limitations quickly became impractical. The system was subsequently redesigned into a desktop-first application that leveraged local compute resources while preserving many of the automation features developed in the original cloud architecture.
 
@@ -96,11 +114,22 @@ This process was time-consuming and difficult to delegate to volunteers with var
 
 ### Desktop Implementation
 
-<figure style="max-width:600px; margin:24px auto;">
+<figure
+  style="
+    max-width:800px;
+    margin:24px auto;
+    overflow:hidden;
+    border-radius:8px;
+  "
+>
   <img
-    src="/images/projects/amp-1.webp"
-    alt="Desktop app"
-    style="width:100%; border-radius:8px;"
+    src="/images/projects/amp-1.png"
+    alt="Auto Media Publisher desktop app"
+    style="
+      width:100%;
+      display:block;
+      transform:scale(1.015);
+    "
   />
 </figure>
 
@@ -114,6 +143,60 @@ This process was time-consuming and difficult to delegate to volunteers with var
 6. Surface warnings, errors, and completion status to the user
 
 The desktop interface is built with Electron and React, while media processing is delegated to a Python worker process. Long-running tasks execute independently of the user interface and communicate progress updates back to the renderer through IPC events. This architecture keeps the application responsive even when processing multi-gigabyte video files.
+
+### Organization Workspaces
+
+<figure
+  style="
+    max-width:800px;
+    margin:24px auto;
+    overflow:hidden;
+    border-radius:8px;
+  "
+>
+  <img
+    src="/images/projects/amp-org-manage.png"
+    style="
+      width:100%;
+      display:block;
+      transform:scale(1.015);
+    "
+  />
+</figure>
+
+
+The desktop application also supports shared organization workspaces for teams managing a common YouTube channel. While personal publishing keeps Google credentials locally on the user's device, organization workspaces use a deployed FastAPI and Supabase/PostgreSQL backend to manage shared state and authentication.
+
+Organizations support:
+
+- Owner, admin, publisher, and member roles with role-based access control
+- Email-based invitations and member management
+- Shared publishing presets
+- Organization-level YouTube connections
+- Shared playlist access and publishing permissions
+
+
+<figure
+  style="
+    max-width:800px;
+    margin:24px auto;
+    overflow:hidden;
+    border-radius:8px;
+  "
+>
+  <img
+    src="/images/projects/amp-org-member.png"
+    style="
+      width:100%;
+      display:block;
+      transform:scale(1.015);
+    "
+  />
+</figure>
+
+Organization invitations are delivered by email through Resend. After accepting an invitation through the web application, users can sign in to the desktop app and access the shared workspace based on their assigned role.
+
+YouTube authentication is handled differently for personal and organization publishing. Personal credentials remain on-device, while organization refresh tokens are encrypted with Fernet before being stored server-side. For organization uploads, the backend exchanges the stored refresh token for a short-lived Google access token, so the desktop worker never receives the organization's long-lived credential.
 
 ### Cloud Implementation
 
