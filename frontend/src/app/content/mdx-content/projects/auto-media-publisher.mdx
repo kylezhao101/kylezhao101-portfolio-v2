@@ -1,6 +1,6 @@
 # Auto Media Publisher
 
-03.2026 - ongoing - Last updated Aug 20th, 2026
+03.2026 - ongoing - Last updated Aug 22nd, 2026
 
 Auto Media Publisher is a desktop tool that streamlines publishing workflows for recurring recorded content, automating video processing and YouTube publishing while supporting shared organization workspaces and role-based access.
 
@@ -81,6 +81,7 @@ If you want to manually drag in your credential files, naming is as follows:
 - Publish to organization channels without distributing long-lived Google credentials to members
 - Receive desktop notifications for completed uploads and warnings
 - Automatically update Windows installations
+- Track organization activity through an audit log of member, preset, invitation, and YouTube connection changes
 
 ## Project Overview
 Auto Media Publisher is a desktop application that automates the process of preparing and publishing long-form media content to online platforms. Originally developed for my church's weekly video publishing workflow, the application **reduced a roughly 1.5-hour manual process** involving video preparation, editing, and uploading into a largely one-click workflow for non-technical users.
@@ -128,7 +129,6 @@ This process was time-consuming and difficult to delegate to volunteers with var
     style="
       width:100%;
       display:block;
-      transform:scale(1.015);
     "
   />
 </figure>
@@ -146,23 +146,15 @@ The desktop interface is built with Electron and React, while media processing i
 
 ### Organization Workspaces
 
-<figure
-  style="
-    max-width:800px;
-    margin:24px auto;
-    overflow:hidden;
-    border-radius:8px;
-  "
->
+
   <img
     src="/images/projects/amp-org-manage.png"
     style="
       width:100%;
       display:block;
-      transform:scale(1.015);
     "
   />
-</figure>
+
 
 
 The desktop application also supports shared organization workspaces for teams managing a common YouTube channel. While personal publishing keeps Google credentials locally on the user's device, organization workspaces use a deployed FastAPI and Supabase/PostgreSQL backend to manage shared state and authentication.
@@ -176,27 +168,31 @@ Organizations support:
 - Shared playlist access and publishing permissions
 
 
-<figure
-  style="
-    max-width:800px;
-    margin:24px auto;
-    overflow:hidden;
-    border-radius:8px;
-  "
->
+
   <img
     src="/images/projects/amp-org-member.png"
     style="
       width:100%;
       display:block;
-      transform:scale(1.015);
     "
   />
-</figure>
+
 
 Organization invitations are delivered by email through Resend. After accepting an invitation through the web application, users can sign in to the desktop app and access the shared workspace based on their assigned role.
 
 YouTube authentication is handled differently for personal and organization publishing. Personal credentials remain on-device, while organization refresh tokens are encrypted with Fernet before being stored server-side. For organization uploads, the backend exchanges the stored refresh token for a short-lived Google access token, so the desktop worker never receives the organization's long-lived credential.
+
+
+
+  <img
+    src="/images/projects/amp-org-activity.png"
+    style="
+      width:100%;
+      display:block;
+    "
+  />
+
+Organization actions are recorded in an audit log to provide visibility into changes made within a shared workspace. Events such as invitations, role changes, preset updates, and YouTube connection changes record the actor, timestamp, action, and relevant context.
 
 ### Cloud Implementation
 
