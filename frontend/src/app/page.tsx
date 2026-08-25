@@ -91,8 +91,7 @@ export default function Home() {
             </p>
             <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Digital illustration & character art</h2>
             <p className="text-sm text-gray-800 sm:text-base">
-              Active in projects for osu! music releases and tabling events with my original merch.
-              If you're interested in character art, games, or music-adjacent work feel free to reach out!</p>
+              I create character illustrations for osu! music releases, community projects, and events, alongside original artwork and merchandise. Available for character art, gaming, and music-related projects.</p>
             <p className="text-sm text-gray-500 sm:text-base my-4">
               Past clients
             </p>
