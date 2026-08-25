@@ -37,7 +37,7 @@ export default function Home() {
             </div>
             <div>
               <p className="mb-6 text-sm text-gray-700 sm:text-base md:mb-10 lg:mb-12">
-                I build products from systems architecture to the interfaces - and I care about how both feel.
+                I build across systems and interfaces - and care about how both work and feel.
               </p>
               <div>
                 <ProfileMetaTable />

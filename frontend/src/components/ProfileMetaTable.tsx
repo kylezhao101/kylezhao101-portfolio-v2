@@ -5,7 +5,7 @@ import { Status, StatusIndicator } from "@/components/ui/status";
 
 export default function ProfileMetaTable() {
     const rows: [string, React.ReactNode][] = [
-        ["discipline", "product + systems engineering"],
+        ["focus", "product + systems engineering"],
         ["also", "interface design · visual systems · illustration"],
         [
             "status",
