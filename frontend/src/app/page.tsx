@@ -22,7 +22,7 @@ export default function Home() {
         {/* Hero Container */}
         <div className="mx-auto max-w-[1700px] px-3 sm:px-8 py-16 z-40">
           {/* Component */}
-          <div className="grid items-center justify-items-start gap-4 sm:gap-8 lg:grid-cols-2 pt-14 sm:pt-20">
+          <div className="grid items-center justify-items-start gap-4 sm:gap-8 lg:grid-cols-2 pt-10">
             {/* Hero Content */}
             <div className="flex flex-col gap-4">
               <p className="text-gray-500">
