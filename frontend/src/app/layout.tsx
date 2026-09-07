@@ -25,7 +25,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={ppMori.className}>
         <Navbar />
-        <div className="h-14" />
 
         <Suspense fallback={null}>
           <TopLoadingBarProvider>

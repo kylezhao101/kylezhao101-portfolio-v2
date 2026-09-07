@@ -40,9 +40,9 @@ export default function Footer({
     return (
         <nav
             id="contact"
-            className="max-w-screen-2xl mx-auto px-3 sm:px-8 min-h-14 pb-16 z-10 target:[&_.contact-email]:animate-bounce"
+            className="max-w-[1700px] mx-auto px-3 sm:px-8 min-h-14 pb-16 z-10 target:[&_.contact-email]:animate-bounce"
         >
-            <div className='flex flex-col md:max-w-screen-2xl mx-auto'>
+            <div className='flex flex-col md:max-w-[1700px] mx-auto'>
                 <div className='flex justify-between items-center py-6'>
                     <ul className="flex flex-col sm:flex-row sm:items-center gap-6 sm:space-x-6">
                         <Status status="open-to-work" variant="outline" >

@@ -36,7 +36,7 @@ export default function FeaturedProjectCard({
 
 
     return (
-        <section className="relative">
+        <section className="relative h-full">
             {/* Floating cursor */}
             {
                 cursor.visible && (
@@ -59,7 +59,7 @@ export default function FeaturedProjectCard({
             }
             <Link
                 href={project.internalRoute}
-                className="block w-full"
+                className="block w-full h-full"
                 onMouseEnter={() =>
                     setCursor((c) => ({
                         ...c,
@@ -82,12 +82,11 @@ export default function FeaturedProjectCard({
                     }))
                 }
             >
-                <Card className="overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">
-                    <img
-                        src={project.image}
-                        alt={project.title}
-                        className="aspect-video w-full object-cover"
-                    />
+                <Card className="flex h-full flex-col overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">                    <img
+                    src={project.image}
+                    alt={project.title}
+                    className="aspect-video w-full object-cover"
+                />
 
                     <CardHeader>
                         <CardTitle className="text-gray-800">{project.title}</CardTitle>
@@ -97,7 +96,7 @@ export default function FeaturedProjectCard({
                         </CardDescription>
                     </CardHeader>
 
-                    <CardContent className="flex items-start gap-6 justify-between pt-0 flex-col lg:flex-row">
+                    <CardContent className="mt-auto flex gap-6 justify-between pt-0 flex-col lg:flex-row lg:items-end">
                         <div className="flex flex-wrap gap-2">
                             {project.technologies.map((tech) => (
                                 <span

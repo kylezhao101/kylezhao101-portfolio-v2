@@ -20,9 +20,9 @@ export default function Home() {
       <header className="relative overflow-hidden">
 
         {/* Hero Container */}
-        <div className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-16 z-40">
+        <div className="mx-auto max-w-[1700px] px-3 sm:px-8 py-16 z-40">
           {/* Component */}
-          <div className="grid items-center justify-items-start gap-4 sm:gap-8 lg:grid-cols-2">
+          <div className="grid items-center justify-items-start gap-4 sm:gap-8 lg:grid-cols-2 pt-14 sm:pt-20">
             {/* Hero Content */}
             <div className="flex flex-col gap-4">
               <p className="text-gray-500">
@@ -31,7 +31,7 @@ export default function Home() {
               {/* Hero Title */}
               <h1
                 data-text="Software engineer who builds things that feel considered."
-                className="hero-title mb-4 pb-1 text-3xl md:text-5xl font-semibold"
+                className=" mb-4 pb-1 text-3xl md:text-5xl font-semibold"
               >
                 Software engineer who builds things that feel considered.
               </h1>
@@ -59,7 +59,8 @@ export default function Home() {
       </header>
 
       <Separator />
-      <section className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-4 md:py-8">
+
+      <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <p className="text-gray-500 mb-4">
           02 / Featured Work
         </p>
@@ -74,16 +75,17 @@ export default function Home() {
       </section>
 
       <Separator />
-      <section className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-4 md:py-8">
+
+      <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <p className="text-gray-500 mb-4">
           03 / Other
         </p>
         <ProjectIndex />
       </section>
 
-
       <Separator />
-      <section className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-4 md:py-8">
+
+      <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="flex flex-col self-center ">
 
@@ -138,7 +140,7 @@ export default function Home() {
         </div>
       </section>
       <Separator />
-      <section className="mx-auto max-w-screen-2xl px-3 sm:px-8 py-4 md:py-8">
+      <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <p className="text-gray-500 mb-4">
           05 / About me
         </p>
