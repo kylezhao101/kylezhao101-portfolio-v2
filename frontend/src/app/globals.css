@@ -119,3 +119,53 @@ html {
   animation: copy-wiggle 750ms cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: center;
 }
+
+.hero-title {
+  position: relative;
+  color: #1f2937;
+}
+
+.hero-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    #06b6d4 0%,
+    #98e7f5 20%,
+    #f8bdbd 40%,
+    #f8bdbd 60%,
+    #98e7f5 80%,
+    #06b6d4 100%
+  );
+
+  background-size: 200% 100%;
+  animation: hero-color-shift 8s linear infinite;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* Only colour the bottom of the letters */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 50%, black 100%);
+  mask-image: linear-gradient(to bottom, transparent 50%, black 100%);
+
+  pointer-events: none;
+}
+
+@keyframes hero-color-shift {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: 0% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title::after {
+    animation: none;
+  }
+}

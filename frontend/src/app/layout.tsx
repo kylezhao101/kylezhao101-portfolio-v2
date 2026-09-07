@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
@@ -8,13 +7,11 @@ import TopLoadingBarProvider from "@/components/layout/TopLoadingBarProvider";
 import "github-markdown-css/github-markdown-light.css";
 import { Suspense } from "react";
 import { getLastUpdated } from "@/lib/getLastUpdated";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ppMori } from "@/app/fonts/fonts";
 
 export const metadata: Metadata = {
   title: "kylezhao101",
   description: "Kyle's Portfolio site",
-
 };
 
 export default function RootLayout({
@@ -23,16 +20,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const lastUpdated = getLastUpdated();
+
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={ppMori.className}>
         <Navbar />
-        <div className="h-14"></div>
+        <div className="h-14" />
+
         <Suspense fallback={null}>
           <TopLoadingBarProvider>
             <div className="w-full">{children}</div>
           </TopLoadingBarProvider>
         </Suspense>
+
         <Separator />
         <Footer lastUpdated={lastUpdated} />
       </body>

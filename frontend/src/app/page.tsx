@@ -29,13 +29,14 @@ export default function Home() {
                 01 / I am a
               </p>
               {/* Hero Title */}
-              <h1 className="mb-4 text-3xl font-semibold md:text-5xl text-gray-800 ">
-                Software engineer
-                who builds things
-                that feel considered.
+              <h1
+                data-text="Software engineer who builds things that feel considered."
+                className="hero-title mb-4 pb-1 text-3xl md:text-5xl font-semibold"
+              >
+                Software engineer who builds things that feel considered.
               </h1>
             </div>
-            <div>
+            <div className="w-full">
               <p className="mb-6 text-sm text-gray-700 sm:text-base md:mb-10 lg:mb-12">
                 I build across systems and interfaces - and care about how both work and feel.
               </p>
@@ -87,9 +88,9 @@ export default function Home() {
           <div className="flex flex-col self-center ">
 
             <p className="text-gray-500 mb-4">
-              04 / Illustration
+              04 / Art
             </p>
-            <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Digital illustration & character art</h2>
+            <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Digital illustration</h2>
             <p className="text-sm text-gray-800 sm:text-base">
               I create character illustrations for osu! music releases, community projects, and events, alongside original artwork and merchandise. Available for character art, gaming, and music-related projects.</p>
             <p className="text-sm text-gray-500 sm:text-base my-4">
@@ -159,9 +160,9 @@ export default function Home() {
             />
             <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Hi! I'm Kyle. I'm a software engineer based in Vancouver B.C.</h2>
             <p className="mb-4 text-gray-800 text-sm sm:text-base">
-              I enjoy building products that sit at the intersection of systems, design, and
-              user experience - whether that's a cloud platform, a developer tool, or a
-              personal side project.
+              I enjoy building products end-to-end, from the systems behind them to the
+              interfaces people use. Whether that's a cloud platform, a developer tool, or
+              a personal side project.
             </p>
             <p className="mb-10 text-gray-800 text-sm sm:text-base">
               Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.

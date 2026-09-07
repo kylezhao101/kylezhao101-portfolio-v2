@@ -102,14 +102,14 @@ export default function FeaturedProjectCard({
                             {project.technologies.map((tech) => (
                                 <span
                                     key={tech}
-                                    className="rounded border border-stone-200 px-2 py-1 font-mono text-xs text-stone-500"
+                                    className="rounded border border-stone-200 px-2 py-1 text-xs text-stone-500"
                                 >
                                     {tech}
                                 </span>
                             ))}
                         </div>
 
-                        <span className="font-mono text-xs text-stone-400">
+                        <span className="text-xs text-stone-400">
                             {project.timeframe}
                         </span>
                     </CardContent>
