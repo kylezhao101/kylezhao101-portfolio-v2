@@ -8,6 +8,7 @@ import "github-markdown-css/github-markdown-light.css";
 import { Suspense } from "react";
 import { getLastUpdated } from "@/lib/getLastUpdated";
 import { ppMori } from "@/app/fonts/fonts";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "kylezhao101",
