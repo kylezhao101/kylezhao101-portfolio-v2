@@ -11,7 +11,7 @@ import { ppMori } from "@/app/fonts/fonts";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  title: "kylezhao101",
+  title: "Kyle Zhao",
   description: "Kyle's Portfolio site",
 };
 
