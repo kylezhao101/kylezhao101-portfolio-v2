@@ -94,7 +94,7 @@ export default function Home() {
             </p>
             <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Digital illustration</h2>
             <p className="text-sm text-gray-800 sm:text-base">
-              I create character illustrations for osu! music releases, community projects, and events, alongside original artwork and merchandise. Available for character art, gaming, and music-related projects.</p>
+              I create character illustrations for <a href="https://www.youtube.com/@osugamearchive" target="_blank" rel="noopener noreferrer" className="underline text-red-500 hover:text-red-400">official music releases</a> for the rhythm game osu!, community projects, and events, alongside original artwork and merchandise. Feel free to reach out for character art, gaming, and music-related work.</p>
             <p className="text-sm text-gray-500 sm:text-base my-4">
               Past clients
             </p>
@@ -111,6 +111,13 @@ export default function Home() {
           <div className="relative">
             <Carousel className="w-full">
               <CarouselContent>
+                <CarouselItem>
+                  <img
+                    src="/artworks/art_irl.jpg"
+                    alt="Studio SIAT"
+                    className="w-full aspect-video object-contain rounded-md"
+                  />
+                </CarouselItem>
                 <CarouselItem>
                   <img
                     src="/artworks/pc.webp"

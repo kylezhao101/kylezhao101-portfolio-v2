@@ -36,33 +36,13 @@ export const tagStyles = {
 };
 
 export const otherWork = [
-  {
-    slug: "halyr",
-    title: "Halyr",
-    category: "Distributed Systems + Developer Tooling",
-    description:
-      "Feature flag infrastructure for rollout evaluation, caching, and real-time config.",
-    technologies: [
-      ".NET",
-      "PostgreSQL",
-      "Redis",
-      "Docker",
-      "k6",
-    ],
-    timeframe: "04.2026 - ongoing",
-    type: "Personal Project",
-    tags: [
-      "Developer Tooling",
-    ],
-    externalLink: "https://github.com/kylezhao101/halyr"
-  },
 
   {
     slug: "auto-media-publisher",
-    title: "Automated Media Publisher",
+    title: "Auto Media Publisher",
     category: "Cloud + Automation",
     description:
-      "Replaced a 1.5hr weekly manual publishing workflow with a 1-click pipeline.",
+      "Automates video processing and publishing for VOD workflows, saving a media team 1.5 hours of manual work each week.",
     technologies: [
       "FastAPI",
       "React",
@@ -80,11 +60,32 @@ export const otherWork = [
   },
 
   {
+    slug: "halyr",
+    title: "Halyr",
+    category: "Distributed Systems + Developer Tooling",
+    description:
+      "Feature flag infrastructure for rollout evaluation, caching, and real-time config.",
+    technologies: [
+      ".NET",
+      "PostgreSQL",
+      "Redis",
+      "Docker",
+      "k6",
+    ],
+    timeframe: "04.2026 - 06.2026",
+    type: "Personal Project",
+    tags: [
+      "Developer Tooling",
+    ],
+    externalLink: "https://github.com/kylezhao101/halyr"
+  },
+
+  {
     slug: "helping-brains-heal",
     title: "Helping Brains Heal",
     category: "Design + Frontend",
     description:
-      "Frontend and branding for a non-profit recognized by the Branch Out Impact Grant.",
+      "Frontend and design for a non-profit recognized by the Branch Out Impact Grant.",
     technologies: [
       "Figma",
       "React",
