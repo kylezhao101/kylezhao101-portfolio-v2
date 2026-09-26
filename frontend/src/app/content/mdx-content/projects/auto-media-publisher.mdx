@@ -1,23 +1,27 @@
 # Auto Media Publisher
 
-03.2026 - ongoing - Last updated Aug 22nd, 2026
+03.2026 - ongoing - Last updated Sep 26th, 2026
 
-Auto Media Publisher is a desktop tool that streamlines publishing workflows for recurring recorded content, automating video processing and YouTube publishing while supporting shared organization workspaces and role-based access.
+I built Auto Media Publisher for my church's AV team to simplify weekly video publishing. The desktop app automates media processing and YouTube uploads, with shared organization workspaces that let volunteers publish without setting up their own Google project credentials.
 
-## Desktop Guide
+<nav aria-label="Auto Media Publisher page sections" style="display:flex; flex-wrap:wrap; gap:12px; margin:24px 0;">
+  <a href="#download-and-setup" style="display:inline-block; padding:12px 18px; border:1px solid currentColor; border-radius:8px; font-weight:600;">Download &amp; Setup</a>
+  <a href="#how-i-built-it" style="display:inline-block; padding:12px 18px; border:1px solid currentColor; border-radius:8px; font-weight:600;">How I Built It</a>
+</nav>
 
-1.  [Download](#Download)
-2.  [Initial Setup](#Initial-Setup)
-3.  [Features](#features)
+## Download and Setup
 
-### Download
-Download the latest release from:
-https://github.com/kylezhao101/auto-media-publisher/releases/latest
+[Download the latest release](https://github.com/kylezhao101/auto-media-publisher/releases/latest), then choose the installer for your computer:
 
-- Windows: AutoMediaPublisher-Setup-[latest].exe
-- Mac: AutoMediaPublisher-[latest]-arm64.dmg
+- **Windows:** `AutoMediaPublisher-Setup-[latest].exe`
+- **Mac (Apple silicon):** `AutoMediaPublisher-[latest]-arm64.dmg`
 
-Because I'm not paying for an Apple Developer account, the Mac version is not signed and will require you to bypass security settings to run the application. 
+Publishing with a team? Follow Organization Setup. Connecting your own channel? Follow Personal Setup.
+
+<details>
+<summary style="cursor:pointer; padding:12px 0; font-weight:600;">Mac installation notes</summary>
+
+The Mac version is unsigned. After installing the application, you may need to remove its quarantine attribute to open it.
 
 The command is:
 
@@ -27,7 +31,10 @@ xattr -cr /Applications/AutoMediaPublisher.app
 
 Or xattr -cr [path to app] if you installed it somewhere else.
 
-### Organization Setup
+</details>
+
+<details>
+<summary style="cursor:pointer; padding:12px 0; font-weight:600;">Organization Setup — publish with your team</summary>
 
 Organization members do not need to import personal Google Cloud credentials when publishing through an organization's connected YouTube channel.
 
@@ -39,11 +46,20 @@ Organization owners and administrators can:
 - Connect a shared YouTube channel
 - Create shared publishing presets
 
-Once invited, members can sign in and switch between Personal and Organization workspaces directly from the desktop application.
+To join an existing team:
 
-### Personal Setup
+1. Accept the email invitation through the web application.
+2. Sign in to the desktop application and select your Organization workspace.
+3. Use the organization's connected channel and shared presets to publish according to your assigned role.
 
-**If you already have a gcp project and credentials**, you can skip steps 2-6 and just import your existing credentials JSON file in step 7.
+You can switch between Personal and Organization workspaces in the desktop application.
+
+</details>
+
+<details>
+<summary style="cursor:pointer; padding:12px 0; font-weight:600;">Personal Setup — connect your own channel</summary>
+
+**If you already have a Google Cloud project and credentials**, skip steps 2–6 and import your existing credentials JSON file in step 7.
 
 1. Download and run the installer.
 2. Create a Google Cloud project.
@@ -67,7 +83,10 @@ If you want to manually drag in your credential files, naming is as follows:
   - `%APPDATA%\Roaming\AutoMediaPublisher\google-token.json`
   - `%APPDATA%\Roaming\AutoMediaPublisher\gcp-token.json`
 
-### Features
+</details>
+
+<details>
+<summary style="cursor:pointer; padding:12px 0; font-weight:600;">All features</summary>
 
 - Process multiple media clips through a one-click FFmpeg rendering, audio processing, and YouTube publishing workflow
 - Run long-running media processing in background Python workers with real-time progress updates
@@ -83,14 +102,16 @@ If you want to manually drag in your credential files, naming is as follows:
 - Automatically update Windows installations
 - Track organization activity through an audit log of member, preset, invitation, and YouTube connection changes
 
-## Project Overview
+</details>
+
+## How I Built It
 Auto Media Publisher is a desktop application that automates the process of preparing and publishing long-form media content to online platforms. Originally developed for my church's weekly video publishing workflow, the application **reduced a roughly 1.5-hour manual process** involving video preparation, editing, and uploading into a largely one-click workflow for non-technical users.
 
 The current application combines an Electron/React desktop interface with a Python media-processing worker and a deployed FastAPI/Supabase backend. Personal publishing remains local-first, while organization workspaces provide shared presets, role-based access, invitations, and centrally managed YouTube connections for team workflows.
 
 The project originally began as a cloud-based media processing platform hosted on Azure using student credits. However, because recordings frequently exceeded tens of gigabytes and required long-running video processing workloads, cloud hosting costs and storage limitations quickly became impractical. The system was subsequently redesigned into a desktop-first application that leveraged local compute resources while preserving many of the automation features developed in the original cloud architecture.
 
-###  Problem
+### Problem
 Publishing recorded services involved several manual steps:
 
 - Exporting and transcoding large video files
@@ -146,9 +167,13 @@ The desktop interface is built with Electron and React, while media processing i
 
 ### Organization Workspaces
 
+Automating media processing solved only part of our AV team's workflow. Delegating publishing still meant distributing Google project credentials and helping volunteers configure YouTube authorization. Some volunteers lacked channel access; others did not want to manage the technical setup.
+
+I added an organization backend so an authorized administrator could connect the channel centrally and volunteers could publish through a shared workspace according to their assigned role. Media processing stayed on the desktop, while the backend managed organization membership, shared presets, and channel authorization.
 
   <img
     src="/images/projects/amp-org-manage.png"
+    alt="Organization management workspace in Auto Media Publisher"
     style="
       width:100%;
       display:block;
@@ -171,6 +196,7 @@ Organizations support:
 
   <img
     src="/images/projects/amp-org-member.png"
+    alt="Organization member management in Auto Media Publisher"
     style="
       width:100%;
       display:block;
@@ -186,6 +212,7 @@ YouTube authentication is handled differently for personal and organization publ
 
   <img
     src="/images/projects/amp-org-activity.png"
+    alt="Organization activity audit log in Auto Media Publisher"
     style="
       width:100%;
       display:block;
@@ -194,7 +221,7 @@ YouTube authentication is handled differently for personal and organization publ
 
 Organization actions are recorded in an audit log to provide visibility into changes made within a shared workspace. Events such as invitations, role changes, preset updates, and YouTube connection changes record the actor, timestamp, action, and relevant context.
 
-### Cloud Implementation
+### Original Azure Architecture
 
 ![cloud diagram](/images/projects/amp-2.webp)
 
