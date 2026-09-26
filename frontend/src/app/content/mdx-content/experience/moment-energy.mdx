@@ -53,6 +53,8 @@ The battery management system (BMS) continuously generated battery pack measurem
 - Implementing timestamp-based downsampling with aggregation levels based on the selected time range, controlling the amount of data returned for longer queries.
 - Reducing redundant frontend processing so the dashboard received data already prepared for visualization.
 
+For very long query ranges, I also implemented an occasionally used two-scan strategy: one scan returned regularly downsampled data, while the other used standard deviation and z-scores to identify notable readings. Combining the results helped retain points that regular downsampling could miss.
+
 Reducing the number of points raised another engineering question: how could we keep brief anomalies visible when users queried longer time ranges? That led to my work on live anomaly detection using an exponential moving average (EMA).
 
 ### Preserving Anomalies During Downsampling
@@ -143,6 +145,14 @@ I contributed to the system's implementation across telemetry processing, fault 
 - Caching threshold configurations to reduce repeated database lookups during telemetry processing.
 - Implementing Athena-backed fault retrieval APIs and supporting historical investigation through Parquet-based data warehousing.
 - Integrating fault detection with frontend dashboard alerts and email notifications through AWS SES.
+
+#### Sensor Hysteresis and Fault Recovery
+
+I also worked on hysteresis for transitions between fault severity levels. A sensor reading could move from normal to a high warning and then to a more severe high fault. Recovery needed to account for the current state: clearing the more severe fault did not necessarily mean the reading had returned to normal.
+
+Separate trigger and recovery thresholds controlled these transitions. For example, a reading could trigger the more severe high fault above its upper threshold, then clear that state only after falling below its recovery threshold. If the high-warning condition still applied, the sensor would step back down to a warning rather than immediately returning to normal.
+
+The gap between activation and recovery thresholds helped prevent readings near a boundary from repeatedly switching fault states. This made recovery behavior explicit while reducing state changes caused by small sensor fluctuations.
 
 Together, these components connected live fault detection with notifications and historical fault retrieval, giving users a way to investigate detected conditions after an alert.
 
