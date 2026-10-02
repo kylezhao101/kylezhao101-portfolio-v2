@@ -1,0 +1,30 @@
+.contactMarker {
+  position: absolute;
+  right: 100%;
+  margin-right: 4px;
+  pointer-events: none;
+  animation:
+    contact-marker-nudge 350ms ease-in-out 3,
+    contact-marker-fade 300ms ease-out 1650ms forwards;
+}
+
+@keyframes contact-marker-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes contact-marker-nudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contactMarker {
+    animation: none;
+  }
+}

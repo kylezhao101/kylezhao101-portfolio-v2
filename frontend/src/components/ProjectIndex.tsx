@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { otherWork, tagStyles } from "@/data/other-work";
+import styles from "./ProjectIndex.module.css";
 
 export function ProjectIndex() {
     const [cursor, setCursor] = useState({
@@ -48,7 +49,7 @@ export function ProjectIndex() {
                             href={href}
                             target={isExternal ? "_blank" : undefined}
                             rel={isExternal ? "noopener noreferrer" : undefined}
-                            className="group grid grid-cols-6 py-4 gap-2 sm:gap-0"
+                            className={`${styles.row} group grid grid-cols-6 py-4 gap-2 sm:gap-0`}
                             onMouseEnter={() =>
                                 setCursor((c) => ({
                                     ...c,
@@ -79,7 +80,7 @@ export function ProjectIndex() {
                                 <p className="relative text-sm font-medium group-hover:text-cyan-500 text-gray-800 group-hover:transition-colors group-hover:duration-200">
                                     <span
                                         aria-hidden="true"
-                                        className="pointer-events-none absolute right-full mr-1 font-mono text-cyan-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+                                        className={`${styles.marker} pointer-events-none absolute right-full mr-1 font-mono text-cyan-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none`}
                                     >
                                         &gt;
                                     </span>

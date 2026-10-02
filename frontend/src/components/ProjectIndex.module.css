@@ -1,0 +1,25 @@
+@keyframes marker-bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-2px);
+  }
+}
+
+.row:focus-visible .marker {
+  animation: marker-bounce 350ms ease-in-out 1;
+}
+
+@media (hover: hover) {
+  .row:hover .marker {
+    animation: marker-bounce 350ms ease-in-out 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row:hover .marker,
+  .row:focus-visible .marker {
+    animation: none;
+  }
+}

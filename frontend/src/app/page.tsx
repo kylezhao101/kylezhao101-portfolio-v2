@@ -9,10 +9,14 @@ import { featuredProjects } from "@/data/featured-projects";
 import { ProjectIndex } from "@/components/ProjectIndex";
 import { ClientStrip } from "@/components/ClientsStrip";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRightIcon } from "lucide-react";
+import { ArrowUpRightIcon, Instagram } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { CurrentlyListening } from "@/components/CurrentlyListening";
 import ProfileMetaTable from '../components/ProfileMetaTable';
+import { IllustrationBackdrop } from "@/components/IllustrationBackdrop";
+import { useCarouselSelection } from "@/hooks/use-carousel-selection";
+
+const illustrationSources = ["/artworks/art_irl.jpg", "/artworks/pc.webp", "/artworks/mo.webp"];
 
 function SectionDivider() {
   return (
@@ -33,6 +37,7 @@ function SectionDivider() {
 }
 
 export default function Home() {
+  const { setApi: setArtApi, activeIndex: activeArtIndex } = useCarouselSelection();
   return (
     <main className="">
       <header className="relative overflow-hidden">
@@ -106,9 +111,9 @@ export default function Home() {
 
       <SectionDivider />
 
-      <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
+      <section className="relative isolate overflow-hidden mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="flex flex-col self-center ">
+          <div className="relative z-10 flex flex-col self-center">
 
             <p className="flex items-center gap-2 text-gray-500 mb-4">
               <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
@@ -122,34 +127,40 @@ export default function Home() {
             </p>
             <ClientStrip />
 
-            <Button variant="outline" size="sm" asChild className="my-4 w-min">
-              <a href="https://www.instagram.com/kylerius_/" target="_blank" rel="noopener noreferrer">
-                instagram/kylerius
-                <ArrowUpRightIcon />
+            <Button
+              variant="outline"
+              asChild
+              className="my-4 w-fit gap-3 rounded-md border-gray-300 bg-white/90 px-4 text-gray-700 hover:border-cyan-500 hover:bg-cyan-50 hover:text-cyan-700 focus-visible:border-cyan-500 focus-visible:bg-cyan-50 focus-visible:ring-cyan-500 motion-reduce:transition-none"
+            >
+              <a href="https://www.instagram.com/kylerius_/" target="_blank" rel="noopener noreferrer" aria-label="View @kylerius_ on Instagram (opens in a new tab)">
+                <Instagram aria-hidden="true" />
+                <span>@kylerius_</span>
+                <ArrowUpRightIcon aria-hidden="true" />
               </a>
             </Button>
           </div>
 
           <div className="relative">
-            <Carousel className="w-full">
+            <IllustrationBackdrop sources={illustrationSources} activeIndex={activeArtIndex} />
+            <Carousel className="w-full" setApi={setArtApi}>
               <CarouselContent>
                 <CarouselItem>
                   <img
-                    src="/artworks/art_irl.jpg"
+                    src={illustrationSources[0]}
                     alt="Studio SIAT"
                     className="w-full aspect-video object-contain rounded-md"
                   />
                 </CarouselItem>
                 <CarouselItem>
                   <img
-                    src="/artworks/pc.webp"
+                    src={illustrationSources[1]}
                     alt="celtix - Primordial Complex"
                     className="w-full aspect-video object-cover rounded-md"
                   />
                 </CarouselItem>
                 <CarouselItem>
                   <img
-                    src="/artworks/mo.webp"
+                    src={illustrationSources[2]}
                     alt="Studio SIAT"
                     className="w-full aspect-video object-contain rounded-md"
                   />

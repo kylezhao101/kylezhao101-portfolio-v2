@@ -49,8 +49,8 @@ export function ClientStrip() {
                                 flex flex-col items-center justify-center gap-2
                                 px-2 py-2
                                 rounded-md
-                                transition-all
-                                hover:bg-stone-50
+                                bg-transparent
+                                focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500
                                 cursor-pointer
                                 group
                             "
@@ -64,8 +64,9 @@ export function ClientStrip() {
                                 w-auto
                                 rounded-md
                                 object-contain
-                                transition-all
-                                hover:scale-105
+                                transition-transform duration-200
+                                group-hover:scale-[1.03] group-focus-visible:scale-[1.03]
+                                motion-reduce:transition-none motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100
                                 "
                             />
 

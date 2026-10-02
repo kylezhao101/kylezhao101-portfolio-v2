@@ -1,8 +1,9 @@
 "use client";
 
-import { IconCheck, IconCopy } from "@tabler/icons-react";
+import { IconCheck, IconCopy, IconChevronRight } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { Status, StatusIndicator, StatusLabel } from '../ui/status';
+import styles from "./Footer.module.css";
 
 export default function Footer({
     lastUpdated,
@@ -11,6 +12,7 @@ export default function Footer({
 }) {
     const [isCopied, setIsCopied] = useState(false);
     const [shouldNudge, setShouldNudge] = useState(false);
+    const [nudgeId, setNudgeId] = useState(0);
 
     const copyToClipboard = async (text: string) => {
         await navigator.clipboard.writeText(text);
@@ -23,18 +25,19 @@ export default function Footer({
     };
 
     useEffect(() => {
+        let timeout: ReturnType<typeof setTimeout>;
         const nudge = () => {
-            setShouldNudge(false);
-
-            requestAnimationFrame(() => {
-                setShouldNudge(true);
-            });
-
-            setTimeout(() => setShouldNudge(false), 5000);
+            clearTimeout(timeout);
+            setNudgeId((id) => id + 1);
+            setShouldNudge(true);
+            timeout = setTimeout(() => setShouldNudge(false), 5000);
         };
 
         window.addEventListener("contact-nudge", nudge);
-        return () => window.removeEventListener("contact-nudge", nudge);
+        return () => {
+            clearTimeout(timeout);
+            window.removeEventListener("contact-nudge", nudge);
+        };
     }, []);
 
     return (
@@ -60,11 +63,16 @@ export default function Footer({
                 <div className="flex flex-col gap-6 text-sm">
 
                     <div
-                        className={`flex items-center gap-2 opacity-75 hover:opacity-100 transition-opacity cursor-pointer`}
+                        className={`relative flex items-center gap-2 opacity-75 hover:opacity-100 transition-opacity cursor-pointer`}
                         onClick={() => copyToClipboard("kylezhao101@gmail.com")}
                         aria-label="Copy email"
                         title="Copy email"
                     >
+                        {shouldNudge && (
+                            <span key={nudgeId} aria-hidden="true" className={`${styles.contactMarker} text-cyan-500`}>
+                                <IconChevronRight size={14} stroke={3} />
+                            </span>
+                        )}
                         <span className="text-sm sm:text-base">
                             kylezhao101@gmail.com
                         </span>
@@ -84,8 +92,9 @@ export default function Footer({
                             ) : (
 
                                 <IconCopy
+                                    key={nudgeId}
                                     size={14}
-                                    className={shouldNudge ? "animate-copy-wiggle" : ""}
+                                    className={shouldNudge ? "animate-copy-wiggle motion-reduce:animate-none" : ""}
                                 />
                             )}
                         </button>
