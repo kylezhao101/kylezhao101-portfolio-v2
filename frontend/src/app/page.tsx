@@ -16,13 +16,14 @@ import ProfileMetaTable from '../components/ProfileMetaTable';
 import { IllustrationBackdrop } from "@/components/IllustrationBackdrop";
 import { AboutStarfield } from "@/components/AboutStarfield";
 import { useCarouselSelection } from "@/hooks/use-carousel-selection";
+import dividerStyles from "@/components/SectionDivider.module.css";
 
 const illustrationSources = ["/artworks/art_irl.jpg", "/artworks/pc.webp", "/artworks/mo.webp"];
 
-function SectionDivider() {
+function SectionDivider({ animate = false }: { animate?: boolean }) {
   return (
     <div aria-hidden="true" className="mx-auto max-w-[1700px] px-3 sm:px-8">
-      <div className="flex h-3 items-center gap-2">
+      <div className={cn("flex h-3 items-center gap-2", animate && dividerStyles.reveal)}>
         <span className="relative h-[9px] w-[9px] shrink-0">
           <span className="absolute left-0 top-1 h-px w-full bg-gray-300" />
           <span className="absolute left-1 top-0 h-full w-px bg-gray-300" />
@@ -83,7 +84,7 @@ export default function Home() {
         />
       </header>
 
-      <SectionDivider />
+      <SectionDivider animate />
 
       <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <p className="flex items-center gap-2 text-gray-500 mb-4">

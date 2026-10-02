@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
+import { gridRevealDelay, gridRevealOpacity } from "@/lib/grid-reveal"
 
 interface FlickeringGridProps extends React.HTMLAttributes<HTMLDivElement> {
   squareSize?: number
@@ -28,8 +29,18 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const revealStart = useRef<number | null>(null)
+  const [reducedMotion, setReducedMotion] = useState(false)
   const [isInView, setIsInView] = useState(false)
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 })
+
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const update = () => setReducedMotion(preference.matches)
+    update()
+    preference.addEventListener("change", update)
+    return () => preference.removeEventListener("change", update)
+  }, [])
 
   const memoizedColor = useMemo(() => {
     const toRGBA = (color: string) => {
@@ -59,11 +70,13 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       const rows = Math.ceil(height / (squareSize + gridGap))
 
       const squares = new Float32Array(cols * rows)
+      const revealDelays = new Float32Array(cols * rows)
       for (let i = 0; i < squares.length; i++) {
         squares[i] = Math.random() * maxOpacity
+        revealDelays[i] = gridRevealDelay(i % rows, rows, Math.random())
       }
 
-      return { cols, rows, squares, dpr }
+      return { cols, rows, squares, revealDelays, dpr }
     },
     [squareSize, gridGap, maxOpacity]
   )
@@ -87,7 +100,9 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       cols: number,
       rows: number,
       squares: Float32Array,
-      dpr: number
+      dpr: number,
+      revealDelays: Float32Array,
+      elapsed: number
     ) => {
       ctx.clearRect(0, 0, width, height)
       ctx.fillStyle = "transparent"
@@ -95,7 +110,8 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
 
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
-          const opacity = squares[i * rows + j]
+          const index = i * rows + j
+          const opacity = squares[index] * gridRevealOpacity(elapsed, revealDelays[index])
           ctx.fillStyle = `${memoizedColor}${opacity})`
           ctx.fillRect(
             i * (squareSize + gridGap) * dpr,
@@ -128,14 +144,16 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
 
       updateCanvasSize()
 
-      let lastTime = 0
+      let lastTime = performance.now()
       const animate = (time: number) => {
         if (!isInView || !gridParams) return
 
-        const deltaTime = (time - lastTime) / 1000
+        const deltaTime = Math.min((time - lastTime) / 1000, 0.05)
         lastTime = time
+        if (revealStart.current === null) revealStart.current = time
+        const elapsed = reducedMotion ? 1 : (time - revealStart.current) / 1000
 
-        updateSquares(gridParams.squares, deltaTime)
+        if (!reducedMotion) updateSquares(gridParams.squares, deltaTime)
         drawGrid(
           ctx,
           canvas.width,
@@ -143,13 +161,16 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
           gridParams.cols,
           gridParams.rows,
           gridParams.squares,
-          gridParams.dpr
+          gridParams.dpr,
+          gridParams.revealDelays,
+          elapsed
         )
-        animationFrameId = requestAnimationFrame(animate)
+        if (!reducedMotion) animationFrameId = requestAnimationFrame(animate)
       }
 
       resizeObserver = new ResizeObserver(() => {
         updateCanvasSize()
+        if (reducedMotion) animate(performance.now())
       })
       resizeObserver.observe(container)
 
@@ -177,7 +198,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         intersectionObserver.disconnect()
       }
     }
-  }, [setupCanvas, updateSquares, drawGrid, width, height, isInView])
+  }, [setupCanvas, updateSquares, drawGrid, width, height, isInView, reducedMotion])
 
   return (
     <div
