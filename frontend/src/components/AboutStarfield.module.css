@@ -51,7 +51,12 @@
 }
 
 @keyframes dot-to-plus {
-  0%, 20%, 100% {
+  0%, 10%, 90%, 100% {
+    width: 2px;
+    height: 2px;
+    opacity: 0;
+  }
+  25%, 75% {
     width: 2px;
     height: 2px;
     opacity: 0.25;

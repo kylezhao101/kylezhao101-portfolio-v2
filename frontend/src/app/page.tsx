@@ -181,8 +181,9 @@ export default function Home() {
         </div>
       </section>
       <SectionDivider />
-      <section className="relative isolate mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
+      <section className="relative isolate">
         <AboutStarfield />
+        <div className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <p className="flex items-center gap-2 text-gray-500 mb-4">
           <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           05 / About me
@@ -242,6 +243,7 @@ export default function Home() {
             </Carousel>
           </div>
 
+        </div>
         </div>
       </section>
 
