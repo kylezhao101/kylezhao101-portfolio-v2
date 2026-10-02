@@ -14,6 +14,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { CurrentlyListening } from "@/components/CurrentlyListening";
 import ProfileMetaTable from '../components/ProfileMetaTable';
 import { IllustrationBackdrop } from "@/components/IllustrationBackdrop";
+import { AboutStarfield } from "@/components/AboutStarfield";
 import { useCarouselSelection } from "@/hooks/use-carousel-selection";
 
 const illustrationSources = ["/artworks/art_irl.jpg", "/artworks/pc.webp", "/artworks/mo.webp"];
@@ -180,7 +181,8 @@ export default function Home() {
         </div>
       </section>
       <SectionDivider />
-      <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
+      <section className="relative isolate mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
+        <AboutStarfield />
         <p className="flex items-center gap-2 text-gray-500 mb-4">
           <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           05 / About me
@@ -210,11 +212,17 @@ export default function Home() {
             <p className="mb-10 text-gray-800 text-sm sm:text-base">
               Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
             </p>
-            <img src="/gifs/jill.gif" alt="jill" className="w-full rounded-md max-h-96 hidden md:block object-cover" />
+            <figure className="hidden md:block">
+              <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} className="w-full h-auto rounded-md" />
+              <figcaption className="mt-2 text-xs text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
+            </figure>
             <Carousel className="w-full block md:hidden">
               <CarouselContent>
                 <CarouselItem>
-                  <img src="/gifs/jill.gif" alt="jill" className="w-full rounded-md max-h-96 object-cover" />
+                  <figure>
+                    <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} className="w-full h-auto rounded-md" />
+                    <figcaption className="mt-2 text-xs text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
+                  </figure>
                 </CarouselItem>
                 <CarouselItem>
                   <video

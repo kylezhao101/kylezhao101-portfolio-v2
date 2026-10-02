@@ -1,0 +1,76 @@
+.field {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+}
+
+.fade {
+  position: absolute;
+  inset: 0;
+  mask-image: linear-gradient(to bottom, transparent, black 3%, black 97%, transparent);
+}
+
+.position {
+  position: absolute;
+}
+
+.star {
+  position: relative;
+  display: block;
+  width: 7px;
+  height: 7px;
+}
+
+.star::before,
+.star::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 2px;
+  border-radius: 1px;
+  background: #9ca3af;
+  opacity: 0.25;
+  animation-name: dot-to-plus;
+  animation-duration: inherit;
+  animation-delay: inherit;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.star::before {
+  transform: translate(-50%, -50%);
+}
+
+.star::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+@keyframes dot-to-plus {
+  0%, 20%, 100% {
+    width: 2px;
+    height: 2px;
+    opacity: 0.25;
+  }
+  45%, 60% {
+    width: 7px;
+    height: 1px;
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 767px) {
+  .field { opacity: 0.6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star::before,
+  .star::after {
+    animation: none;
+    opacity: 0.3;
+  }
+}
