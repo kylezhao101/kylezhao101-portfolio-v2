@@ -77,6 +77,21 @@
 
 html {
   scroll-padding-top: 80px;
+  scrollbar-color: theme('colors.cyan.500') hsl(var(--muted));
+}
+
+html::-webkit-scrollbar {
+  width: 12px;
+}
+
+html::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+html::-webkit-scrollbar-thumb {
+  background: theme('colors.cyan.500');
+  border: 3px solid hsl(var(--muted));
+  border-radius: 9999px;
 }
 
 .markdown-body ol {

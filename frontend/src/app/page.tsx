@@ -14,6 +14,24 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { CurrentlyListening } from "@/components/CurrentlyListening";
 import ProfileMetaTable from '../components/ProfileMetaTable';
 
+function SectionDivider() {
+  return (
+    <div aria-hidden="true" className="mx-auto max-w-[1700px] px-3 sm:px-8">
+      <div className="flex h-3 items-center gap-2">
+        <span className="relative h-[9px] w-[9px] shrink-0">
+          <span className="absolute left-0 top-1 h-px w-full bg-gray-300" />
+          <span className="absolute left-1 top-0 h-full w-px bg-gray-300" />
+        </span>
+        <Separator className="w-auto flex-1 bg-gray-300" />
+        <span className="relative h-[9px] w-[9px] shrink-0">
+          <span className="absolute left-0 top-1 h-px w-full bg-gray-300" />
+          <span className="absolute left-1 top-0 h-full w-px bg-gray-300" />
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="">
@@ -25,7 +43,8 @@ export default function Home() {
           <div className="grid items-center justify-items-start gap-4 sm:gap-8 lg:grid-cols-2 pt-10">
             {/* Hero Content */}
             <div className="flex flex-col gap-4">
-              <p className="text-gray-500">
+              <p className="flex items-center gap-2 text-gray-500">
+                <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
                 01 / I am a
               </p>
               {/* Hero Title */}
@@ -58,10 +77,11 @@ export default function Home() {
         />
       </header>
 
-      <Separator />
+      <SectionDivider />
 
       <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
-        <p className="text-gray-500 mb-4">
+        <p className="flex items-center gap-2 text-gray-500 mb-4">
+          <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           02 / Featured Work
         </p>
         <div className="grid gap-8 md:grid-cols-2">
@@ -74,22 +94,24 @@ export default function Home() {
         </div>
       </section>
 
-      <Separator />
+      <SectionDivider />
 
       <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
-        <p className="text-gray-500 mb-4">
+        <p className="flex items-center gap-2 text-gray-500 mb-4">
+          <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           03 / Other
         </p>
         <ProjectIndex />
       </section>
 
-      <Separator />
+      <SectionDivider />
 
       <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="flex flex-col self-center ">
 
-            <p className="text-gray-500 mb-4">
+            <p className="flex items-center gap-2 text-gray-500 mb-4">
+              <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
               04 / Art
             </p>
             <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Digital illustration</h2>
@@ -146,9 +168,10 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <Separator />
+      <SectionDivider />
       <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
-        <p className="text-gray-500 mb-4">
+        <p className="flex items-center gap-2 text-gray-500 mb-4">
+          <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           05 / About me
         </p>
         <div className="grid md:grid-cols-2 gap-8">

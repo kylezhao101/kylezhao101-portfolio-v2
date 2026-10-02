@@ -76,7 +76,13 @@ export function ProjectIndex() {
                             </p>
 
                             <div className="col-span-6 sm:col-span-3">
-                                <p className="text-sm font-medium group-hover:text-cyan-500 text-gray-800 group-hover:transition-colors group-hover:duration-200">
+                                <p className="relative text-sm font-medium group-hover:text-cyan-500 text-gray-800 group-hover:transition-colors group-hover:duration-200">
+                                    <span
+                                        aria-hidden="true"
+                                        className="pointer-events-none absolute right-full mr-1 font-mono text-cyan-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+                                    >
+                                        &gt;
+                                    </span>
                                     {project.title}
                                 </p>
 

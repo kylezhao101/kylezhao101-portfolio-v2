@@ -7,6 +7,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useState } from "react";
+import { useEdgeMosaic } from "@/hooks/use-edge-mosaic";
 
 
 type FeaturedProjectCardProps = {
@@ -25,6 +26,7 @@ type FeaturedProjectCardProps = {
 export default function FeaturedProjectCard({
     project,
 }: FeaturedProjectCardProps) {
+    const { targetRef, imageRef, canvasRef } = useEdgeMosaic(project.image);
     const [cursor, setCursor] = useState({
         x: 0,
         y: 0,
@@ -58,6 +60,7 @@ export default function FeaturedProjectCard({
                 )
             }
             <Link
+                ref={targetRef}
                 href={project.internalRoute}
                 className="block w-full h-full"
                 onMouseEnter={() =>
@@ -82,11 +85,20 @@ export default function FeaturedProjectCard({
                     }))
                 }
             >
-                <Card className="flex h-full flex-col overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg">                    <img
-                    src={project.image}
-                    alt={project.title}
-                    className="aspect-video w-full object-cover"
-                />
+                <Card className="flex h-full flex-col overflow-hidden transition-shadow hover:shadow-lg">
+                    <div className="relative overflow-hidden">
+                        <img
+                            ref={imageRef}
+                            src={project.image}
+                            alt={project.title}
+                            className="aspect-video w-full object-cover"
+                        />
+                        <canvas
+                            ref={canvasRef}
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0 h-full w-full"
+                        />
+                    </div>
 
                     <CardHeader>
                         <CardTitle className="text-gray-800">{project.title}</CardTitle>
