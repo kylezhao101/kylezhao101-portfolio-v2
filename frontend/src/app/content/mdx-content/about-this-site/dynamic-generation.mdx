@@ -1,36 +1,71 @@
-# Dynamic Site Generation Using MDX and Next.js
+﻿---
+title: About This Site
+---
 
-This portfolio site is built on a previous project that I developed to dynamically generate a documentation site using MDX and Next.js. The project was designed to simplify the process of creating and maintaining a documentation website by leveraging the power of MDX for content creation and Next.js for server-side rendering and routing.
+# About This Site
 
-https://github.com/kylezhao101/kylezhao101-api-doc-gen-tool
+This portfolio grew out of a [documentation-site generator I built with Next.js and MDX](https://github.com/kylezhao101/kylezhao101-api-doc-gen-tool). I adapted its file-based content structure so I could write project case studies and experience entries without creating a separate page component for each one.
 
-## Features
+The current site combines a custom React landing page with a shared content layout. Case studies live in the repository, alongside the code, and their folder structure drives the content sidebar and page URLs.
 
-**1. Automated Navigation:** By organizing our content into MDX files within specific folders, the site automatically generates navigation elements. This setup allows each folder and MDX file to correspond to a unique section and page on the website, making it easy to expand or modify content.
+## How Content Becomes a Page
 
-**2. Navbar Generation:** The dynamic routing and navigation mechanism ensures that the navigation bar is always up-to-date with new sections, making it effortless to navigate through the site.
+1. **Read the file.** The Next.js App Router's catch-all route at `content/[...slug]/page.tsx` resolves the requested URL to a file under `mdx-content`.
+2. **Parse metadata.** `fetchers.ts` reads the file and uses `gray-matter` to separate frontmatter, such as the page title, from the body. It also extracts Markdown headings for the table of contents.
+3. **Build navigation.** `sidebar-data.ts` scans content folders to build sidebar sections and links. The page builds breadcrumbs from the URL and uses `fetchers.ts` to find previous and next entries.
+4. **Render the content.** The shared page layout renders the body through `react-markdown`, with `remark-gfm` for GitHub-flavored Markdown and `rehype-raw` for embedded HTML. GitHub Markdown CSS supplies the article styling.
 
-**3. Faster Documentation:** Writing articles or documentation using the MDX format combines the simplicity of Markdown with the flexibility of React components. The integration with 'next-mdx-remote' makes it possible to import custom components into the documentation, allowing for rich, interactive content that accelerates the creation process.
+Although these content files retain the `.mdx` extension, this route renders them as Markdown with embedded HTML. It does not compile imports or JSX into interactive React components. The landing page's interactive components are implemented separately in React.
 
-These functionalities are primarily implemented in `fetchers.ts` and `sidebar-data.ts`.
+## Navigation and Organization
+
+Each top-level content folder becomes a sidebar section, with links named from a file's frontmatter title or its filename. Adding a content file lets the existing route and sidebar pick it up without adding a dedicated page component or manually editing the sidebar.
+
+The main navbar is configured separately; its links are not generated from the content folders.
+
+Within each article, the shared layout provides:
+
+- Breadcrumbs based on the current route.
+- An "On this page" table of contents built from Markdown headings.
+- Previous and next links based on the discovered content files.
+
+Most of this behavior lives in `fetchers.ts`, `sidebar-data.ts`, and `content/[...slug]/page.tsx`.
 
 ## Folder Structure Example
 
-```
+```text
 src/
-└── app/
-    └── content/
-        └── mdx-content/
-            └── about-this-site/
-                └── dynamic-site-generation.mdx
-            └── experience/
-                └── BCCHR.mdx
-                └── moment-energy.mdx
+  app/
+    content/
+      [...slug]/
+        page.tsx
+      fetchers.ts
+      sidebar-data.ts
+      mdx-content/
+        about-this-site/
+          dynamic-generation.mdx
+        experience/
+          bcchr.mdx
+          moment-energy.mdx
+        projects/
+          auto-media-publisher.mdx
 ```
 
-## Helpful Resources
+For example, `experience/moment-energy.mdx` is served at `/content/experience/moment-energy`. Its frontmatter controls the title used in the sidebar and current-page breadcrumb:
 
-- [Next.js Documentation on Configuring MDX](https://nextjs.org/docs/pages/building-your-application/configuring/mdx)
-- [Next-MDX-Remote GitHub Repository](https://github.com/hashicorp/next-mdx-remote)
+```yaml
+---
+title: Moment Energy
+---
+```
+
+This structure keeps writing and presentation separate: I can update a case study in one content file while reusing the same navigation, typography, and layout across the site.
+
+## Libraries and Resources
+
+- [React Markdown](https://github.com/remarkjs/react-markdown)
+- [Gray Matter](https://github.com/jonschlinkert/gray-matter)
+- [Remark GFM](https://github.com/remarkjs/remark-gfm)
+- [Rehype Raw](https://github.com/rehypejs/rehype-raw)
 - [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
-- [shadcn ui](https://ui.shadcn.com/docs)
+- [shadcn/ui](https://ui.shadcn.com/docs)

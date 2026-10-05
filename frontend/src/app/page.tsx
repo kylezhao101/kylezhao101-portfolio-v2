@@ -1,42 +1,23 @@
 "use client"
 
-import { Separator } from "@/components/ui/separator";
 import { FlickeringGrid } from "@/components/ui/flickering-grid";
 
 import { cn } from "@/lib/utils";
-import FeaturedProjectCard from "@/components/FeaturedProjectCard";
+import FeaturedProjectCard from "@/components/home/projects/FeaturedProjectCard";
 import { featuredProjects } from "@/data/featured-projects";
-import { ProjectIndex } from "@/components/ProjectIndex";
-import { ClientStrip } from "@/components/ClientsStrip";
+import { ProjectIndex } from "@/components/home/projects/ProjectIndex";
+import { ClientStrip } from "@/components/home/illustration/ClientsStrip";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon, Instagram } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { CurrentlyListening } from "@/components/CurrentlyListening";
-import ProfileMetaTable from '../components/ProfileMetaTable';
-import { IllustrationBackdrop } from "@/components/IllustrationBackdrop";
-import { AboutStarfield } from "@/components/AboutStarfield";
+import { CurrentlyListening } from "@/components/home/about/CurrentlyListening";
+import ProfileMetaTable from "@/components/home/hero/ProfileMetaTable";
+import { IllustrationBackdrop } from "@/components/home/illustration/IllustrationBackdrop";
+import { AboutStarfield } from "@/components/home/about/AboutStarfield";
 import { useCarouselSelection } from "@/hooks/use-carousel-selection";
-import dividerStyles from "@/components/SectionDivider.module.css";
+import { SectionDivider } from "@/components/home/SectionDivider";
 
 const illustrationSources = ["/artworks/art_irl.jpg", "/artworks/pc.webp", "/artworks/mo.webp"];
-
-function SectionDivider({ animate = false }: { animate?: boolean }) {
-  return (
-    <div aria-hidden="true" className="mx-auto max-w-[1700px] px-3 sm:px-8">
-      <div className={cn("flex h-3 items-center gap-2", animate && dividerStyles.reveal)}>
-        <span className="relative h-[9px] w-[9px] shrink-0">
-          <span className="absolute left-0 top-1 h-px w-full bg-gray-300" />
-          <span className="absolute left-1 top-0 h-full w-px bg-gray-300" />
-        </span>
-        <Separator className="w-auto flex-1 bg-gray-300" />
-        <span className="relative h-[9px] w-[9px] shrink-0">
-          <span className="absolute left-0 top-1 h-px w-full bg-gray-300" />
-          <span className="absolute left-1 top-0 h-full w-px bg-gray-300" />
-        </span>
-      </div>
-    </div>
-  );
-}
 
 export default function Home() {
   const { setApi: setArtApi, activeIndex: activeArtIndex } = useCarouselSelection();

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/layout/Sidebar";
 import { getSidebarData } from "./sidebar-data";
 
 export const metadata: Metadata = {
