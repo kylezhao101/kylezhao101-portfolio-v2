@@ -10,10 +10,10 @@ import { ClientStrip } from "@/components/home/illustration/ClientsStrip";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon, Instagram } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { CurrentlyListening } from "@/components/home/about/CurrentlyListening";
 import ProfileMetaTable from "@/components/home/hero/ProfileMetaTable";
 import { IllustrationBackdrop } from "@/components/home/illustration/IllustrationBackdrop";
 import { AboutStarfield } from "@/components/home/about/AboutStarfield";
+import { CurrentlyListening } from "@/components/home/about/CurrentlyListening";
 import { useCarouselSelection } from "@/hooks/use-carousel-selection";
 import { SectionDivider } from "@/components/home/SectionDivider";
 
@@ -166,21 +166,26 @@ export default function Home() {
       <section className="relative isolate">
         <AboutStarfield />
         <div className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
-        <p className="flex items-center gap-2 text-gray-500 mb-4">
+        <p className="flex items-center gap-2 text-gray-500 mb-8 md:mb-12">
           <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           05 / About me
         </p>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="hidden md:block">
-            <video
-              src="/videos/pygmy-sparkling.mp4"
-              autoPlay
-              loop
-              muted
-              className="w-full aspect-video object-cover rounded-md"
-            />
-            <CurrentlyListening /></div>
-          <div>
+          <div className="grid md:grid-cols-2 items-start gap-8">
+            <div className="hidden md:block min-w-0">
+              <figure className="relative w-[90%] ml-auto">
+              <img
+                src="/images/45P-Scape-2026-crop.jpg"
+                alt="My 45P planted aquarium in 2026"
+                loading="lazy"
+                className="w-full aspect-[3/2] object-cover rounded-md"
+              />
+              <figcaption className="absolute bottom-2 right-3 max-w-[calc(100%-1.5rem)] text-xs leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">45P Aquascape, 2026</figcaption>
+              </figure>
+              <div className="w-[90%]">
+                <CurrentlyListening />
+              </div>
+            </div>
+          <div className="min-w-0">
             <img
               src="/gifs/Strawberry_flap.gif"
               alt="Celeste strawberry"
@@ -192,40 +197,43 @@ export default function Home() {
               interfaces people use. Whether that's a cloud platform, a developer tool, or
               a personal side project.
             </p>
-            <p className="mb-10 text-gray-800 text-sm sm:text-base">
+            <p className="mb-8 text-gray-800 text-sm sm:text-base">
               Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
             </p>
-            <figure className="hidden md:block">
+            <figure className="relative hidden md:block w-[90%]">
               <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} className="w-full h-auto rounded-md" />
-              <figcaption className="mt-2 text-xs text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
+              <figcaption className="absolute bottom-2 right-3 max-w-[calc(100%-1.5rem)] text-xs leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
             </figure>
             <Carousel className="w-full block md:hidden">
               <CarouselContent>
                 <CarouselItem>
-                  <figure>
+                  <figure className="relative w-[90%] mx-auto">
                     <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} className="w-full h-auto rounded-md" />
-                    <figcaption className="mt-2 text-xs text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
+                    <figcaption className="absolute bottom-2 right-3 max-w-[calc(100%-1.5rem)] text-xs leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
                   </figure>
                 </CarouselItem>
                 <CarouselItem>
-                  <video
-                    src="/videos/pygmy-sparkling.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    className="w-full aspect-video object-cover rounded-md"
+                  <figure className="relative w-[90%] mx-auto">
+                  <img
+                    src="/images/45P-Scape-2026-crop.jpg"
+                    alt="My 45P planted aquarium in 2026"
+                    loading="lazy"
+                    className="w-full aspect-[3/2] object-cover rounded-md"
                   />
+                  <figcaption className="absolute bottom-2 right-3 max-w-[calc(100%-1.5rem)] text-xs leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">45P Aquascape, 2026</figcaption>
+                  </figure>
                 </CarouselItem>
                 <CarouselItem>
-                  <CurrentlyListening />
+                  <div className="mx-auto w-[82%] max-w-md">
+                    <CurrentlyListening />
+                  </div>
                 </CarouselItem>
               </CarouselContent>
               <CarouselPrevious className="left-2" />
               <CarouselNext className="right-2" />
             </Carousel>
           </div>
-
-        </div>
+          </div>
         </div>
       </section>
 
