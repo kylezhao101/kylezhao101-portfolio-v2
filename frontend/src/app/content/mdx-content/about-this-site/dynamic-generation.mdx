@@ -15,7 +15,7 @@ The current site combines a custom React landing page with a shared content layo
 3. **Build navigation.** `sidebar-data.ts` scans content folders to build sidebar sections and links. The page builds breadcrumbs from the URL and uses `fetchers.ts` to find previous and next entries.
 4. **Render the content.** The shared page layout renders the body through `react-markdown`, with `remark-gfm` for GitHub-flavored Markdown and `rehype-raw` for embedded HTML. GitHub Markdown CSS supplies the article styling.
 
-Although these content files retain the `.mdx` extension, this route renders them as Markdown with embedded HTML. It does not compile imports or JSX into interactive React components. The landing page's interactive components are implemented separately in React.
+Although these content files retain the `.mdx` extension, this route renders them as Markdown with embedded HTML; it does not compile imports or JSX into interactive React components. I have not routed this content through a full MDX compiler because the case studies have not needed imported components or embedded JSX so far. The landing page's interactive components are implemented separately in React.
 
 ## Navigation and Organization
 
