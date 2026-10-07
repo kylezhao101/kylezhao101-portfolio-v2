@@ -51,9 +51,9 @@ The battery management system (BMS) continuously generated battery pack measurem
 
 - Writing Athena aggregation queries and moving expensive calculations from application code into SQL to reduce backend processing.
 - Implementing timestamp-based downsampling with aggregation levels based on the selected time range, controlling the amount of data returned for longer queries.
-- Reducing redundant frontend processing so the dashboard received data already prepared for visualization.
+- Reducing redundant frontend processing so the dashboard received data is already prepared for visualization.
 
-For very long query ranges, I also implemented an occasionally used two-scan strategy: one scan returned regularly downsampled data, while the other used standard deviation and z-scores to identify notable readings. Combining the results helped retain points that regular downsampling could miss.
+For very long query ranges, I also implemented a two-scan strategy that I used occasionally. One scan returned regularly downsampled data, while the other used standard deviation and z-scores to identify notable readings. Combining the results helped retain points that regular downsampling could miss.
 
 Reducing the number of points raised another engineering question: how could we keep brief anomalies visible when users queried longer time ranges? That led to my work on live anomaly detection using an exponential moving average (EMA).
 
@@ -93,9 +93,9 @@ mean  = mean_A + delta * n_B / n
 M2    = M2_A + M2_B + delta^2 * n_A * n_B / n
 ```
 
-This supports combining batches or partitions without replaying their readings. It is a way to merge statistics, rather than an anomaly rule itself. These recurrence and merge approaches are discussed by [Chan, Golub, and LeVeque](https://math.pku.edu.cn/teachers/litj/notes/numer_anal/AmerStat_37_242_Chan_Variance.pdf).
+This lets you combine batches or partitions without replaying their readings. Chan's formula merges statistical summaries; it is not an anomaly rule by itself. The recurrence and merge approaches are discussed by [Chan, Golub, and LeVeque](https://math.pku.edu.cn/teachers/litj/notes/numer_anal/AmerStat_37_242_Chan_Variance.pdf).
 
-For my use case, the limitation of a cumulative baseline was its treatment of history. When every reading since startup contributes equally, older operating conditions continue to influence what counts as normal. The mean's adjustment to each new reading shrinks as the count grows. Chan's merge formula preserves those cumulative statistics; it does not introduce a preference for recent data.
+For my use case, the limitation of a cumulative baseline was how it treated history. When every reading since startup contributes equally, older operating conditions continue to influence what counts as normal. As the count grows, each new reading has less effect on the cumulative mean. Chan's merge formula preserves those cumulative statistics; it does not introduce a preference for recent data.
 
 That does not mean Welford inherently loses the ability to detect spikes. The concern was how well a baseline covering the entire history represented a sensor whose normal level could change.
 
@@ -131,7 +131,7 @@ deviation_t = abs(x_t - ema_previous)
 
 This illustrates comparison with the baseline before incorporating the new reading; it is not a reconstruction of the production threshold rule. The important design choice was to use recent behavior to identify timestamps worth retaining, rather than relying only on the points selected for a chart.
 
-EMA fit that goal because it adapted as a sensor's operating level changed without storing its full history. The tradeoff was responsiveness: a baseline that adapts too quickly can follow an anomaly, while one that adapts too slowly can lag behind a legitimate change in operation.
+EMA was a good fit for that goal because it adapted as a sensor's operating level changed without storing its full history. The tradeoff was responsiveness: a baseline that adapts too quickly can follow an anomaly, while one that adapts too slowly can lag behind a legitimate change in operation.
 
 ### Cloud Fault Detection System
 
