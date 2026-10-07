@@ -1,6 +1,6 @@
 # Auto Media Publisher
 
-03.2026 - ongoing - Last updated Sep 26th, 2026
+03.2026 - ongoing - Last updated Oct 7, 2026
 
 I built Auto Media Publisher for my church's AV team to simplify weekly video publishing. The desktop app automates media processing and YouTube uploads, with shared organization workspaces that let volunteers publish without setting up their own Google project credentials.
 
@@ -16,7 +16,7 @@ I built Auto Media Publisher for my church's AV team to simplify weekly video pu
 - **Windows:** `AutoMediaPublisher-Setup-[latest].exe`
 - **Mac (Apple silicon):** `AutoMediaPublisher-[latest]-arm64.dmg`
 
-Publishing with a team? Follow Organization Setup. Connecting your own channel? Follow Personal Setup.
+Publishing with a team? Open Organization Setup. Connecting your own channel? Open Personal Setup.
 
 <details>
 <summary style="cursor:pointer; padding:12px 0; font-weight:600;">Mac installation notes</summary>
@@ -29,7 +29,7 @@ The command is:
 xattr -cr /Applications/AutoMediaPublisher.app
 ```
 
-Or xattr -cr [path to app] if you installed it somewhere else.
+If you installed the app elsewhere, run `xattr -cr [path to app]` with its actual path.
 
 </details>
 
@@ -59,23 +59,23 @@ You can switch between Personal and Organization workspaces in the desktop appli
 <details>
 <summary style="cursor:pointer; padding:12px 0; font-weight:600;">Personal Setup — connect your own channel</summary>
 
-**If you already have a Google Cloud project and credentials**, skip steps 2–6 and import your existing credentials JSON file in step 7.
+**If you already have a Google Cloud project and credentials**, skip steps 2–6 and import your credentials JSON file in step 7.
 
 1. Download and run the installer.
 2. Create a Google Cloud project.
 3. Enable the YouTube Data API v3.
-4. Navigate to Credentials → Create Credentials → OAuth Client ID.
+4. In Google Cloud Console, go to Credentials, then select **Create Credentials → OAuth client ID**.
 5. Select Desktop App as the application type.
 6. Download the OAuth client credentials JSON file.
 7. Open Auto Media Publisher and click on Import Credentials.
 8. Choose the downloaded credentials JSON file.
-9. Click Connect YouTube, when prompted on a browser window, authorize the Google account associated with your channel.
+9. Click **Connect YouTube**. When a browser window opens, authorize the Google account associated with your channel.
 
 > A Google Cloud project and YouTube Data API credentials are required because uploads are performed directly through the official YouTube API on behalf of your channel.
 
 > Once configured, subsequent uploads only require selecting your media files, entering metadata, and clicking Publish.
 
-If you want to manually drag in your credential files, naming is as follows:
+To add credential files manually, use these file names and locations:
 - Mac: 
   - `~/Library/Application Support/AutoMediaPublisher/google-token.json`
   - `~/Library/Application Support/AutoMediaPublisher/gcp-token.json`
@@ -105,11 +105,11 @@ If you want to manually drag in your credential files, naming is as follows:
 </details>
 
 ## How I Built It
-Auto Media Publisher is a desktop application that automates the process of preparing and publishing long-form media content to online platforms. Originally developed for my church's weekly video publishing workflow, the application **reduced a roughly 1.5-hour manual process** involving video preparation, editing, and uploading into a largely one-click workflow for non-technical users.
+I originally built Auto Media Publisher for my church's weekly video workflow. It turned roughly 1.5 hours of manual preparation, editing, and uploading into a largely one-click process for non-technical users.
 
 The current application combines an Electron/React desktop interface with a Python media-processing worker and a deployed FastAPI/Supabase backend. Personal publishing remains local-first, while organization workspaces provide shared presets, role-based access, invitations, and centrally managed YouTube connections for team workflows.
 
-The project originally began as a cloud-based media processing platform hosted on Azure using student credits. However, because recordings frequently exceeded tens of gigabytes and required long-running video processing workloads, cloud hosting costs and storage limitations quickly became impractical. The system was subsequently redesigned into a desktop-first application that leveraged local compute resources while preserving many of the automation features developed in the original cloud architecture.
+The project began as a cloud-based media processing platform hosted on Azure with student credits. Because recordings often exceeded tens of gigabytes, storing and processing them in the cloud made storage and compute costs impractical. I redesigned the system as a desktop-first application that uses local compute while preserving much of the original job-based workflow.
 
 ### Problem
 Publishing recorded services involved several manual steps:
