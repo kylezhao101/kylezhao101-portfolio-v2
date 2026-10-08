@@ -7,7 +7,7 @@ title: Moment Energy
 <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin:24px 0;">
   <div>
     <strong>Type</strong><br/>
-    <p>Fullstack Software Engineer Co-op</p>
+    <p>Full-Stack Software Engineer Co-op</p>
     </div>
     <div>
     <strong>Timespan</strong><br/>
@@ -45,27 +45,137 @@ My two main projects focused on making telemetry easier to explore and turning i
 
 **Impact:** Live telemetry API response times fell by approximately **70%**. Supported query ranges expanded from days to weeks, and long-running queries went from minutes to seconds.
 
-The battery management system (BMS) continuously generated battery pack measurements, but the legacy telemetry backend made dashboard queries slow. I worked on refactoring the service and helped diagnose, migrate, and redesign the aggregation pipeline from Athena through the backend to the dashboard.
+Querying historical battery telemetry became increasingly expensive as the requested time range grew. The original Express backend retrieved large volumes of sensor readings and performed additional aggregation and transformation in application code, resulting in slow API responses and limited practical query ranges.
 
-**My implementation work included:**
+As part of rebuilding the backend in NestJS, I helped redesign the telemetry pipeline across Athena, the API, and the React dashboard, combining several layers of optimization:
 
-- Writing Athena aggregation queries and moving expensive calculations from application code into SQL to reduce backend processing.
-- Implementing timestamp-based downsampling with aggregation levels based on the selected time range, controlling the amount of data returned for longer queries.
-- Reducing redundant frontend processing so the dashboard received data is already prepared for visualization.
+- **SQL optimization:** Used Athena/Presto SQL with CTEs, timestamp-based downsampling, window functions, and aggregation to process telemetry closer to its source.
+- **Reduced backend computation:** Moved rack/module and cell-level calculations into Athena, reducing CPU-intensive processing on the EC2-hosted Node.js service.
+- **Efficient data processing:** Simplified API response construction and frontend data transformations, reducing redundant loops and using map-based lookups where appropriate.
+- **Response compression:** Enabled Gzip compression in the NestJS API to reduce transfer sizes, particularly for larger telemetry responses.
 
-For very long query ranges, I also implemented a two-scan strategy that I used occasionally. One scan returned regularly downsampled data, while the other used standard deviation and z-scores to identify notable readings. Combining the results helped retain points that regular downsampling could miss.
+#### Structuring the query and selecting representative readings
+
+Sampling resolution adjusted to the requested time range, reducing the number of readings returned for longer queries.
+
+```text
+Read telemetry for the selected pack and time range
+Assign each reading to a time bucket
+
+For each sensor in each bucket:
+    Keep the reading closest to the target timestamp
+
+For each pack in each bucket:
+    Calculate minimum and maximum voltage
+    Calculate maximum temperature
+
+Return structured results for the dashboard
+```
+
+Readings do not always arrive at regular intervals. Readings were ranked within each time bucket, with the closest to the target timestamp selected, so an exact timestamp match was not required.
+
+I organized these stages using Athena/Presto Common Table Expressions (`WITH ... AS`) and used a window function to rank the timestamp candidates. CTEs made the transformations easier to reason about; the performance improvement came from the query and pipeline redesign, rather than from CTE syntax alone.
+
+Our queries filtered on partition keys to enable [partition pruning](https://docs.aws.amazon.com/athena/latest/ug/partitions.html), allowing Athena to skip irrelevant S3 partitions and limit unnecessary data scans.
+
+<details>
+<summary>SQL example</summary>
+
+**Illustrative SQL, not production source:** The schema, filters, one-minute buckets, and midpoint targets below are reconstructed examples. The production sampling interval and target placement have not been confirmed. Here, `sensor_id` identifies an independent measurement stream within a pack.
+
+```sql
+WITH filtered AS (
+    SELECT
+        pack_id, sensor_id, reading_timestamp,
+        cell_voltage, temperature
+    FROM telemetry
+    WHERE pack_id = 'example-pack'
+      AND reading_timestamp >= TIMESTAMP '2025-01-01 00:00:00'
+      AND reading_timestamp < TIMESTAMP '2025-01-01 01:00:00'
+),
+bucketed AS (
+    SELECT
+        *,
+        date_trunc('minute', reading_timestamp) AS time_bucket
+    FROM filtered
+),
+candidates AS (
+    SELECT
+        *,
+        -- One midpoint target per example minute, not 30-second sampling.
+        date_add('second', 30, time_bucket) AS target_timestamp
+    FROM bucketed
+),
+ranked_telemetry AS (
+    SELECT
+        *,
+        ROW_NUMBER() OVER (
+            PARTITION BY pack_id, sensor_id, time_bucket
+            ORDER BY ABS(
+                date_diff('millisecond', reading_timestamp, target_timestamp)
+            ), reading_timestamp
+        ) AS timestamp_rank
+    FROM candidates
+)
+SELECT
+    pack_id,
+    time_bucket,
+    MIN(cell_voltage) AS min_cell_voltage,
+    MAX(cell_voltage) AS max_cell_voltage,
+    MAX(temperature) AS max_temperature
+FROM ranked_telemetry
+WHERE timestamp_rank = 1
+GROUP BY pack_id, time_bucket
+ORDER BY pack_id, time_bucket;
+```
+
+Each reading belongs to the minute containing its timestamp; only readings from that bucket compete for its midpoint target. Ranking by distance selects an actual reading even when arrivals are irregular. For example, readings at `12:00:26` and `12:00:41` compete for `12:00:30`, and the former wins. A reading at `12:01:00` belongs to the next bucket. A bucket with no readings produces no sampled row.
+
+</details>
+
+#### Aggregating battery measurements
+
+I moved rack/module and cell-level aggregations into Athena, using `GROUP BY` to organize readings by component and time interval and `MIN()` / `MAX()` to calculate measurement extremes.
+
+This reduced the amount of aggregation required in the backend and returned data in a format better suited for visualization.
+
+I used `COALESCE()` where appropriate to handle missing measurement fields and produce consistent query results for visualization.
+
+#### Architectural benefits: less EC2 processing and dashboard work
+
+```text
+Before:
+Raw BMS telemetry → Athena → relatively raw results
+  → EC2 / Express/Node.js: iterate, group, calculate min/max,
+      handle missing measurements, construct API response
+  → React dashboard: additional chart transformations
+
+After:
+Raw BMS telemetry → Athena: filter → bucket → rank → aggregate
+  → Fewer, structured records
+  → EC2 / NestJS: lightweight response assembly, Set/Map lookups
+  → React dashboard: visualization-ready data
+```
+
+I also enabled Gzip compression for API responses, reducing the amount of telemetry data transferred to the dashboard, particularly for larger payloads.
+
+The NestJS response builder used JavaScript `Set` and `Map` lookups to avoid repeated array scans. React consumed visualization-ready results, reducing the need for additional aggregation and transformation before rendering charts.
+
+By shifting analytical processing into Athena, the EC2-hosted backend spent less time performing synchronous calculations and formatting large datasets. This reduced work on the Node.js event loop while helping improve API response times.
+
+For longer query ranges, I experimented with a two-scan strategy. One scan returned regularly downsampled data, while the other used standard deviation and z-scores to identify notable readings. Combining the results helped retain points that regular downsampling could miss.
 
 Reducing the number of points raised another engineering question: how could we keep brief anomalies visible when users queried longer time ranges? That led to my work on live anomaly detection using an exponential moving average (EMA).
 
 ### Preserving Anomalies During Downsampling
 
-**The problem:** A smaller chart payload can hide an important event. For example, readings selected five minutes apart might barely differ even though a sharp spike occurred between them. Depending on the aggregation method, that spike could disappear or be diluted in the displayed data.
+**The problem:** Downsampling can hide important events. For example, readings selected five minutes apart might barely differ even though a sharp spike occurred between them. Depending on the aggregation method, that spike could disappear or be diluted in the displayed data.
 
 I used the live MQTT telemetry stream to track a running EMA and identify anomalous timestamps to keep during downsampling. Detecting the event while processing incoming readings gave us information that could be lost once the data had been reduced for visualization.
 
 We stored the timestamps identified by the live anomaly detector. When a long-range query covered those timestamps, we included their readings alongside the downsampled data regardless of whether regular downsampling would select them. This kept detected spikes visible while reducing the overall chart payload.
 
-The choice of baseline mattered because it determined which timestamps to retain. It needed to represent a sensor's recent behavior as its normal operating level changed.
+Choosing the right baseline was important because it determined which readings were considered anomalous. It needed to represent a sensor's recent behavior as its normal operating level changed.
 
 #### Alternatives I explored: Welford and Chan
 
@@ -152,7 +262,7 @@ I also worked on hysteresis for transitions between fault severity levels. A sen
 
 Separate trigger and recovery thresholds controlled these transitions. For example, a reading could trigger the more severe high fault above its upper threshold, then clear that state only after falling below its recovery threshold. If the high-warning condition still applied, the sensor would step back down to a warning rather than immediately returning to normal.
 
-The gap between activation and recovery thresholds helped prevent readings near a boundary from repeatedly switching fault states. This made recovery behavior explicit while reducing state changes caused by small sensor fluctuations.
+Separate activation and recovery thresholds prevented small sensor fluctuations from repeatedly triggering and clearing faults, while ensuring recovery followed the appropriate severity transitions.
 
 Together, these components connected live fault detection with notifications and historical fault retrieval, giving users a way to investigate detected conditions after an alert.
 
