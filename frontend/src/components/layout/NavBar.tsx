@@ -258,7 +258,10 @@ export default function Navbar() {
             className="fixed bottom-0 left-0 top-14 z-50 w-[min(20rem,calc(100vw-2rem))] overflow-y-auto border-r border-gray-200 bg-white px-5 pb-8 pt-6 shadow-xl md:hidden"
           >
             <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Case studies</h2>
+              <h2 className="flex items-center gap-2 text-lg font-semibold">
+                <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
+                kylezhao101.com
+              </h2>
               <button
                 type="button"
                 aria-label="Close browse menu"
@@ -269,11 +272,12 @@ export default function Navbar() {
               </button>
             </div>
             <nav>
+              <h3 className="mb-4 text-sm font-semibold text-gray-900">Case studies</h3>
               {browseSections.map((section) => (
                 <section key={section.title} className="mb-7">
-                  <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
                     {section.title}
-                  </h3>
+                  </h4>
                   <ul className="space-y-1">
                     {section.links.map((link) => (
                       <li key={link.href}>
@@ -290,34 +294,29 @@ export default function Navbar() {
                   </ul>
                 </section>
               ))}
+              <section className="border-t border-gray-200 pt-5">
+                <h3 className="mb-4 text-sm font-semibold text-gray-900">Homepage</h3>
+                <ul className="space-y-1">
+                  <li>
+                    <Link href="/#about-me" onClick={() => setIsBrowseMenuOpen(false)} className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
+                      About me
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/#contact" onClick={() => {
+                      setIsBrowseMenuOpen(false);
+                      window.dispatchEvent(new Event('contact-nudge'));
+                    }} className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
+                      Contact
+                    </Link>
+                  </li>
+                </ul>
+              </section>
             </nav>
           </motion.aside>
         )}
       </AnimatePresence>
 
-      {isHome && (
-      <nav data-home-dock aria-label="Homepage sections" className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 rounded-full border border-gray-800 bg-gray-950 p-1.5 shadow-lg shadow-black/20 md:hidden">
-        <ul className="flex items-center gap-0.5 whitespace-nowrap">
-          {[
-            { label: 'Featured', href: '#featured' },
-            { label: 'Projects', href: '#projects' },
-            { label: 'Art', href: '#art' },
-            { label: 'About me', href: '#about-me' },
-          ].map(({ label, href }) => (
-            <li key={href}>
-              <a href={href} className="flex h-9 items-center justify-center rounded-full px-1.5 text-xs text-gray-300 transition-colors hover:text-white sm:px-2.5">
-                {label}
-              </a>
-            </li>
-          ))}
-          <li>
-            <a href="#contact" onClick={() => window.dispatchEvent(new Event('contact-nudge'))} className="flex h-9 items-center justify-center rounded-full bg-gray-100 px-2.5 text-xs text-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 [@media(hover:hover)]:hover:bg-gray-200">
-              Contact
-            </a>
-          </li>
-        </ul>
-      </nav>
-      )}
       {!isHome && <div className="hidden h-14 md:block" />}
     </>
   );
