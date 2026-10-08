@@ -131,6 +131,7 @@ export default function Home() {
                   <img
                     src={illustrationSources[0]}
                     alt="Studio SIAT"
+                    loading="lazy"
                     className="w-full aspect-video object-contain rounded-md"
                   />
                 </CarouselItem>
@@ -138,6 +139,7 @@ export default function Home() {
                   <img
                     src={illustrationSources[1]}
                     alt="celtix - Primordial Complex"
+                    loading="lazy"
                     className="w-full aspect-video object-cover rounded-md"
                   />
                 </CarouselItem>
@@ -145,6 +147,7 @@ export default function Home() {
                   <img
                     src={illustrationSources[2]}
                     alt="Studio SIAT"
+                    loading="lazy"
                     className="w-full aspect-video object-contain rounded-md"
                   />
                 </CarouselItem>
@@ -172,14 +175,14 @@ export default function Home() {
         </p>
           <div className="grid md:grid-cols-2 items-start gap-8">
             <div className="hidden md:block min-w-0">
-              <figure className="relative w-[90%] ml-auto">
+              <figure className="w-[90%] ml-auto">
               <img
                 src="/images/45P-Scape-2026-crop.jpg"
                 alt="My 45P planted aquarium in 2026"
                 loading="lazy"
                 className="w-full aspect-[3/2] object-cover rounded-md"
               />
-              <figcaption className="absolute bottom-2 right-3 max-w-[calc(100%-1.5rem)] text-xs leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">45P Aquascape, 2026</figcaption>
+              <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">45P Aquascape, 2026</figcaption>
               </figure>
               <div className="w-[90%]">
                 <CurrentlyListening />
@@ -200,27 +203,27 @@ export default function Home() {
             <p className="mb-8 text-gray-800 text-sm sm:text-base">
               Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
             </p>
-            <figure className="relative hidden md:block w-[90%]">
-              <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} className="w-full h-auto rounded-md" />
-              <figcaption className="absolute bottom-2 right-3 max-w-[calc(100%-1.5rem)] text-xs leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
+            <figure className="hidden md:block w-[90%]">
+              <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} loading="lazy" className="w-full h-auto rounded-md" />
+              <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
             </figure>
             <Carousel className="w-full block md:hidden">
               <CarouselContent>
                 <CarouselItem>
-                  <figure className="relative w-[90%] mx-auto">
-                    <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} className="w-full h-auto rounded-md" />
-                    <figcaption className="absolute bottom-2 right-3 max-w-[calc(100%-1.5rem)] text-xs leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
+                  <figure className="w-[90%] mx-auto">
+                    <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} loading="lazy" className="w-full h-auto rounded-md" />
+                    <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
                   </figure>
                 </CarouselItem>
                 <CarouselItem>
-                  <figure className="relative w-[90%] mx-auto">
+                  <figure className="w-[90%] mx-auto">
                   <img
                     src="/images/45P-Scape-2026-crop.jpg"
                     alt="My 45P planted aquarium in 2026"
                     loading="lazy"
                     className="w-full aspect-[3/2] object-cover rounded-md"
                   />
-                  <figcaption className="absolute bottom-2 right-3 max-w-[calc(100%-1.5rem)] text-xs leading-relaxed text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">45P Aquascape, 2026</figcaption>
+                  <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">45P Aquascape, 2026</figcaption>
                   </figure>
                 </CarouselItem>
                 <CarouselItem>

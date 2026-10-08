@@ -6,8 +6,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useEdgeMosaic } from "@/hooks/use-edge-mosaic";
+import styles from "./FeaturedProjectCard.module.css";
 
 
 type FeaturedProjectCardProps = {
@@ -27,6 +28,7 @@ export default function FeaturedProjectCard({
     project,
 }: FeaturedProjectCardProps) {
     const { targetRef, imageRef, canvasRef } = useEdgeMosaic(project.image);
+    const [imageLoaded, setImageLoaded] = useState(false);
     const [cursor, setCursor] = useState({
         x: 0,
         y: 0,
@@ -34,6 +36,11 @@ export default function FeaturedProjectCard({
         link: "",
         dotColor: "bg-cyan-500",
     });
+
+    useEffect(() => {
+        const image = imageRef.current;
+        if (image?.complete && image.naturalWidth > 0) setImageLoaded(true);
+    }, [imageRef, project.image]);
 
 
 
@@ -87,11 +94,16 @@ export default function FeaturedProjectCard({
             >
                 <Card className="flex h-full flex-col overflow-hidden transition-shadow hover:shadow-lg">
                     <div className="relative overflow-hidden">
+                        <div
+                            aria-hidden="true"
+                            className={`${styles.placeholder} ${imageLoaded ? styles.loaded : ""}`}
+                        />
                         <img
                             ref={imageRef}
                             src={project.image}
                             alt={project.title}
-                            className="aspect-video w-full object-cover"
+                            onLoad={() => setImageLoaded(true)}
+                            className={`relative block aspect-video w-full object-cover transition-opacity duration-500 motion-reduce:transition-none ${imageLoaded ? "opacity-100" : "opacity-0"}`}
                         />
                         <canvas
                             ref={canvasRef}

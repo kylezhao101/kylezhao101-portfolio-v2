@@ -16,6 +16,7 @@ export function useDitherTexture(source: string) {
     const image = new Image();
     let disposed = false;
     let frame = 0;
+    let loaded = false;
 
     function draw() {
       if (disposed || !canvas || !context || !image.naturalWidth) return;
@@ -47,17 +48,31 @@ export function useDitherTexture(source: string) {
     }
 
     function schedule() {
+      if (!loaded) return;
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(draw);
     }
-    image.onload = schedule;
-    image.src = source;
+    image.onload = () => {
+      loaded = true;
+      schedule();
+    };
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      image.src = source;
+      if (image.complete && image.naturalWidth) {
+        loaded = true;
+        schedule();
+      }
+      visibilityObserver.disconnect();
+    }, { rootMargin: "200px" });
+    visibilityObserver.observe(canvas);
     const observer = new ResizeObserver(schedule);
     observer.observe(canvas);
     return () => {
       disposed = true;
       cancelAnimationFrame(frame);
       observer.disconnect();
+      visibilityObserver.disconnect();
       image.onload = null;
     };
   }, [source]);
