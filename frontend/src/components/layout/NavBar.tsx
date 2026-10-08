@@ -75,7 +75,7 @@ export default function Navbar() {
           aria-expanded={isBrowseMenuOpen}
           aria-controls="mobile-browse-menu"
           onClick={() => setIsBrowseMenuOpen((open) => !open)}
-          className="relative flex h-9 w-5 items-center justify-start rounded-md text-gray-800 before:absolute before:-inset-x-3 before:-inset-y-1 before:content-[''] hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+          className="relative flex h-9 w-5 items-center justify-start rounded-md bg-transparent text-gray-800 [-webkit-tap-highlight-color:transparent] before:absolute before:-inset-x-3 before:-inset-y-1 before:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
         >
           <MenuIcon aria-hidden="true" className="-translate-x-0.5" size={20} />
         </button>

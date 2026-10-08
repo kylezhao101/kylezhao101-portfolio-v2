@@ -196,21 +196,28 @@ export default function Home() {
             />
             <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Hi! I'm Kyle. I'm a software engineer based in Vancouver B.C.</h2>
             <p className="mb-4 text-gray-800 text-sm sm:text-base">
+              I've always enjoyed making things, from art and graphic design to UI design.
+              I started coding in Python in Grade 12, building a Discord bot, then studied
+              Interactive Arts and Technology at Simon Fraser University from 2021 to
+              September 2026. Along the way, I picked up software development and frontend
+              work as another way to bring ideas to life.
+            </p>
+            <p className="mb-4 text-gray-800 text-sm sm:text-base">
               I enjoy building products end-to-end, from the systems behind them to the
-              interfaces people use. Whether that's a cloud platform, a developer tool, or
+              interfaces people use, whether that's a cloud platform, a developer tool, or
               a personal side project.
             </p>
             <p className="mb-8 text-gray-800 text-sm sm:text-base">
               Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
             </p>
-            <figure className="hidden md:block w-[90%]">
+            <figure className="hidden md:block w-[75%]">
               <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} loading="lazy" className="w-full h-auto rounded-md" />
               <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
             </figure>
             <Carousel className="w-full block md:hidden">
               <CarouselContent>
                 <CarouselItem>
-                  <figure className="w-[90%] mx-auto">
+                  <figure className="w-[75%] mx-auto">
                     <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} loading="lazy" className="w-full h-auto rounded-md" />
                     <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
                   </figure>
