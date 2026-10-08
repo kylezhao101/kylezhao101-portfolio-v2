@@ -29,10 +29,10 @@ export default function RootLayout({
         <Navbar />
 
         <Suspense fallback={null}>
-          <TopLoadingBarProvider>
-            <div className="w-full">{children}</div>
-          </TopLoadingBarProvider>
+          <TopLoadingBarProvider />
         </Suspense>
+
+        <div className="w-full">{children}</div>
 
         <Separator />
         <Footer lastUpdated={lastUpdated} />

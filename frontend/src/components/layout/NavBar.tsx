@@ -4,36 +4,16 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { MenuIcon, GithubIcon } from 'lucide-react';
+import { GithubIcon } from 'lucide-react';
 import ResumeButton from './ResumeButton';
 import { config } from '@/config/config';
 import { motion } from 'motion/react';
 
 export default function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showStickyNav, setShowStickyNav] = useState(false);
 
   const pathname = usePathname();
   const isHome = pathname === '/';
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  // Mobile menu body scroll lock
-  useEffect(() => {
-    const body = document.body;
-
-    if (isMobileMenuOpen) {
-      body.style.overflow = 'hidden';
-    } else {
-      body.style.overflow = 'visible';
-    }
-
-    return () => {
-      body.style.overflow = 'visible';
-    };
-  }, [isMobileMenuOpen]);
 
   // Show sticky navbar after scrolling past the initial navbar
   useEffect(() => {
@@ -57,17 +37,13 @@ export default function Navbar() {
 
   const NavContent = () => (
     <div className="mx-auto flex h-full max-w-[1700px] items-center justify-between px-3 sm:px-8">
-      <button
-        className="md:hidden flex items-center gap-x-2"
-        onClick={toggleMobileMenu}
-      >
-        <MenuIcon />
-
+      <Link className="flex items-center gap-x-2 md:hidden" href="/" aria-label="Kyle Zhao home">
         <Avatar className="w-8 h-8">
           <AvatarImage src="https://github.com/kylezhao101.png" />
           <AvatarFallback>KZ</AvatarFallback>
         </Avatar>
-      </button>
+        <span className="text-sm font-semibold">Kyle.z</span>
+      </Link>
 
       <ul className="hidden md:flex items-center">
         <li className="mr-6 group">
@@ -127,7 +103,7 @@ export default function Navbar() {
         </li>
       </ul>
 
-      <ul className="flex space-x-6 items-center">
+      <ul className="flex items-center gap-3 md:gap-6">
         <li>
           <ResumeButton />
         </li>
@@ -213,79 +189,31 @@ export default function Navbar() {
         </nav>
       )}
 
-      {/* Mobile menu overlay */}
-      <div
-        className={`
-          fixed inset-0 bg-black bg-opacity-60 z-40
-          transition-opacity
-          ${isMobileMenuOpen
-            ? 'opacity-100'
-            : 'opacity-0 pointer-events-none'
-          }
-        `}
-        onClick={toggleMobileMenu}
-      />
-
-      {/* Mobile menu */}
-      <div
-        className={`
-          transform top-0 left-0 min-w-64
-          bg-white p-5 fixed h-full overflow-auto
-          ease-in-out transition-all duration-300 z-40
-          ${isMobileMenuOpen
-            ? 'translate-x-0'
-            : '-translate-x-full'
-          }
-        `}
-      >
-        <ul className="flex flex-col gap-2">
-          <li className="mb-2">
-            <Link onClick={toggleMobileMenu} href="/">
-              <span className="font-semibold">
-                /Kylezhao101
-              </span>
+      <nav aria-label="Mobile navigation" className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 rounded-full border border-gray-200 bg-white p-1.5 shadow-lg shadow-black/10 backdrop-blur md:hidden">
+        <ul className="flex items-center gap-0.5 whitespace-nowrap">
+          <li>
+            <Link href="/" aria-current={isHome ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-3 text-xs font-semibold transition-colors ${isHome ? 'text-gray-900' : 'text-gray-800 hover:text-cyan-700'}`}>
+              Home
             </Link>
           </li>
-
           <li>
-            <Link
-              onClick={toggleMobileMenu}
-              href="/content/experience/bcchr"
-            >
+            <Link href="/content/experience/bcchr" aria-current={pathname.startsWith('/content/experience') ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-2.5 text-xs transition-colors ${pathname.startsWith('/content/experience') ? 'text-gray-900' : 'text-gray-600 hover:text-cyan-700'}`}>
               Experience
             </Link>
           </li>
-
           <li>
-            <Link
-              onClick={toggleMobileMenu}
-              href="/content/projects/auto-media-publisher"
-            >
+            <Link href="/content/projects/auto-media-publisher" aria-current={pathname.startsWith('/content/projects') ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-2.5 text-xs transition-colors ${pathname.startsWith('/content/projects') ? 'text-gray-900' : 'text-gray-600 hover:text-cyan-700'}`}>
               Projects
             </Link>
           </li>
-
           <li>
-            <Link
-              onClick={toggleMobileMenu}
-              href="/content/about-this-site/dynamic-generation"
-            >
-              About this site
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              href={config.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Resume
+            <Link href="/#contact" onClick={() => window.dispatchEvent(new Event('contact-nudge'))} className="flex h-9 items-center justify-center rounded-full bg-gray-100 px-3 text-xs text-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 [@media(hover:hover)]:hover:bg-gray-200">
+              Contact
             </Link>
           </li>
         </ul>
-      </div>
-      {!isHome && <div className="h-14" />}
+      </nav>
+      {!isHome && <div className="hidden h-14 md:block" />}
     </>
   );
 }

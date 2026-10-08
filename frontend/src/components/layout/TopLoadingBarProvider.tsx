@@ -4,11 +4,7 @@ import { useEffect, useRef } from "react";
 import LoadingBar, { type LoadingBarRef } from "react-top-loading-bar";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export default function TopLoadingBarProvider({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function TopLoadingBarProvider() {
     const ref = useRef<LoadingBarRef>(null);
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -26,7 +22,6 @@ export default function TopLoadingBarProvider({
     return (
         <>
             <LoadingBar color="#06b6d4" ref={ref} height={2} shadow={false} />
-            {children}
         </>
     );
 }

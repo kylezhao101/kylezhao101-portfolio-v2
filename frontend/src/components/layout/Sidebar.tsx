@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
-import matter from "gray-matter";
 
 interface SidebarLink {
   name: string;
@@ -36,20 +35,20 @@ export default function Sidebar({
     <>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="h-10 lg:hidden px-5 fixed w-full z-20 bg-white/10 backdrop-blur border-b"
+        className="fixed top-14 z-20 h-10 w-full border-b bg-white/10 px-5 backdrop-blur lg:hidden"
       >
         <span className="flex text-sm items-center gap-x-4">
           <ChevronRight
             style={{ transform: isOpen ? "rotate(90deg)" : "none" }}
             size={16}
           />
-          Content Menu
+          Case studies
         </span>
       </button>
 
       <div
-        className={`lg:hidden fixed w-full h-screen top-0 pt-28 left-0 z-10 transform ${isOpen ? "translate-y-0" : "-translate-y-full"
-          } transition-transform duration-500 ease-in-out bg-white`}
+        className={`fixed left-0 top-14 z-10 h-[calc(100dvh-3.5rem)] w-full pt-14 transform bg-white transition-transform duration-500 ease-in-out lg:hidden ${isOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
       >
         {sidebarData.map((section) => (
           <div key={section.title} className="ml-5 mb-4">
