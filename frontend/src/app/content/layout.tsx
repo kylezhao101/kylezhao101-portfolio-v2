@@ -19,7 +19,7 @@ export default function DocumentationLayout({
       <div className="lg:pl-6">
         <Sidebar sidebarData={sidebarData} />
       </div>
-      <div className="pt-28 mb-20 w-full mr-auto ml-auto pl-3 pr-3 sm:pl-6 sm:pr-6 lg:pt-14">
+      <div className="pt-[4.5rem] mb-20 w-full mr-auto ml-auto pl-3 pr-3 sm:pl-6 sm:pr-6 lg:pt-14">
         {children}
       </div>
     </div>

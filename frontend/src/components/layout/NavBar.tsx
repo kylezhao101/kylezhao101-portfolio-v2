@@ -4,16 +4,46 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { GithubIcon } from 'lucide-react';
+import { GithubIcon, MenuIcon, XIcon } from 'lucide-react';
 import ResumeButton from './ResumeButton';
-import { config } from '@/config/config';
 import { motion } from 'motion/react';
 
 export default function Navbar() {
   const [showStickyNav, setShowStickyNav] = useState(false);
+  const [isBrowseMenuOpen, setIsBrowseMenuOpen] = useState(false);
 
   const pathname = usePathname();
   const isHome = pathname === '/';
+
+  const browseSections = [
+    {
+      title: 'Experience',
+      links: [
+        { label: 'BC Children’s Hospital Research Institute', href: '/content/experience/bcchr' },
+        { label: 'Moment Energy', href: '/content/experience/moment-energy' },
+      ],
+    },
+    {
+      title: 'Projects',
+      links: [
+        { label: 'Auto Media Publisher', href: '/content/projects/auto-media-publisher' },
+      ],
+    },
+    {
+      title: 'About this site',
+      links: [
+        { label: 'Dynamic generation', href: '/content/about-this-site/dynamic-generation' },
+      ],
+    },
+  ];
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    if (isBrowseMenuOpen) document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isBrowseMenuOpen]);
 
   // Show sticky navbar after scrolling past the initial navbar
   useEffect(() => {
@@ -37,13 +67,25 @@ export default function Navbar() {
 
   const NavContent = () => (
     <div className="mx-auto flex h-full max-w-[1700px] items-center justify-between px-3 sm:px-8">
-      <Link className="flex items-center gap-x-2 md:hidden" href="/" aria-label="Kyle Zhao home">
-        <Avatar className="w-8 h-8">
-          <AvatarImage src="https://github.com/kylezhao101.png" />
-          <AvatarFallback>KZ</AvatarFallback>
-        </Avatar>
-        <span className="text-sm font-semibold">Kyle.z</span>
-      </Link>
+      <div className="flex items-center gap-3 md:gap-6 md:hidden">
+        <button
+          type="button"
+          aria-label={isBrowseMenuOpen ? 'Close browse menu' : 'Open browse menu'}
+          aria-expanded={isBrowseMenuOpen}
+          aria-controls="mobile-browse-menu"
+          onClick={() => setIsBrowseMenuOpen((open) => !open)}
+          className="relative flex h-9 w-5 items-center justify-start rounded-md text-gray-800 before:absolute before:-inset-x-3 before:-inset-y-1 before:content-[''] hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+        >
+          <MenuIcon aria-hidden="true" className="-translate-x-0.5" size={20} />
+        </button>
+        <Link className="flex items-center gap-x-2" href="/" aria-label="Kyle Zhao home">
+          <Avatar className="w-8 h-8">
+            <AvatarImage src="https://github.com/kylezhao101.png" />
+            <AvatarFallback>KZ</AvatarFallback>
+          </Avatar>
+          <span className="text-sm font-semibold">Kyle.z</span>
+        </Link>
+      </div>
 
       <ul className="hidden md:flex items-center">
         <li className="mr-6 group">
@@ -189,20 +231,71 @@ export default function Navbar() {
         </nav>
       )}
 
-      <nav aria-label="Mobile navigation" className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 rounded-full border border-gray-200 bg-white p-1.5 shadow-lg shadow-black/10 backdrop-blur md:hidden">
+      {isBrowseMenuOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="Close browse menu"
+            onClick={() => setIsBrowseMenuOpen(false)}
+            className="fixed inset-x-0 bottom-0 top-14 z-[45] bg-black/30 md:hidden"
+          />
+          <aside
+            id="mobile-browse-menu"
+            aria-label="Browse portfolio content"
+            className="fixed bottom-0 left-0 top-14 z-50 w-[min(20rem,calc(100vw-2rem))] overflow-y-auto border-r border-gray-200 bg-white px-5 pb-8 pt-6 shadow-xl md:hidden"
+          >
+            <div className="mb-8 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Browse</h2>
+              <button
+                type="button"
+                aria-label="Close browse menu"
+                onClick={() => setIsBrowseMenuOpen(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+              >
+                <XIcon aria-hidden="true" size={18} />
+              </button>
+            </div>
+            <nav>
+              {browseSections.map((section) => (
+                <section key={section.title} className="mb-7">
+                  <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    {section.title}
+                  </h3>
+                  <ul className="space-y-1">
+                    {section.links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          onClick={() => setIsBrowseMenuOpen(false)}
+                          aria-current={pathname === link.href ? 'page' : undefined}
+                          className={`block rounded-md px-3 py-2 text-sm transition-colors ${pathname === link.href ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'}`}
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </nav>
+          </aside>
+        </>
+      )}
+
+      <nav aria-label="Mobile navigation" className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 rounded-full border border-gray-800 bg-gray-950 p-1.5 shadow-lg shadow-black/20 md:hidden">
         <ul className="flex items-center gap-0.5 whitespace-nowrap">
           <li>
-            <Link href="/" aria-current={isHome ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-3 text-xs font-semibold transition-colors ${isHome ? 'text-gray-900' : 'text-gray-800 hover:text-cyan-700'}`}>
+            <Link href="/" aria-current={isHome ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-3 text-xs font-semibold transition-colors ${isHome ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
               Home
             </Link>
           </li>
           <li>
-            <Link href="/content/experience/bcchr" aria-current={pathname.startsWith('/content/experience') ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-2.5 text-xs transition-colors ${pathname.startsWith('/content/experience') ? 'text-gray-900' : 'text-gray-600 hover:text-cyan-700'}`}>
+            <Link href="/content/experience/bcchr" aria-current={pathname.startsWith('/content/experience') ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-2.5 text-xs transition-colors ${pathname.startsWith('/content/experience') ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
               Experience
             </Link>
           </li>
           <li>
-            <Link href="/content/projects/auto-media-publisher" aria-current={pathname.startsWith('/content/projects') ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-2.5 text-xs transition-colors ${pathname.startsWith('/content/projects') ? 'text-gray-900' : 'text-gray-600 hover:text-cyan-700'}`}>
+            <Link href="/content/projects/auto-media-publisher" aria-current={pathname.startsWith('/content/projects') ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-2.5 text-xs transition-colors ${pathname.startsWith('/content/projects') ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
               Projects
             </Link>
           </li>
