@@ -67,7 +67,7 @@ export default function Home() {
 
       <SectionDivider animate />
 
-      <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
+      <section id="featured" className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <p className="flex items-center gap-2 text-gray-500 mb-4">
           <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           02 / Featured Work
@@ -84,7 +84,7 @@ export default function Home() {
 
       <SectionDivider />
 
-      <section className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
+      <section id="projects" className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <p className="flex items-center gap-2 text-gray-500 mb-4">
           <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           03 / Other
@@ -94,7 +94,7 @@ export default function Home() {
 
       <SectionDivider />
 
-      <section className="relative isolate overflow-hidden mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
+      <section id="art" className="relative isolate overflow-hidden mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="relative z-10 flex flex-col self-center">
 
@@ -166,7 +166,7 @@ export default function Home() {
         </div>
       </section>
       <SectionDivider />
-      <section className="relative isolate">
+      <section id="about-me" className="relative isolate">
         <AboutStarfield />
         <div className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
         <p className="flex items-center gap-2 text-gray-500 mb-8 md:mb-12">

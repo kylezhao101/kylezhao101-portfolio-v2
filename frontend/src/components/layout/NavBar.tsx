@@ -6,11 +6,12 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { GithubIcon, MenuIcon, XIcon } from 'lucide-react';
 import ResumeButton from './ResumeButton';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 
 export default function Navbar() {
   const [showStickyNav, setShowStickyNav] = useState(false);
   const [isBrowseMenuOpen, setIsBrowseMenuOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   const pathname = usePathname();
   const isHome = pathname === '/';
@@ -65,7 +66,7 @@ export default function Navbar() {
     };
   }, [isHome]);
 
-  const NavContent = () => (
+  const navContent = (
     <div className="mx-auto flex h-full max-w-[1700px] items-center justify-between px-3 sm:px-8">
       <div className="flex items-center gap-3 md:gap-6 md:hidden">
         <button
@@ -182,7 +183,7 @@ export default function Navbar() {
          --------------------------------------------------------- */}
       {isHome && (
         <nav className="absolute top-0 z-30 h-14 w-full bg-transparent">
-          <NavContent />
+          {navContent}
         </nav>
       )}
 
@@ -211,7 +212,7 @@ export default function Navbar() {
             pointerEvents: showStickyNav ? 'auto' : 'none',
           }}
         >
-          <NavContent />
+          {navContent}
         </motion.nav>
       )}
 
@@ -227,25 +228,37 @@ export default function Navbar() {
             backdrop-blur
           "
         >
-          <NavContent />
+          {navContent}
         </nav>
       )}
 
-      {isBrowseMenuOpen && (
-        <>
-          <button
+      <AnimatePresence>
+        {isBrowseMenuOpen && (
+          <motion.button
+            key="drawer-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.18 }}
             type="button"
             aria-label="Close browse menu"
             onClick={() => setIsBrowseMenuOpen(false)}
             className="fixed inset-x-0 bottom-0 top-14 z-[45] bg-black/30 md:hidden"
           />
-          <aside
+        )}
+        {isBrowseMenuOpen && (
+          <motion.aside
+            key="case-study-drawer"
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
             id="mobile-browse-menu"
             aria-label="Browse portfolio content"
             className="fixed bottom-0 left-0 top-14 z-50 w-[min(20rem,calc(100vw-2rem))] overflow-y-auto border-r border-gray-200 bg-white px-5 pb-8 pt-6 shadow-xl md:hidden"
           >
             <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Browse</h2>
+              <h2 className="text-lg font-semibold">Case studies</h2>
               <button
                 type="button"
                 aria-label="Close browse menu"
@@ -278,34 +291,33 @@ export default function Navbar() {
                 </section>
               ))}
             </nav>
-          </aside>
-        </>
-      )}
+          </motion.aside>
+        )}
+      </AnimatePresence>
 
-      <nav aria-label="Mobile navigation" className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 rounded-full border border-gray-800 bg-gray-950 p-1.5 shadow-lg shadow-black/20 md:hidden">
+      {isHome && (
+      <nav data-home-dock aria-label="Homepage sections" className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 rounded-full border border-gray-800 bg-gray-950 p-1.5 shadow-lg shadow-black/20 md:hidden">
         <ul className="flex items-center gap-0.5 whitespace-nowrap">
+          {[
+            { label: 'Featured', href: '#featured' },
+            { label: 'Projects', href: '#projects' },
+            { label: 'Art', href: '#art' },
+            { label: 'About me', href: '#about-me' },
+          ].map(({ label, href }) => (
+            <li key={href}>
+              <a href={href} className="flex h-9 items-center justify-center rounded-full px-1.5 text-xs text-gray-300 transition-colors hover:text-white sm:px-2.5">
+                {label}
+              </a>
+            </li>
+          ))}
           <li>
-            <Link href="/" aria-current={isHome ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-3 text-xs font-semibold transition-colors ${isHome ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/content/experience/bcchr" aria-current={pathname.startsWith('/content/experience') ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-2.5 text-xs transition-colors ${pathname.startsWith('/content/experience') ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
-              Experience
-            </Link>
-          </li>
-          <li>
-            <Link href="/content/projects/auto-media-publisher" aria-current={pathname.startsWith('/content/projects') ? 'page' : undefined} className={`flex h-9 items-center justify-center rounded-full px-2.5 text-xs transition-colors ${pathname.startsWith('/content/projects') ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
-              Projects
-            </Link>
-          </li>
-          <li>
-            <Link href="/#contact" onClick={() => window.dispatchEvent(new Event('contact-nudge'))} className="flex h-9 items-center justify-center rounded-full bg-gray-100 px-3 text-xs text-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 [@media(hover:hover)]:hover:bg-gray-200">
+            <a href="#contact" onClick={() => window.dispatchEvent(new Event('contact-nudge'))} className="flex h-9 items-center justify-center rounded-full bg-gray-100 px-2.5 text-xs text-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 [@media(hover:hover)]:hover:bg-gray-200">
               Contact
-            </Link>
+            </a>
           </li>
         </ul>
       </nav>
+      )}
       {!isHome && <div className="hidden h-14 md:block" />}
     </>
   );

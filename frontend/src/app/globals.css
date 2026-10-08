@@ -76,12 +76,13 @@
 }
 
 html {
+  scroll-behavior: smooth;
   scroll-padding-top: 80px;
   scrollbar-color: theme('colors.cyan.500') hsl(var(--muted));
 }
 
 @media (max-width: 767px) {
-  body {
+  body:has([data-home-dock]) {
     padding-bottom: calc(5rem + env(safe-area-inset-bottom));
   }
 }
@@ -190,6 +191,10 @@ body .markdown-body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .hero-title::after {
     animation: none;
   }
