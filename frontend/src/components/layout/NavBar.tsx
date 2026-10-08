@@ -18,20 +18,20 @@ export default function Navbar() {
 
   const browseSections = [
     {
-      title: 'Experience',
+      title: 'experience',
       links: [
         { label: 'BC Children’s Hospital Research Institute', href: '/content/experience/bcchr' },
         { label: 'Moment Energy', href: '/content/experience/moment-energy' },
       ],
     },
     {
-      title: 'Projects',
+      title: 'projects',
       links: [
         { label: 'Auto Media Publisher', href: '/content/projects/auto-media-publisher' },
       ],
     },
     {
-      title: 'About this site',
+      title: 'about this site',
       links: [
         { label: 'Dynamic generation', href: '/content/about-this-site/dynamic-generation' },
       ],
@@ -255,9 +255,9 @@ export default function Navbar() {
             transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
             id="mobile-browse-menu"
             aria-label="Browse portfolio content"
-            className="fixed bottom-0 left-0 top-14 z-50 w-[min(20rem,calc(100vw-2rem))] overflow-y-auto border-r border-gray-200 bg-white px-5 pb-8 pt-6 shadow-xl md:hidden"
+            className="fixed bottom-0 left-0 top-14 z-50 w-[min(20rem,calc(100vw-2rem))] overflow-y-auto border-r border-gray-200 bg-white px-5 pb-6 pt-4 shadow-xl md:hidden"
           >
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-4 flex items-center justify-between">
               <h2 className="flex items-center gap-2 text-lg font-semibold">
                 <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
                 kylezhao101.com
@@ -272,13 +272,13 @@ export default function Navbar() {
               </button>
             </div>
             <nav>
-              <h3 className="mb-4 text-sm font-semibold text-gray-900">Case studies</h3>
+              <h3 className="mb-2 text-sm font-semibold text-gray-900">Case studies</h3>
               {browseSections.map((section) => (
-                <section key={section.title} className="mb-7">
-                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <section key={section.title} className="mb-4">
+                  <h4 className="mb-1 text-xs font-semibold text-gray-500">
                     {section.title}
                   </h4>
-                  <ul className="space-y-1">
+                  <ul>
                     {section.links.map((link) => (
                       <li key={link.href}>
                         <Link
@@ -294,9 +294,9 @@ export default function Navbar() {
                   </ul>
                 </section>
               ))}
-              <section className="border-t border-gray-200 pt-5">
-                <h3 className="mb-4 text-sm font-semibold text-gray-900">Homepage</h3>
-                <ul className="space-y-1">
+              <section className="border-t border-gray-200 pt-3">
+                <h3 className="mb-2 text-sm font-semibold text-gray-900">Homepage</h3>
+                <ul>
                   <li>
                     <Link href="/#about-me" onClick={() => setIsBrowseMenuOpen(false)} className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
                       About me
