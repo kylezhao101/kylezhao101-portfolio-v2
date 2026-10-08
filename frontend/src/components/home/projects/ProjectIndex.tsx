@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { otherWork, tagStyles } from "@/data/other-work";
 import styles from "./ProjectIndex.module.css";
 
@@ -38,39 +38,40 @@ export function ProjectIndex() {
             <div className="divide-y">
                 {otherWork.map((project) => {
                     const href = project.internalLink ?? project.externalLink;
+                    const Row = href ? "a" : "div";
                     const isExternal = !project.internalLink && !!project.externalLink;
                     const cursorLabel = project.internalLink
                         ? "View case study"
-                        : project.externalLink;
+                        : project.externalLink ?? "";
 
                     return (
-                        <a
+                        <Row
                             key={project.title}
                             href={href}
                             target={isExternal ? "_blank" : undefined}
                             rel={isExternal ? "noopener noreferrer" : undefined}
-                            className={`${styles.row} group grid grid-cols-6 py-4 gap-2 sm:gap-0`}
-                            onMouseEnter={() =>
+                            className={`${href ? `${styles.row} group` : ""} grid grid-cols-6 py-4 gap-2 sm:gap-0`}
+                            onMouseEnter={href ? () =>
                                 setCursor((c) => ({
                                     ...c,
                                     visible: true,
                                     link: cursorLabel,
                                     dotColor: tagStyles[project.tags?.[0] as keyof typeof tagStyles]?.dot || "bg-cyan-500",
                                 }))
-                            }
-                            onMouseLeave={() =>
+                            : undefined}
+                            onMouseLeave={href ? () =>
                                 setCursor((c) => ({
                                     ...c,
                                     visible: false,
                                 }))
-                            }
-                            onMouseMove={(e) =>
+                            : undefined}
+                            onMouseMove={href ? (e: MouseEvent<HTMLElement>) =>
                                 setCursor((c) => ({
                                     ...c,
                                     x: e.clientX,
                                     y: e.clientY,
                                 }))
-                            }
+                            : undefined}
                         >
                             <p className="text-sm text-stone-500 hidden md:block">
                                 {project.timeframe}
@@ -78,12 +79,12 @@ export function ProjectIndex() {
 
                             <div className="col-span-6 sm:col-span-3">
                                 <p className="relative text-sm font-medium group-hover:text-cyan-500 text-gray-800 group-hover:transition-colors group-hover:duration-200">
-                                    <span
+                                    {href && <span
                                         aria-hidden="true"
                                         className={`${styles.marker} pointer-events-none absolute right-full mr-1 font-mono text-cyan-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none`}
                                     >
                                         &gt;
-                                    </span>
+                                    </span>}
                                     {project.title}
                                 </p>
 
@@ -123,7 +124,7 @@ export function ProjectIndex() {
                                     </span>
                                 ))}
                             </div>
-                        </a>
+                        </Row>
                     )
                 })}
             </div>
