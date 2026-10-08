@@ -4,9 +4,9 @@
 
 I built Auto Media Publisher for my church's AV team to simplify weekly video publishing. The desktop app automates media processing and YouTube uploads, with shared organization workspaces that let volunteers publish without setting up their own Google project credentials.
 
-<nav aria-label="Auto Media Publisher page sections" style="display:flex; flex-wrap:wrap; gap:12px; margin:24px 0;">
-  <a href="#download-and-setup" style="display:inline-block; padding:12px 18px; border:1px solid currentColor; border-radius:8px; font-weight:600;">Download &amp; Setup</a>
-  <a href="#how-i-built-it" style="display:inline-block; padding:12px 18px; border:1px solid currentColor; border-radius:8px; font-weight:600;">How I Built It</a>
+<nav aria-label="Auto Media Publisher page sections" style={{ display: "flex", flexWrap: "wrap", gap: "12px", margin: "24px 0" }}>
+  <a href="#download-and-setup" style={{ display: "inline-block", padding: "12px 18px", border: "1px solid currentColor", borderRadius: "8px", fontWeight: "600" }}>Download &amp; Setup</a>
+  <a href="#how-i-built-it" style={{ display: "inline-block", padding: "12px 18px", border: "1px solid currentColor", borderRadius: "8px", fontWeight: "600" }}>How I Built It</a>
 </nav>
 
 ## Download and Setup
@@ -19,7 +19,7 @@ I built Auto Media Publisher for my church's AV team to simplify weekly video pu
 Publishing with a team? Open Organization Setup. Connecting your own channel? Open Personal Setup.
 
 <details>
-<summary style="cursor:pointer; padding:12px 0; font-weight:600;">Mac installation notes</summary>
+<summary style={{ cursor: "pointer", padding: "12px 0", fontWeight: "600" }}>Mac installation notes</summary>
 
 The Mac version is unsigned. After installing the application, you may need to remove its quarantine attribute to open it.
 
@@ -34,7 +34,7 @@ If you installed the app elsewhere, run `xattr -cr [path to app]` with its actua
 </details>
 
 <details>
-<summary style="cursor:pointer; padding:12px 0; font-weight:600;">Organization Setup — publish with your team</summary>
+<summary style={{ cursor: "pointer", padding: "12px 0", fontWeight: "600" }}>Organization Setup — publish with your team</summary>
 
 Organization members do not need to import personal Google Cloud credentials when publishing through an organization's connected YouTube channel.
 
@@ -57,7 +57,7 @@ You can switch between Personal and Organization workspaces in the desktop appli
 </details>
 
 <details>
-<summary style="cursor:pointer; padding:12px 0; font-weight:600;">Personal Setup — connect your own channel</summary>
+<summary style={{ cursor: "pointer", padding: "12px 0", fontWeight: "600" }}>Personal Setup — connect your own channel</summary>
 
 **If you already have a Google Cloud project and credentials**, skip steps 2–6 and import your credentials JSON file in step 7.
 
@@ -86,7 +86,7 @@ To add credential files manually, use these file names and locations:
 </details>
 
 <details>
-<summary style="cursor:pointer; padding:12px 0; font-weight:600;">All features</summary>
+<summary style={{ cursor: "pointer", padding: "12px 0", fontWeight: "600" }}>All features</summary>
 
 - Process multiple media clips through a one-click FFmpeg rendering, audio processing, and YouTube publishing workflow
 - Run long-running media processing in background Python workers with real-time progress updates
@@ -137,20 +137,12 @@ This process was time-consuming and difficult to delegate to volunteers with var
 ### Desktop Implementation
 
 <figure
-  style="
-    max-width:800px;
-    margin:24px auto;
-    overflow:hidden;
-    border-radius:8px;
-  "
+  style={{ maxWidth: "800px", margin: "24px auto", overflow: "hidden", borderRadius: "8px" }}
 >
   <img
     src="/images/projects/amp-1.png"
     alt="Auto Media Publisher desktop app"
-    style="
-      width:100%;
-      display:block;
-    "
+    style={{ width: "100%", display: "block" }}
   />
 </figure>
 
@@ -174,10 +166,7 @@ I added an organization backend so an authorized administrator could connect the
   <img
     src="/images/projects/amp-org-manage.png"
     alt="Organization management workspace in Auto Media Publisher"
-    style="
-      width:100%;
-      display:block;
-    "
+    style={{ width: "100%", display: "block" }}
   />
 
 
@@ -197,10 +186,7 @@ Organizations support:
   <img
     src="/images/projects/amp-org-member.png"
     alt="Organization member management in Auto Media Publisher"
-    style="
-      width:100%;
-      display:block;
-    "
+    style={{ width: "100%", display: "block" }}
   />
 
 
@@ -213,10 +199,7 @@ YouTube authentication is handled differently for personal and organization publ
   <img
     src="/images/projects/amp-org-activity.png"
     alt="Organization activity audit log in Auto Media Publisher"
-    style="
-      width:100%;
-      display:block;
-    "
+    style={{ width: "100%", display: "block" }}
   />
 
 Organization actions are recorded in an audit log to provide visibility into changes made within a shared workspace. Events such as invitations, role changes, preset updates, and YouTube connection changes record the actor, timestamp, action, and relevant context.

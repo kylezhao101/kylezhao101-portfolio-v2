@@ -20,20 +20,20 @@ export default function Navbar() {
     {
       title: 'experience',
       links: [
-        { label: 'BC Children’s Hospital Research Institute', href: '/content/experience/bcchr' },
-        { label: 'Moment Energy', href: '/content/experience/moment-energy' },
+        { label: 'BC Children\'s Hospital Research Institute', href: '/experience/bcchr' },
+        { label: 'Moment Energy', href: '/experience/moment-energy' },
       ],
     },
     {
       title: 'projects',
       links: [
-        { label: 'Auto Media Publisher', href: '/content/projects/auto-media-publisher' },
+        { label: 'Auto Media Publisher', href: '/projects/auto-media-publisher' },
       ],
     },
     {
       title: 'about this site',
       links: [
-        { label: 'Dynamic generation', href: '/content/about-this-site/dynamic-generation' },
+        { label: 'Dynamic generation', href: '/about-this-site/dynamic-generation' },
       ],
     },
   ];
@@ -106,7 +106,7 @@ export default function Navbar() {
           <ul className="flex items-center group">
             <li>
               <Link
-                href="/content/experience/bcchr"
+                href="/experience/bcchr"
                 className="block pr-6 py-4 text-sm transition-opacity duration-400 group-hover:opacity-30 hover:!opacity-100"
               >
                 Experience
@@ -115,7 +115,7 @@ export default function Navbar() {
 
             <li>
               <Link
-                href="/content/projects/auto-media-publisher"
+                href="/projects/auto-media-publisher"
                 className="block pr-6 py-4 text-sm transition-opacity duration-400 group-hover:opacity-30 hover:!opacity-100"
               >
                 Projects
@@ -124,7 +124,7 @@ export default function Navbar() {
 
             <li>
               <Link
-                href="/content/about-this-site/dynamic-generation"
+                href="/about-this-site/dynamic-generation"
                 className="block pr-6 py-4 text-sm transition-opacity duration-400 group-hover:opacity-30 hover:!opacity-100"
               >
                 About this site

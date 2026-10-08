@@ -8,7 +8,7 @@ export const featuredProjects = [
     timeframe: "01.2025 - 08.2025",
     role: "Software Engineering Co-op",
     technologies: ["React", "NestJS", "AWS", "IOT"],
-    internalRoute: "/content/experience/moment-energy",
+    internalRoute: "/experience/moment-energy",
   },
   {
     slug: "bcchr",
@@ -19,6 +19,6 @@ export const featuredProjects = [
     timeframe: "01.2026 - 04.2026",
     role: "Software Engineering Co-op",
     technologies: ["React", "Expo", "Django", "Pandas", "Figma", "Nginx", "Linux"],
-    internalRoute: "/content/experience/bcchr",
+    internalRoute: "/experience/bcchr",
   },
 ];

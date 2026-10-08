@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { getSectionBySlug, getAdjacentSlugsWithTitles } from "../fetchers";
-// import 'github-markdown-css/github-markdown-light.css';
+import { getSectionBySlug, getAdjacentSlugsWithTitles } from "@/app/content/fetchers";
+import { notFound } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,10 +15,6 @@ import { ChevronRight, ChevronLeft } from "lucide-react"
 import React from "react";
 import OnThisPage from "@/components/layout/OnThisPage";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
-import { headingComponents } from "@/lib/content/heading-components";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
 
 const contentDir = path.join(process.cwd(), "src/app/content/mdx-content");
 
@@ -61,15 +57,21 @@ export default async function BlogPage({
   const resolvedSlugArray = resolveDefaultFile(slugArray);
   const combinedSlug = resolvedSlugArray.join("/");
 
+  const resolvedFile = path.resolve(contentDir, ...resolvedSlugArray) + ".mdx";
+  if (!resolvedFile.startsWith(contentDir + path.sep) || !fs.existsSync(resolvedFile)) {
+    notFound();
+  }
+
   const section = await getSectionBySlug(combinedSlug);
+  const { default: Content } = await import(`../../content/mdx-content/${combinedSlug}.mdx`);
 
   const { previous, next } = await getAdjacentSlugsWithTitles(combinedSlug);
   // Construct URLs for previous and next links
-  const previousLink = previous ? `/content/${previous.slug}` : null;
-  const nextLink = next ? `/content/${next.slug}` : null;
+  const previousLink = previous ? `/${previous.slug}` : null;
+  const nextLink = next ? `/${next.slug}` : null;
 
   // Create base path for the breadcrumbs
-  const basePath = "/content";
+  const basePath = "";
   let accumulatedPath = basePath;
 
   const toc = section.headings.map(
@@ -100,11 +102,11 @@ export default async function BlogPage({
 
   return (
     <div className="flex">
-      <section className="flex flex-col w-full gap-y-8">
+      <section className="flex min-w-0 flex-col w-full gap-y-8">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/content/about-this-site/dynamic-generation">kyle.z</BreadcrumbLink>
+              <BreadcrumbLink href="/">kyle.z</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             {breadcrumbs.map((breadcrumb, index) => (
@@ -118,9 +120,7 @@ export default async function BlogPage({
 
         <div className="min-w-0 md:max-w-5xl m-0 ">
           <article className="object-contain markdown-body inline-block max-w-full ">
-            <ReactMarkdown components={headingComponents} remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} >
-              {section.content}
-            </ReactMarkdown>
+            <Content />
           </article>
         </div>
 

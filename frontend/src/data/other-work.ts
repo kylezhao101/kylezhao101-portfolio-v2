@@ -55,7 +55,7 @@ export const otherWork = [
       "Cloud",
       "Automation",
     ],
-    internalLink: "/content/projects/auto-media-publisher",
+    internalLink: "/projects/auto-media-publisher",
     externalLink: "https://github.com/kylezhao101/auto-media-publisher"
   },
 

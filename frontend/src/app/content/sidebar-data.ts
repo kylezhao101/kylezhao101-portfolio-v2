@@ -43,7 +43,7 @@ export function getSidebarData(): SidebarSection[] {
 
                 return {
                     name,
-                    href: `/content/${section}/${slug}`,
+                    href: `/${section}/${slug}`,
                 };
             });
 

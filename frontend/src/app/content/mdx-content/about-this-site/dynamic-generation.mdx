@@ -1,4 +1,4 @@
-﻿---
+---
 title: About This Site
 ---
 
@@ -10,12 +10,22 @@ The current site combines a custom React landing page with a shared content layo
 
 ## How Content Becomes a Page
 
-1. **Read the file.** The Next.js App Router's catch-all route at `content/[...slug]/page.tsx` resolves the requested URL to a file under `mdx-content`.
+1. **Read the file.** The Next.js App Router's catch-all route at `(case-studies)/[...slug]/page.tsx` resolves the requested URL to a file under `mdx-content`.
 2. **Parse metadata.** `fetchers.ts` reads the file and uses `gray-matter` to separate frontmatter, such as the page title, from the body. It also extracts Markdown headings for the table of contents.
 3. **Build navigation.** `sidebar-data.ts` scans content folders to build sidebar sections and links. The page builds breadcrumbs from the URL and uses `fetchers.ts` to find previous and next entries.
-4. **Render the content.** The shared page layout renders the body through `react-markdown`, with `remark-gfm` for GitHub-flavored Markdown and `rehype-raw` for embedded HTML. GitHub Markdown CSS supplies the article styling.
+4. **Compile and render the content.** The route imports the matching `.mdx` file as a React component. `@next/mdx` compiles its Markdown, JSX, and component imports, with `remark-gfm` for GitHub-flavored Markdown and `remark-frontmatter` to recognize the metadata block. GitHub Markdown CSS supplies the article styling, while shared heading components provide anchors for the table of contents.
 
-Although these content files retain the `.mdx` extension, this route renders them as Markdown with embedded HTML; it does not compile imports or JSX into interactive React components. I have not routed this content through a full MDX compiler because the case studies have not needed imported components or embedded JSX so far. The landing page's interactive components are implemented separately in React.
+Content files support JSX expressions and React component imports alongside Markdown. The Moment Energy case study uses this to embed reusable callout cards and interactive telemetry visualizations directly in the article. Imported client components handle interactivity, while JSX follows React's attribute conventions, such as `className` and object-valued `style` props.
+
+For example, a content file can use an existing UI component:
+
+```mdx
+import { Button } from "@/components/ui/button";
+
+<Button asChild variant="outline">
+  <a href="#navigation-and-organization">Explore the navigation</a>
+</Button>
+```
 
 ## Navigation and Organization
 
@@ -29,16 +39,18 @@ Within each article, the shared layout provides:
 - An "On this page" table of contents built from Markdown headings.
 - Previous and next links based on the discovered content files.
 
-Most of this behavior lives in `fetchers.ts`, `sidebar-data.ts`, and `content/[...slug]/page.tsx`.
+Most of this behavior lives in `fetchers.ts`, `sidebar-data.ts`, and `(case-studies)/[...slug]/page.tsx`.
 
 ## Folder Structure Example
 
 ```text
 src/
   app/
-    content/
+    (case-studies)/
+      layout.tsx
       [...slug]/
         page.tsx
+    content/
       fetchers.ts
       sidebar-data.ts
       mdx-content/
@@ -51,7 +63,7 @@ src/
           auto-media-publisher.mdx
 ```
 
-For example, `experience/moment-energy.mdx` is served at `/content/experience/moment-energy`. Its frontmatter controls the title used in the sidebar and current-page breadcrumb:
+For example, `experience/moment-energy.mdx` is served at `/experience/moment-energy`. Its frontmatter controls the title used in the sidebar and current-page breadcrumb:
 
 ```yaml
 ---
@@ -63,9 +75,10 @@ This structure keeps writing and presentation separate: I can update a case stud
 
 ## Libraries and Resources
 
-- [React Markdown](https://github.com/remarkjs/react-markdown)
+- [MDX](https://mdxjs.com/)
+- [Next.js MDX integration](https://nextjs.org/docs/app/guides/mdx)
 - [Gray Matter](https://github.com/jonschlinkert/gray-matter)
 - [Remark GFM](https://github.com/remarkjs/remark-gfm)
-- [Rehype Raw](https://github.com/rehypejs/rehype-raw)
+- [Remark Frontmatter](https://github.com/remarkjs/remark-frontmatter)
 - [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 - [shadcn/ui](https://ui.shadcn.com/docs)

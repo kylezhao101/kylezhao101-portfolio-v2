@@ -1,6 +1,6 @@
-import type { Components } from "react-markdown";
+import type { MDXComponents } from "mdx/types";
 
-export const headingComponents: Components = {
+export const headingComponents: MDXComponents = {
   h1: ({ children, ...props }) => {
     const id = typeof children === "string"
       ? children.replace(/\s+/g, "-").toLowerCase()

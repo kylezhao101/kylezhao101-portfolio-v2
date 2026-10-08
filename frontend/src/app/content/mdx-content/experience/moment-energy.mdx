@@ -2,9 +2,12 @@
 title: Moment Energy
 ---
 
+import TelemetrySamplingDemo from "@/components/content/TelemetrySamplingDemo";
+import CalloutCard from "@/components/content/CalloutCard";
+
 # Moment Energy
 
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin:24px 0;">
+<div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "24px", margin: "24px 0" }}>
   <div>
     <strong>Type</strong><br/>
     <p>Full-Stack Software Engineer Co-op</p>
@@ -14,26 +17,24 @@ title: Moment Energy
     Jan 2025 - Aug 2025
     </div>
 </div>
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin:24px 0;">
+<div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "24px", margin: "24px 0" }}>
     <div>
     <strong>Tools</strong><br/>
-    React, MUI, NestJS, AWS (IoT Core, Athena, S3, SES), MySQL
+    React, MUI, NestJS, AWS (IoT Core, Athena, S3, SES), MySQL, Prisma
     </div>
 </div>
 
 ## Overview
 
-At Moment Energy, I built production software for monitoring battery energy storage systems, spanning React dashboards, NestJS services, and AWS telemetry infrastructure. My work helped **reduce live telemetry API response times by approximately 70%** and deliver a **cloud fault detection system deployed to production** with dashboard and email alerts.
+At Moment Energy, I built production software for monitoring battery energy storage systems (BESS systems), spanning React dashboards, NestJS services, and AWS telemetry infrastructure. My work helped **reduce live telemetry API response times by approximately 70%** and deliver a **cloud fault detection system deployed to production** with dashboard and email alerts.
 
-My two main projects focused on making telemetry easier to explore and turning incoming measurements into actionable fault events.
-
-<figure style="max-width:600px; margin:24px auto;">
+<figure style={{ maxWidth: "600px", margin: "24px auto" }}>
   <img
     src="/images/team-photo-luna-june2025.jpeg"
     alt="Moment Energy Team"
-    style="width:100%; border-radius:8px;"
+    style={{ width: "100%", borderRadius: "8px" }}
   />
-  <figcaption style="margin-top:8px; font-size:0.875rem; color:#666;">
+  <figcaption style={{ marginTop: "8px", fontSize: "0.875rem", color: "#666" }}>
     The Moment Energy team. Source: <a href="https://www.momentenergy.com/news/moment-energys-bess-manufacturing-hub-reaches-full-scale-production-7b8b0">Moment Energy</a>
   </figcaption>
 </figure>
@@ -43,20 +44,26 @@ My two main projects focused on making telemetry easier to explore and turning i
 
 ### Telemetry Dashboard Query Optimization
 
-**Impact:** Live telemetry API response times fell by approximately **70%**. Supported query ranges expanded from days to weeks, and long-running queries went from minutes to seconds.
+**Impact:** Live telemetry API response times fell by approximately **70%**. Supported query ranges expanded from days to weeks, and long-running queries dropped from several minutes to seconds.
 
-Querying historical battery telemetry became increasingly expensive as the requested time range grew. The original Express backend retrieved large volumes of sensor readings and performed additional aggregation and transformation in application code, resulting in slow API responses and limited practical query ranges.
+**Problem:** Querying historical battery telemetry became increasingly expensive as the requested time range grew. The legacy Express backend retrieved large volumes of sensor readings and performed additional aggregation and transformation in application code, resulting in **extremely long API response times**, **limited practical query ranges** due to http timeouts, and **poor user experience**.
 
-As part of rebuilding the backend in NestJS, I helped redesign the telemetry pipeline across Athena, the API, and the React dashboard, combining several layers of optimization:
+As part of our architecture overhaul, I contributed to the Telemetry Service, which was originally part of the legacy Express monolithic backend. I diagnosed, then rebuilt the telemetry pipeline across Athena, the API, and the React dashboard, combining several layers of optimization:
 
-- **SQL optimization:** Used Athena/Presto SQL with CTEs, timestamp-based downsampling, window functions, and aggregation to process telemetry closer to its source.
-- **Reduced backend computation:** Moved rack/module and cell-level calculations into Athena, reducing CPU-intensive processing on the EC2-hosted Node.js service.
-- **Efficient data processing:** Simplified API response construction and frontend data transformations, reducing redundant loops and using map-based lookups where appropriate.
-- **Response compression:** Enabled Gzip compression in the NestJS API to reduce transfer sizes, particularly for larger telemetry responses.
+<CalloutCard>
+  <p><strong>SQL optimization:</strong> Athena/Presto SQL with CTEs, timestamp-based downsampling, window functions, and aggregation to process telemetry closer to its source.</p>
+  <p><strong>Reduced backend computation:</strong> Moved BESS rack/module and cell-level calculations into Athena, reducing CPU-intensive processing on the EC2-hosted Node.js service.</p>
+  <p><strong>Efficient data processing:</strong> Simplified API response construction and frontend data transformations, using map-based lookups where appropriate.</p>
+  <p><strong>Response compression:</strong> Enabled Gzip in the NestJS API to reduce transfer sizes, particularly for larger telemetry responses.</p>
+</CalloutCard>
 
-#### Structuring the query and selecting representative readings
+#### Selective Downsampling Telemetry
 
-Sampling resolution adjusted to the requested time range, reducing the number of readings returned for longer queries.
+Longer query ranges returned increasingly large telemetry datasets. I adjusted sampling resolution to the requested range, returning fewer readings while preserving a useful view of battery behavior. Our queries also filtered on partition keys so Athena could skip irrelevant S3 partitions.
+
+Readings generally arrived every 10 seconds, but irregular timing, gaps, and restarts meant they did not always align with sampling targets. Rather than requiring exact matches, I grouped readings into time buckets and ranked each sensor’s readings by proximity to the target timestamp, selecting the closest available reading in each bucket.
+
+The query followed these stages:
 
 ```text
 Read telemetry for the selected pack and time range
@@ -67,27 +74,29 @@ For each sensor in each bucket:
 
 For each pack in each bucket:
     Calculate minimum and maximum voltage
-    Calculate maximum temperature
+    and maximum temperature across the selected readings
 
 Return structured results for the dashboard
 ```
 
-Readings do not always arrive at regular intervals. Readings were ranked within each time bucket, with the closest to the target timestamp selected, so an exact timestamp match was not required.
+<TelemetrySamplingDemo mode="downsampling" />
 
-I organized these stages using Athena/Presto Common Table Expressions (`WITH ... AS`) and used a window function to rank the timestamp candidates. CTEs made the transformations easier to reason about; the performance improvement came from the query and pipeline redesign, rather than from CTE syntax alone.
+I organized these stages using Athena/Presto Common Table Expressions (WITH ... AS), separating filtering, bucketing, ranking, and aggregation into readable steps. This made the transformations easier to inspect and maintain while keeping the processing in Athena.
 
-Our queries filtered on partition keys to enable [partition pruning](https://docs.aws.amazon.com/athena/latest/ug/partitions.html), allowing Athena to skip irrelevant S3 partitions and limit unnecessary data scans.
 
 <details>
 <summary>SQL example</summary>
 
-**Illustrative SQL, not production source:** The schema, filters, one-minute buckets, and midpoint targets below are reconstructed examples. The production sampling interval and target placement have not been confirmed. Here, `sensor_id` identifies an independent measurement stream within a pack.
+**Illustrative SQL, not production source**: This example uses a simplified schema, one-minute buckets, and midpoint targets to demonstrate the approach. These intervals and targets do not represent confirmed production settings. Here, **sensor_id** identifies an independent measurement stream within a pack. Partition-key filters are omitted from this example.
 
 ```sql
 WITH filtered AS (
     SELECT
-        pack_id, sensor_id, reading_timestamp,
-        cell_voltage, temperature
+        pack_id,
+        sensor_id,
+        reading_timestamp,
+        cell_voltage,
+        temperature
     FROM telemetry
     WHERE pack_id = 'example-pack'
       AND reading_timestamp >= TIMESTAMP '2025-01-01 00:00:00'
@@ -102,7 +111,6 @@ bucketed AS (
 candidates AS (
     SELECT
         *,
-        -- One midpoint target per example minute, not 30-second sampling.
         date_add('second', 30, time_bucket) AS target_timestamp
     FROM bucketed
 ),
@@ -112,7 +120,11 @@ ranked_telemetry AS (
         ROW_NUMBER() OVER (
             PARTITION BY pack_id, sensor_id, time_bucket
             ORDER BY ABS(
-                date_diff('millisecond', reading_timestamp, target_timestamp)
+                date_diff(
+                    'millisecond',
+                    reading_timestamp,
+                    target_timestamp
+                )
             ), reading_timestamp
         ) AS timestamp_rank
     FROM candidates
@@ -131,53 +143,58 @@ ORDER BY pack_id, time_bucket;
 
 Each reading belongs to the minute containing its timestamp; only readings from that bucket compete for its midpoint target. Ranking by distance selects an actual reading even when arrivals are irregular. For example, readings at `12:00:26` and `12:00:41` compete for `12:00:30`, and the former wins. A reading at `12:01:00` belongs to the next bucket. A bucket with no readings produces no sampled row.
 
+The final aggregation calculates measurement extremes across the selected sensor readings in each bucket. It does not capture every extreme that occurred between those readings.
+
 </details>
+
+This approach reduced the number of records the backend and dashboard needed to process. However, selecting representative readings introduced a tradeoff: brief spikes or anomalies between those readings could be missed. Preserving those events became an additional stage of the optimization work ([Detecting and Flagging Telemetry Anomalies](#detecting-and-flagging-telemetry-anomalies)).
 
 #### Aggregating battery measurements
 
-I moved rack/module and cell-level aggregations into Athena, using `GROUP BY` to organize readings by component and time interval and `MIN()` / `MAX()` to calculate measurement extremes.
+The dashboard needed summaries across battery racks, modules, and cells, including voltage extremes and maximum temperature. The legacy backend calculated these by iterating through query results, increasing processing work for longer queries.
 
-This reduced the amount of aggregation required in the backend and returned data in a format better suited for visualization.
+I moved these calculations into Athena:
 
-I used `COALESCE()` where appropriate to handle missing measurement fields and produce consistent query results for visualization.
+- **Aggregation:** Used `GROUP BY` to organize readings by battery component and time interval, then `MIN()` and `MAX()` to calculate measurement extremes.
+- **Missing values:** Used `COALESCE()` where appropriate to handle missing measurement fields within the query.
 
-#### Architectural benefits: less EC2 processing and dashboard work
+The backend could then assemble responses from aggregated results, giving the dashboard data ready for visualization.
 
-```text
-Before:
-Raw BMS telemetry → Athena → relatively raw results
-  → EC2 / Express/Node.js: iterate, group, calculate min/max,
-      handle missing measurements, construct API response
-  → React dashboard: additional chart transformations
+#### Streamlining the API and dashboard
 
-After:
-Raw BMS telemetry → Athena: filter → bucket → rank → aggregate
-  → Fewer, structured records
-  → EC2 / NestJS: lightweight response assembly, Set/Map lookups
-  → React dashboard: visualization-ready data
-```
+Moving downsampling and aggregation into Athena reduced the work required in application code. I then focused on how the backend assembled the remaining results and how the dashboard consumed them.
 
-I also enabled Gzip compression for API responses, reducing the amount of telemetry data transferred to the dashboard, particularly for larger payloads.
+In the NestJS response builder, I replaced repeated array scans with JavaScript Set and Map lookups, reducing redundant processing during response assembly. The React dashboard consumed the structured query results with fewer transformations before rendering charts.
 
-The NestJS response builder used JavaScript `Set` and `Map` lookups to avoid repeated array scans. React consumed visualization-ready results, reducing the need for additional aggregation and transformation before rendering charts.
+Together, these changes simplified the path from stored telemetry to visualization:
 
-By shifting analytical processing into Athena, the EC2-hosted backend spent less time performing synchronous calculations and formatting large datasets. This reduced work on the Node.js event loop while helping improve API response times.
+| Stage | Before | After |
+| --- | --- | --- |
+| Athena | Returned relatively raw readings | Filtered, downsampled, and aggregated readings |
+| EC2-hosted backend | Grouped readings, calculated measurement extremes, and assembled responses | Assembled responses from structured results using `Set` and `Map` lookups |
+| React dashboard | Performed additional chart transformations | Consumed data already shaped for visualization |
 
-For longer query ranges, I experimented with a two-scan strategy. One scan returned regularly downsampled data, while the other used standard deviation and z-scores to identify notable readings. Combining the results helped retain points that regular downsampling could miss.
+I also enabled Gzip compression for API responses, reducing the amount of data transferred to the dashboard, particularly for larger telemetry payloads.
 
-Reducing the number of points raised another engineering question: how could we keep brief anomalies visible when users queried longer time ranges? That led to my work on live anomaly detection using an exponential moving average (EMA).
+The revised pipeline reduced synchronous processing on the Node.js backend, redundant transformations in React, and response transfer sizes. Alongside the query optimizations, these changes helped reduce API response times by approximately 70% and made longer time ranges practical to explore.
 
-### Preserving Anomalies During Downsampling
+### Detecting and Flagging Telemetry Anomalies
 
-**The problem:** Downsampling can hide important events. For example, readings selected five minutes apart might barely differ even though a sharp spike occurred between them. Depending on the aggregation method, that spike could disappear or be diluted in the displayed data.
+Battery telemetry could contain brief spikes or sudden shifts to a sustained higher or lower operating level. I needed to flag these anomalies as readings arrived and retain their timestamps for later investigation.
 
-I used the live MQTT telemetry stream to track a running EMA and identify anomalous timestamps to keep during downsampling. Detecting the event while processing incoming readings gave us information that could be lost once the data had been reduced for visualization.
+I used the live MQTT telemetry stream to track a running **exponential moving average** (EMA), identifying readings that departed significantly from a device/sensor's recent behavior. This could flag both short-lived anomalies and the onset of sustained changes, preserving the first detected reading's timestamp.
 
-We stored the timestamps identified by the live anomaly detector. When a long-range query covered those timestamps, we included their readings alongside the downsampled data regardless of whether regular downsampling would select them. This kept detected spikes visible while reducing the overall chart payload.
+
+These flags also addressed a limitation of downsampling: readings selected five minutes apart might barely differ even though a sharp spike occurred between them. Reducing data for visualization could hide that event.
+
+
+We stored the timestamps identified by the live anomaly detector. When a long-range query covered those timestamps, we included their readings alongside the downsampled data regardless of whether regular sampling would select them. This kept flagged events visible while reducing the overall chart payload.
+
+<TelemetrySamplingDemo mode="anomaly-preservation" />
 
 Choosing the right baseline was important because it determined which readings were considered anomalous. It needed to represent a sensor's recent behavior as its normal operating level changed.
 
-#### Alternatives I explored: Welford and Chan
+#### Alternatives explored: Welford and Chan
 
 I explored Welford's running mean and variance for a running z-score, along with Chan's parallel variance formula. Both offered compact statistical summaries without retaining the full time-series history in detector memory.
 
@@ -213,14 +230,14 @@ That does not mean Welford inherently loses the ability to detect spikes. The co
 
 EMA is also commonly used in financial charts to follow price trends. That familiar application illustrates the same idea I used for telemetry: a running baseline that gives recent readings more weight.
 
-<figure style="max-width:800px; margin:24px auto;">
+<figure style={{ maxWidth: "800px", margin: "24px auto" }}>
   <img
     src="https://eq-cdn.equiti-me.com/website/images/What_is_an_Exponential_Moving_Av.width-1600.format-webp.webp"
     alt="Equiti illustration of exponential moving averages in financial trading"
     loading="lazy"
-    style="display:block; width:100%; height:auto; border-radius:8px;"
+    style={{ display: "block", width: "100%", height: "auto", borderRadius: "8px" }}
   />
-  <figcaption style="margin-top:8px; font-size:0.875rem;">
+  <figcaption style={{ marginTop: "8px", fontSize: "0.875rem" }}>
     A familiar use of EMA in financial trading. My application used a running baseline to identify anomalous battery telemetry readings. Image source: <a href="https://www.equiti.com/sc-en/news/trading-ideas/what-is-an-exponential-moving-average-ema-and-how-do-traders-use-it/">Equiti</a>.
   </figcaption>
 </figure>
