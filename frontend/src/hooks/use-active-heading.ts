@@ -11,11 +11,11 @@ export function useActiveHeading(ids: string[]) {
       .filter((heading): heading is HTMLElement => heading !== null);
     if (!headings.length) return;
 
+    let trackingOffset = 0;
     const updateActiveHeading = () => {
-      const midpoint = window.innerHeight / 2;
       let current = headings[0];
       for (const heading of headings) {
-        if (heading.getBoundingClientRect().top > midpoint + 1) break;
+        if (heading.getBoundingClientRect().top > trackingOffset + 1) break;
         current = heading;
       }
       setActiveId(current.id);
@@ -24,8 +24,10 @@ export function useActiveHeading(ids: string[]) {
     let observer: IntersectionObserver | undefined;
     const observeHeadings = () => {
       observer?.disconnect();
+      // Match the position where the browser places clicked heading anchors.
+      trackingOffset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
       observer = new IntersectionObserver(updateActiveHeading, {
-        rootMargin: `-${window.innerHeight / 2}px 0px 0px 0px`,
+        rootMargin: `-${trackingOffset}px 0px 0px 0px`,
         threshold: [0, 1],
       });
       headings.forEach((heading) => observer!.observe(heading));
