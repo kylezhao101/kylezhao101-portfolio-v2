@@ -146,6 +146,5 @@ export const otherWork = [
     tags: [
       "Graphic Design"
     ],
-    externalLink: "https://www.zhaokyle.com/SFUEA"
   },
 ];
