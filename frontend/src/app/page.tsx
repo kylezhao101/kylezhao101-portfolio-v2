@@ -169,80 +169,80 @@ export default function Home() {
       <section id="about-me" className="relative isolate">
         <AboutStarfield />
         <div className="mx-auto max-w-[1700px] px-3 sm:px-8 py-4 md:py-8">
-        <p className="flex items-center gap-2 text-gray-500 mb-8 md:mb-12">
-          <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
-          05 / About me
-        </p>
+          <p className="flex items-center gap-2 text-gray-500 mb-8 md:mb-12">
+            <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
+            05 / About me
+          </p>
           <div className="grid md:grid-cols-2 items-start gap-8">
             <div className="hidden md:block min-w-0">
               <figure className="w-[90%] ml-auto">
-              <img
-                src="/images/45P-Scape-2026-crop.jpg"
-                alt="My 45P planted aquarium in 2026"
-                loading="lazy"
-                className="w-full aspect-[3/2] object-cover rounded-md"
-              />
-              <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">45P Aquascape, 2026</figcaption>
+                <img
+                  src="/images/45P-Scape-2026-crop.jpg"
+                  alt="My 45P planted aquarium in 2026"
+                  loading="lazy"
+                  className="w-full aspect-[3/2] object-cover rounded-md"
+                />
+                <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">45P Aquascape, 2026</figcaption>
               </figure>
               <div className="w-[90%]">
                 <CurrentlyListening />
               </div>
             </div>
-          <div className="min-w-0">
-            <img
-              src="/gifs/Strawberry_flap.gif"
-              alt="Celeste strawberry"
-              className="h-12 w-auto"
-            />
-            <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Hi! I'm Kyle. I'm a software engineer based in Vancouver B.C.</h2>
-            <p className="mb-4 text-gray-800 text-sm sm:text-base">
-              I've always enjoyed making things, from art and graphic design to UI design.
-              I started coding in Python in Grade 12, building a Discord bot, then studied
-              Interactive Arts and Technology at Simon Fraser University from 2021 to
-              September 2026. Along the way, I picked up software development and frontend
-              work as another way to bring ideas to life.
-            </p>
-            <p className="mb-4 text-gray-800 text-sm sm:text-base">
-              I enjoy building products end-to-end, from the systems behind them to the
-              interfaces people use, whether that's a cloud platform, a developer tool, or
-              a personal side project.
-            </p>
-            <p className="mb-8 text-gray-800 text-sm sm:text-base">
-              Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
-            </p>
-            <figure className="hidden md:block w-[75%]">
-              <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} loading="lazy" className="w-full h-auto rounded-md" />
-              <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
-            </figure>
-            <Carousel className="w-full block md:hidden">
-              <CarouselContent>
-                <CarouselItem>
-                  <figure className="w-[75%] mx-auto">
-                    <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} loading="lazy" className="w-full h-auto rounded-md" />
-                    <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
-                  </figure>
-                </CarouselItem>
-                <CarouselItem>
-                  <figure className="w-[90%] mx-auto">
-                  <img
-                    src="/images/45P-Scape-2026-crop.jpg"
-                    alt="My 45P planted aquarium in 2026"
-                    loading="lazy"
-                    className="w-full aspect-[3/2] object-cover rounded-md"
-                  />
-                  <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">45P Aquascape, 2026</figcaption>
-                  </figure>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className="mx-auto w-[82%] max-w-md">
-                    <CurrentlyListening />
-                  </div>
-                </CarouselItem>
-              </CarouselContent>
-              <CarouselPrevious className="left-2" />
-              <CarouselNext className="right-2" />
-            </Carousel>
-          </div>
+            <div className="min-w-0">
+              <img
+                src="/gifs/Strawberry_flap.gif"
+                alt="Celeste strawberry"
+                className="h-12 w-auto"
+              />
+              <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Hi! I'm Kyle. I'm a software engineer based in Vancouver B.C.</h2>
+              <p className="mb-4 text-gray-800 text-sm sm:text-base">
+                I enjoy building products end-to-end, from the systems behind them to the
+                interfaces people use, whether that's a cloud platform, a developer tool, or
+                a personal side project.
+              </p>
+              <p className="mb-4 text-gray-800 text-sm sm:text-base">
+                I've always enjoyed making things, from art and graphic design to UI design.
+                I started coding in Python in Grade 12, building a Discord bot, then studied
+                Interactive Arts and Technology at Simon Fraser University from 2021 to
+                September 2026. Along the way, I picked up software development and frontend
+                work as another way to bring ideas to life.
+              </p>
+              <p className="mb-8 text-gray-800 text-sm sm:text-base">
+                Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
+              </p>
+              <figure className="hidden md:block w-[75%]">
+                <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} loading="lazy" className="w-full h-auto rounded-md" />
+                <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
+              </figure>
+              <Carousel className="w-full block md:hidden">
+                <CarouselContent>
+                  <CarouselItem>
+                    <figure className="w-[75%] mx-auto">
+                      <img src="/gifs/jill.gif" alt="Voxel art of Jill from VA-11 Hall-A" width={1200} height={800} loading="lazy" className="w-full h-auto rounded-md" />
+                      <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">Voxel art I made based on one of my favorite games, VA-11 Hall-A.</figcaption>
+                    </figure>
+                  </CarouselItem>
+                  <CarouselItem>
+                    <figure className="w-[90%] mx-auto">
+                      <img
+                        src="/images/45P-Scape-2026-crop.jpg"
+                        alt="My 45P planted aquarium in 2026"
+                        loading="lazy"
+                        className="w-full aspect-[3/2] object-cover rounded-md"
+                      />
+                      <figcaption className="mt-2 text-xs leading-relaxed text-gray-500">45P Aquascape, 2026</figcaption>
+                    </figure>
+                  </CarouselItem>
+                  <CarouselItem>
+                    <div className="mx-auto w-[82%] max-w-md">
+                      <CurrentlyListening />
+                    </div>
+                  </CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious className="left-2" />
+                <CarouselNext className="right-2" />
+              </Carousel>
+            </div>
           </div>
         </div>
       </section>
