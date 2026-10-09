@@ -258,9 +258,15 @@ export default function Navbar() {
             className="fixed bottom-0 left-0 top-14 z-50 w-[min(20rem,calc(100vw-2rem))] overflow-y-auto border-r border-gray-200 bg-white px-5 pb-6 pt-4 shadow-xl md:hidden"
           >
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-lg font-semibold">
-                <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
-                kylezhao101.com
+              <h2 className="text-lg font-semibold">
+                <Link
+                  href="/"
+                  onClick={() => setIsBrowseMenuOpen(false)}
+                  className="flex items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+                >
+                  <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
+                  kylezhao101.com
+                </Link>
               </h2>
               <button
                 type="button"
