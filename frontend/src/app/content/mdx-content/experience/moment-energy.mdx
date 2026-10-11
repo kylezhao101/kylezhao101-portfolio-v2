@@ -182,6 +182,8 @@ The revised pipeline reduced synchronous processing on the Node.js backend, redu
 
 Battery telemetry could contain brief spikes or sudden shifts to a sustained higher or lower operating level. I needed to flag these anomalies as readings arrived and retain their timestamps for later investigation.
 
+Fast detection without repeatedly querying large volumes of historical telemetry led me to explore online algorithms. These algorithms update compact running statistics with each incoming reading, allowing the detector to evaluate new measurements without retrieving or reprocessing the full history.
+
 I used the live MQTT telemetry stream to track a running **exponential moving average** (EMA), identifying readings that departed significantly from a device/sensor's recent behavior. This could flag both short-lived anomalies and the onset of sustained changes, preserving the first detected reading's timestamp.
 
 
