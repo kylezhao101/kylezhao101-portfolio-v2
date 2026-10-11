@@ -23,6 +23,7 @@ export function useEdgeMosaic(source: string) {
     let hovered = false;
     let focused = false;
     let opacity = 0;
+    let reveal = 0;
     let velocity = 0;
     let phase = 0;
     let lastFrame = 0;
@@ -60,6 +61,7 @@ export function useEdgeMosaic(source: string) {
       const dt = Math.min((now - lastFrame) / 1000, 0.05);
       lastFrame = now;
       const active = hovered || focused;
+      reveal = Math.max(0, Math.min(1, reveal + dt * (active ? 1 / 0.45 : -1 / 0.45)));
       opacity += ((active ? 1 : 0) - opacity) * (1 - Math.exp(-dt * 10));
       velocity *= Math.exp(-dt * 4);
       phase += dt * (1.2 + velocity * 8);
@@ -67,15 +69,25 @@ export function useEdgeMosaic(source: string) {
       const cellWidth = width / columns;
       const cellHeight = height / rows;
       const band = Math.min(width, height) * 0.28;
+      const radius = Math.hypot(width / 2, height / 2);
+      const smooth = (value: number) => {
+        const t = Math.max(0, Math.min(1, value));
+        return t * t * (3 - 2 * t);
+      };
+      // The wave briefly crosses the center, then settles into the perimeter effect.
+      const centerStrength = 0.7 * (1 - smooth((reveal - 0.55) / 0.45));
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < columns; x++) {
           const px = (x + 0.5) * cellWidth;
           const py = (y + 0.5) * cellHeight;
           const edge = Math.min(px, py, width - px, height - py);
-          if (edge >= band) continue;
+          const distance = Math.hypot(px - width / 2, py - height / 2) / radius;
+          const waveReveal = smooth((reveal * 1.2 - distance) / 0.2);
+          const edgeStrength = edge < band ? (1 - edge / band) ** 0.4 : 0;
+          const strength = Math.max(edgeStrength, centerStrength) * waveReveal;
+          if (strength <= 0) continue;
           const seed = x * 12.9898 + y * 78.233;
           const wave = (Math.sin(phase + seed) + 1) / 2;
-          const strength = (1 - edge / band) ** 0.4;
           // Shift neighboring color samples so the mosaic changes visibly over time.
           const sampleX = Math.max(0, Math.min(columns - 1,
             x + Math.round(Math.sin(phase + seed) * 2)));
@@ -87,7 +99,7 @@ export function useEdgeMosaic(source: string) {
         }
       }
       context.globalAlpha = 1;
-      if (active || opacity > 0.005) {
+      if (active || reveal > 0 || opacity > 0.005) {
         frame = requestAnimationFrame(tick);
       } else {
         context.clearRect(0, 0, width, height);
@@ -131,6 +143,7 @@ export function useEdgeMosaic(source: string) {
       cancelAnimationFrame(frame);
       frame = 0;
       opacity = 0;
+      reveal = 0;
       velocity = 0;
       lastPointer = null;
       context?.clearRect(0, 0, width, height);

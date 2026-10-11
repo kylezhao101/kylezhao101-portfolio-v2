@@ -1,0 +1,18 @@
+.badge {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-4px);
+  transition: opacity 160ms ease-out, transform 160ms ease-out, visibility 0s 160ms;
+}
+.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transform: none;
+    transition: none;
+  }
+}

@@ -1,14 +1,11 @@
 import Link from "next/link";
 import {
     Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useEdgeMosaic } from "@/hooks/use-edge-mosaic";
 import styles from "./FeaturedProjectCard.module.css";
+import { HoverBadge } from "./HoverBadge";
 
 
 type FeaturedProjectCardProps = {
@@ -47,33 +44,24 @@ export default function FeaturedProjectCard({
     return (
         <section className="relative h-full">
             {/* Floating cursor */}
-            {
-                cursor.visible && (
-                    <div
-                        className="pointer-events-none fixed z-50"
-                        style={{
-                            left: cursor.x,
-                            top: cursor.y,
-                            transform: "translate(12px, -50%)",
-                        }}
-                    >
+                    <HoverBadge visible={cursor.visible} x={cursor.x} y={cursor.y}>
                         <div className="flex items-center gap-2 rounded-full bg-white backdrop-blur-sm px-3 py-1 border border-slate-100">
                             <div className={`h-2 w-2 rounded-full ${cursor.dotColor}`} />
                             <span className="text-sm text-stone-600 whitespace-nowrap">
                                 {cursor.link}
                             </span>
                         </div>
-                    </div>
-                )
-            }
+                    </HoverBadge>
             <Link
                 ref={targetRef}
                 href={project.internalRoute}
                 className="block w-full h-full"
-                onMouseEnter={() =>
+                onMouseEnter={(e) =>
                     setCursor((c) => ({
                         ...c,
                         visible: true,
+                        x: e.clientX,
+                        y: e.clientY,
                         link: "View case study",
                         dotColor: "bg-cyan-500",
                     }))
@@ -103,39 +91,36 @@ export default function FeaturedProjectCard({
                             src={project.image}
                             alt={project.title}
                             onLoad={() => setImageLoaded(true)}
-                            className={`relative block aspect-video w-full object-cover transition-opacity duration-500 motion-reduce:transition-none ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+                            className={`relative block aspect-video min-h-64 w-full object-cover transition-opacity duration-500 motion-reduce:transition-none ${imageLoaded ? "opacity-100" : "opacity-0"}`}
                         />
                         <canvas
                             ref={canvasRef}
                             aria-hidden="true"
                             className="pointer-events-none absolute inset-0 h-full w-full"
                         />
+                        <div
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/55 to-transparent"
+                        />
+                        <div className="absolute bottom-3 left-3 right-3 z-10 flex flex-col gap-3 sm:bottom-4 sm:left-4 sm:right-4">
+                            <p className="max-w-full text-sm leading-relaxed text-white sm:max-w-[65%]">
+                                {project.description}
+                            </p>
+                            <div className="flex flex-wrap items-end justify-between gap-2">
+                            <div className="flex flex-wrap gap-1.5">
+                                {project.technologies.map((tech) => (
+                                    <span key={tech} className="rounded border border-stone-200 bg-white px-2 py-1 text-xs text-stone-600">
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                            <span className="ml-auto shrink-0 whitespace-nowrap rounded border border-stone-200 bg-white px-2 py-1 text-xs text-stone-600">
+                                {project.timeframe}
+                            </span>
+                            </div>
+                        </div>
                     </div>
 
-                    <CardHeader>
-                        <CardTitle className="text-gray-800">{project.title}</CardTitle>
-
-                        <CardDescription>
-                            {project.description}
-                        </CardDescription>
-                    </CardHeader>
-
-                    <CardContent className="mt-auto flex gap-6 justify-between pt-0 flex-col lg:flex-row lg:items-end">
-                        <div className="flex flex-wrap gap-2">
-                            {project.technologies.map((tech) => (
-                                <span
-                                    key={tech}
-                                    className="rounded border border-stone-200 px-2 py-1 text-xs text-stone-500"
-                                >
-                                    {tech}
-                                </span>
-                            ))}
-                        </div>
-
-                        <span className="text-xs text-stone-400">
-                            {project.timeframe}
-                        </span>
-                    </CardContent>
                 </Card>
             </Link>
         </section>

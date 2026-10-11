@@ -4,13 +4,25 @@
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 6%,
+    black 97%,
+    transparent
+  );
 }
 
 .fade {
   position: absolute;
   inset: 0;
-  mask-image: linear-gradient(to bottom, transparent, black 3%, black 97%, transparent);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 6%,
+    black 97%,
+    transparent
+  );
 }
 
 .position {
@@ -51,17 +63,22 @@
 }
 
 @keyframes dot-to-plus {
-  0%, 10%, 90%, 100% {
+  0%,
+  10%,
+  90%,
+  100% {
     width: 2px;
     height: 2px;
     opacity: 0;
   }
-  25%, 75% {
+  25%,
+  75% {
     width: 2px;
     height: 2px;
     opacity: 0.25;
   }
-  45%, 60% {
+  45%,
+  60% {
     width: 7px;
     height: 1px;
     opacity: 0.5;
@@ -69,7 +86,9 @@
 }
 
 @media (max-width: 767px) {
-  .field { opacity: 0.6; }
+  .field {
+    opacity: 0.6;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

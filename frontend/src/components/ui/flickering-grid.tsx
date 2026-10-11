@@ -4,16 +4,19 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
 import { gridRevealDelay, gridRevealOpacity } from "@/lib/grid-reveal"
+import { isSmileyPixel } from "@/lib/grid-smiley"
 
 interface FlickeringGridProps extends React.HTMLAttributes<HTMLDivElement> {
   squareSize?: number
   gridGap?: number
   flickerChance?: number
   color?: string
+  alternateColor?: string
   width?: number
   height?: number
   className?: string
   maxOpacity?: number
+  showSmiley?: boolean
 }
 
 export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
@@ -21,10 +24,12 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   gridGap = 6,
   flickerChance = 0.3,
   color = "rgb(0, 0, 0)",
+  alternateColor,
   width,
   height,
   className,
   maxOpacity = 0.3,
+  showSmiley = false,
   ...props
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -43,21 +48,28 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   }, [])
 
   const memoizedColor = useMemo(() => {
-    const toRGBA = (color: string) => {
+    const toRGB = (color: string) => {
       if (typeof window === "undefined") {
-        return `rgba(0, 0, 0,`
+        return [0, 0, 0]
       }
       const canvas = document.createElement("canvas")
       canvas.width = canvas.height = 1
       const ctx = canvas.getContext("2d")
-      if (!ctx) return "rgba(255, 0, 0,"
+      if (!ctx) return [0, 0, 0]
       ctx.fillStyle = color
       ctx.fillRect(0, 0, 1, 1)
       const [r, g, b] = Array.from(ctx.getImageData(0, 0, 1, 1).data)
-      return `rgba(${r}, ${g}, ${b},`
+      return [r, g, b]
     }
-    return toRGBA(color)
-  }, [color])
+    const base = toRGB(color)
+    const jade = toRGB(alternateColor ?? color)
+    // A gentle tint range, capped at 35% of the way toward the alternate color.
+    return Array.from({ length: 32 }, (_, index) => {
+      const blend = index / 31 * 0.35
+      const channels = base.map((channel, i) => Math.round(channel + (jade[i] - channel) * blend))
+      return `rgba(${channels.join(", ")},`
+    })
+  }, [color, alternateColor])
 
   const setupCanvas = useCallback(
     (canvas: HTMLCanvasElement, width: number, height: number) => {
@@ -70,22 +82,25 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       const rows = Math.ceil(height / (squareSize + gridGap))
 
       const squares = new Float32Array(cols * rows)
+      const colorIndices = new Uint8Array(cols * rows)
       const revealDelays = new Float32Array(cols * rows)
       for (let i = 0; i < squares.length; i++) {
         squares[i] = Math.random() * maxOpacity
+        colorIndices[i] = Math.floor(Math.random() ** 2 * 32)
         revealDelays[i] = gridRevealDelay(i % rows, rows, Math.random())
       }
 
-      return { cols, rows, squares, revealDelays, dpr }
+      return { cols, rows, squares, colorIndices, revealDelays, dpr }
     },
     [squareSize, gridGap, maxOpacity]
   )
 
   const updateSquares = useCallback(
-    (squares: Float32Array, deltaTime: number) => {
+    (squares: Float32Array, colorIndices: Uint8Array, deltaTime: number) => {
       for (let i = 0; i < squares.length; i++) {
         if (Math.random() < flickerChance * deltaTime) {
           squares[i] = Math.random() * maxOpacity
+          colorIndices[i] = Math.floor(Math.random() ** 2 * 32)
         }
       }
     },
@@ -100,6 +115,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       cols: number,
       rows: number,
       squares: Float32Array,
+      colorIndices: Uint8Array,
       dpr: number,
       revealDelays: Float32Array,
       elapsed: number
@@ -111,8 +127,11 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
           const index = i * rows + j
-          const opacity = squares[index] * gridRevealOpacity(elapsed, revealDelays[index])
-          ctx.fillStyle = `${memoizedColor}${opacity})`
+          const cellOpacity = showSmiley && isSmileyPixel(i, j, cols, rows)
+            ? Math.min(1, 0.6 + squares[index])
+            : squares[index]
+          const opacity = cellOpacity * gridRevealOpacity(elapsed, revealDelays[index])
+          ctx.fillStyle = `${memoizedColor[colorIndices[index]]}${opacity})`
           ctx.fillRect(
             i * (squareSize + gridGap) * dpr,
             j * (squareSize + gridGap) * dpr,
@@ -122,7 +141,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         }
       }
     },
-    [memoizedColor, squareSize, gridGap]
+    [memoizedColor, squareSize, gridGap, showSmiley]
   )
 
   useEffect(() => {
@@ -153,7 +172,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         if (revealStart.current === null) revealStart.current = time
         const elapsed = reducedMotion ? 1 : (time - revealStart.current) / 1000
 
-        if (!reducedMotion) updateSquares(gridParams.squares, deltaTime)
+        if (!reducedMotion) updateSquares(gridParams.squares, gridParams.colorIndices, deltaTime)
         drawGrid(
           ctx,
           canvas.width,
@@ -161,6 +180,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
           gridParams.cols,
           gridParams.rows,
           gridParams.squares,
+          gridParams.colorIndices,
           gridParams.dpr,
           gridParams.revealDelays,
           elapsed

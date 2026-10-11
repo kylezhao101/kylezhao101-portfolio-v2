@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon, Instagram } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import ProfileMetaTable from "@/components/home/hero/ProfileMetaTable";
+import { HeroTitle } from "@/components/home/hero/HeroTitle";
+import heroGridStyles from "@/components/home/hero/HeroGrid.module.css";
 import { IllustrationBackdrop } from "@/components/home/illustration/IllustrationBackdrop";
 import { AboutStarfield } from "@/components/home/about/AboutStarfield";
 import { CurrentlyListening } from "@/components/home/about/CurrentlyListening";
@@ -36,15 +38,10 @@ export default function Home() {
                 01 / I am a
               </p>
               {/* Hero Title */}
-              <h1
-                data-text="Software engineer who builds things that feel considered."
-                className=" mb-4 pb-1 text-3xl md:text-5xl font-semibold"
-              >
-                Software engineer who builds things that feel considered.
-              </h1>
+              <HeroTitle />
             </div>
             <div className="w-full">
-              <p className="mb-6 text-sm text-gray-700 sm:text-base md:mb-10 lg:mb-12">
+              <p className="mb-6 text-sm text-gray-800 sm:text-base md:mb-10 lg:mb-12">
                 I build across systems and interfaces - and care about how both work and feel.
               </p>
               <div>
@@ -55,13 +52,16 @@ export default function Home() {
         </div>
         <FlickeringGrid
           className={cn(
-            "[mask-image:linear-gradient(to_bottom,white,transparent)] absolute inset-0 opacity-40 z-0 pointer-events-none",
+            "[mask-image:linear-gradient(to_bottom,white_0%,white_40%,transparent_100%)] absolute inset-0 z-0 pointer-events-none",
+            heroGridStyles.grid,
           )}
           squareSize={20}
+          showSmiley
           gridGap={5}
           flickerChance={0.25}
           maxOpacity={0.4}
           color="rgb(100, 210, 255)"
+          alternateColor="rgb(145, 218, 183)"
         />
       </header>
 

@@ -3,6 +3,7 @@
 import { useState, type MouseEvent } from "react";
 import { otherWork, tagStyles } from "@/data/other-work";
 import styles from "./ProjectIndex.module.css";
+import { HoverBadge } from "./HoverBadge";
 
 export function ProjectIndex() {
     const [cursor, setCursor] = useState({
@@ -17,23 +18,14 @@ export function ProjectIndex() {
         <section className="relative">
             {/* Floating cursor */}
 
-            {cursor.visible && (
-                <div
-                    className="pointer-events-none fixed z-50"
-                    style={{
-                        left: cursor.x,
-                        top: cursor.y,
-                        transform: "translate(12px, -50%)",
-                    }}
-                >
+                <HoverBadge visible={cursor.visible} x={cursor.x} y={cursor.y}>
                     <div className="flex items-center gap-2 rounded-full bg-cyan-100 bg-opacity-30 backdrop-blur-sm px-3 py-1 border border-slate-100">
                         <div className={`h-2 w-2 rounded-full ${cursor.dotColor}`} />
                         <span className="text-sm text-stone-600 whitespace-nowrap">
                             {cursor.link}
                         </span>
                     </div>
-                </div>
-            )}
+                </HoverBadge>
 
             <div className="divide-y">
                 {otherWork.map((project) => {
@@ -51,10 +43,12 @@ export function ProjectIndex() {
                             target={isExternal ? "_blank" : undefined}
                             rel={isExternal ? "noopener noreferrer" : undefined}
                             className={`${href ? `${styles.row} group` : ""} grid grid-cols-6 py-4 gap-2 sm:gap-0`}
-                            onMouseEnter={href ? () =>
+                            onMouseEnter={href ? (e: MouseEvent<HTMLElement>) =>
                                 setCursor((c) => ({
                                     ...c,
                                     visible: true,
+                                    x: e.clientX,
+                                    y: e.clientY,
                                     link: cursorLabel,
                                     dotColor: tagStyles[project.tags?.[0] as keyof typeof tagStyles]?.dot || "bg-cyan-500",
                                 }))
