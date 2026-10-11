@@ -28,7 +28,7 @@ export default function Home() {
       <header className="relative overflow-hidden">
 
         {/* Hero Container */}
-        <div className="mx-auto max-w-[1700px] px-3 sm:px-8 py-16 z-40">
+        <div className="relative z-10 mx-auto max-w-[1700px] px-3 sm:px-8 py-16">
           {/* Component */}
           <div className="grid items-center justify-items-start gap-4 sm:gap-8 lg:grid-cols-2 pt-10">
             {/* Hero Content */}

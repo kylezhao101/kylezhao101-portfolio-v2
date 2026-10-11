@@ -103,22 +103,31 @@ export default function FeaturedProjectCard({
                             className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/55 to-transparent"
                         />
                         <div className="absolute bottom-3 left-3 right-3 z-10 flex flex-col gap-3 sm:bottom-4 sm:left-4 sm:right-4">
-                            <p className="max-w-full text-sm leading-relaxed text-white sm:max-w-[65%]">
+                            <p className="hidden max-w-[65%] text-sm leading-relaxed text-white md:block">
                                 {project.description}
                             </p>
-                            <div className="flex flex-wrap items-end justify-between gap-2">
-                            <div className="flex flex-wrap gap-1.5">
+                            <div className="flex items-end justify-between gap-1.5 md:gap-2">
+                            <div className="flex min-w-0 flex-1 flex-wrap-reverse gap-1 md:gap-1.5">
                                 {project.technologies.map((tech) => (
-                                    <span key={tech} className="rounded border border-stone-200 bg-white px-2 py-1 text-xs text-stone-600">
+                                    <span key={tech} className="rounded border border-stone-200 bg-white px-1.5 py-0.5 text-[11px] text-stone-600 md:px-2 md:py-1 md:text-xs">
                                         {tech}
                                     </span>
                                 ))}
                             </div>
-                            <span className="ml-auto shrink-0 whitespace-nowrap rounded border border-stone-200 bg-white px-2 py-1 text-xs text-stone-600">
+                            <span className="ml-auto shrink-0 whitespace-nowrap rounded border border-stone-200 bg-white px-1.5 py-0.5 text-[11px] text-stone-600 md:px-2 md:py-1 md:text-xs">
                                 {project.timeframe}
                             </span>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="bg-white p-4 sm:p-6 md:hidden">
+                        <h3 className="mb-2 text-lg font-semibold text-gray-950">
+                            {project.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-gray-800 sm:text-base">
+                            {project.description}
+                        </p>
                     </div>
 
                 </Card>

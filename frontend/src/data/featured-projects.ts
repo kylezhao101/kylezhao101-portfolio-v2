@@ -18,7 +18,7 @@ export const featuredProjects = [
     image: "/images/bcchr-card.webp",
     timeframe: "01.2026 - 04.2026",
     role: "Software Engineering Co-op",
-    technologies: ["React", "Expo", "Django", "Pandas", "Figma", "Nginx", "Linux"],
+    technologies: ["React", "Expo", "Django", "Pandas", "Figma"],
     internalRoute: "/experience/bcchr",
   },
 ];

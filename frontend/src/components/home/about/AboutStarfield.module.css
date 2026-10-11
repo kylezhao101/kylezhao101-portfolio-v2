@@ -15,7 +15,8 @@
 
 .fade {
   position: absolute;
-  inset: 0;
+  inset: -28px -8px;
+  transition: transform 180ms ease-out;
   mask-image: linear-gradient(
     to bottom,
     transparent,
@@ -92,6 +93,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .fade {
+    transition: none;
+  }
   .star::before,
   .star::after {
     animation: none;
