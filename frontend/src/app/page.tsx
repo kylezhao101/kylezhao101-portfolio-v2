@@ -72,7 +72,7 @@ export default function Home() {
           <span aria-hidden="true" className="h-[0.5em] w-[0.5em] shrink-0 bg-cyan-500" />
           02 / Featured Work
         </p>
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2">
           {featuredProjects.map((project) => (
             <FeaturedProjectCard
               key={project.slug}
