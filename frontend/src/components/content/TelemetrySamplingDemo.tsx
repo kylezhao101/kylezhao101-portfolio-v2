@@ -125,7 +125,8 @@ export default function TelemetrySamplingDemo({ mode }: { mode: Mode }) {
             <path d={path(displayedVisible)} className={styles.sampleLine} />
             {sampledVisible.map((reading) => (
               <circle key={reading.timestamp} cx={x(reading.timestamp)} cy={y(reading.value)}
-                r={detail ? 5 : 1.8} className={styles.selected} />
+                r={detail ? 5 : compact ? 1.2 : 1.8}
+                className={compact && !detail ? styles.selectedOverview : styles.selected} />
             ))}
           </>
         )}

@@ -15,7 +15,7 @@ The current site combines a custom React landing page with a shared content layo
 3. **Build navigation.** `sidebar-data.ts` scans content folders to build sidebar sections and links. The page builds breadcrumbs from the URL and uses `fetchers.ts` to find previous and next entries.
 4. **Compile and render the content.** The route imports the matching `.mdx` file as a React component. `@next/mdx` compiles its Markdown, JSX, and component imports, with `remark-gfm` for GitHub-flavored Markdown and `remark-frontmatter` to recognize the metadata block. GitHub Markdown CSS supplies the article styling, while shared heading components provide anchors for the table of contents.
 
-Content files support JSX expressions and React component imports alongside Markdown. The Moment Energy case study uses this to embed reusable callout cards and interactive telemetry visualizations directly in the article. Imported client components handle interactivity, while JSX follows React's attribute conventions, such as `className` and object-valued `style` props.
+Content files support JSX expressions and React component imports alongside Markdown. The Moment Energy case study uses this to embed interactive telemetry visualizations directly in the article. Imported client components handle interactivity, while JSX follows React's attribute conventions, such as `className` and object-valued `style` props.
 
 For example, a content file can use an existing UI component:
 

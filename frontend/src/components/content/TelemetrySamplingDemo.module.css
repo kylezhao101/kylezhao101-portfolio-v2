@@ -103,6 +103,9 @@
   stroke: hsl(var(--background));
   stroke-width: 2;
 }
+.selectedOverview {
+  fill: var(--demo-accent);
+}
 .anomaly {
   fill: var(--demo-anomaly);
   stroke: hsl(var(--background));

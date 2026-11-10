@@ -1,0 +1,47 @@
+.diagram {
+  --state-fault: #dc2626;
+}
+:global(.dark) .diagram {
+  --state-fault: #f87171;
+}
+.diagram svg {
+  margin-top: 16px;
+}
+.threshold {
+  stroke-width: 1.5;
+}
+.recovery {
+  stroke-dasharray: 5 4;
+}
+.fault {
+  stroke: var(--state-fault);
+}
+.warning {
+  stroke: var(--demo-anomaly);
+}
+.normalBand {
+  fill: hsl(var(--muted));
+}
+.warningBand {
+  fill: var(--demo-anomaly);
+  fill-opacity: 0.3;
+}
+.faultBand {
+  fill: var(--state-fault);
+  fill-opacity: 0.3;
+}
+.held {
+  fill: hsl(var(--background));
+  stroke: hsl(var(--foreground));
+  stroke-width: 2;
+}
+.diagram .compactLabel {
+  font-size: 10px;
+}
+.diagram .heldKey {
+  box-sizing: content-box;
+  width: 6px;
+  height: 6px;
+  border: 2px solid hsl(var(--foreground));
+  border-radius: 50%;
+}
