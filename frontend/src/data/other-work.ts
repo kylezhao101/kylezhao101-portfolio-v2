@@ -85,7 +85,7 @@ export const otherWork = [
     title: "Helping Brains Heal",
     category: "Design + Frontend",
     description:
-      "Frontend and design for a non-profit recognized by the Branch Out Impact Grant.",
+      "Frontend and design for a non-profit awarded the Branch Out Impact Grant.",
     technologies: [
       "Figma",
       "React",
@@ -103,7 +103,7 @@ export const otherWork = [
     slug: "sfu-anime",
     title: "SFU Anime Summer Festival",
     category: "Frontend",
-    description: "Event site for info schedules and FAQs serving 3,000+ attendees with zero reported issues.",
+    description: "Event site with schedules and FAQs for 3,000+ attendees, with zero reported issues.",
     technologies: [
       "React",
       "Tailwind CSS",
@@ -117,9 +117,9 @@ export const otherWork = [
   },
   {
     slug: "dynamic-docs",
-    title: "MDX static site generator",
+    title: "MDX Static Site Generator",
     category: "Developer Tooling",
-    description: "Auto-generates routes, nav, and layouts from MDX folder structure - powers this site.",
+    description: "Auto-generates routes, nav, and layouts from an MDX folder structure - powers this site.",
     technologies: [
       "Next.js",
       "MDX",
@@ -136,7 +136,7 @@ export const otherWork = [
     title: "SFU Esports Association",
     category: "Graphic Design",
     description:
-      "40+ branded player graphics and promotionals for a 3,600-member university esports community.",
+      "40+ branded player and promotional graphics for a 3,600-member university esports community.",
     technologies: [
       "Photoshop",
       "Figma",

@@ -7,18 +7,18 @@ export const featuredProjects = [
     image: "/images/moment-energy.webp",
     timeframe: "01.2025 - 08.2025",
     role: "Software Engineering Co-op",
-    technologies: ["React", "NestJS", "AWS", "IOT"],
+    technologies: ["React", "NestJS", "AWS", "IoT"],
     internalRoute: "/experience/moment-energy",
   },
   {
     slug: "bcchr",
     title: "BC Children's Hospital Research Institute",
     description:
-      "Clinical research platforms and healthcare tooling focused on accessibility, configurability, and user-centered workflows.",
+      "Design and early development of a wellness app for adolescents in recovery, alongside internal research tooling.",
     image: "/images/bcchr-card.webp",
     timeframe: "01.2026 - 04.2026",
     role: "Software Engineering Co-op",
-    technologies: ["React", "Expo", "Django", "Pandas", "Figma"],
+    technologies: ["React Native", "Expo", "Django", "Pandas", "Figma"],
     internalRoute: "/experience/bcchr",
   },
 ];

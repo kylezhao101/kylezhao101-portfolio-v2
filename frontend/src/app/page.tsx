@@ -42,7 +42,7 @@ export default function Home() {
             </div>
             <div className="w-full">
               <p className="mb-6 text-sm text-gray-800 sm:text-base md:mb-10 lg:mb-12">
-                I build across systems and interfaces - and care about how both work and feel.
+                I care as much about how software runs as about how people use it.
               </p>
               <div>
                 <ProfileMetaTable />
@@ -104,7 +104,7 @@ export default function Home() {
             </p>
             <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Digital illustration</h2>
             <p className="text-sm text-gray-800 sm:text-base">
-              I create character illustrations for <a href="https://www.youtube.com/@osugamearchive" target="_blank" rel="noopener noreferrer" className="underline text-red-500 hover:text-red-400">official music releases</a> for the rhythm game osu!, community projects, and events, alongside original artwork and merchandise. Feel free to reach out for character art, gaming, and music-related work.</p>
+              I create character illustrations for osu! <a href="https://www.youtube.com/@osugamearchive" target="_blank" rel="noopener noreferrer" className="underline text-red-500 hover:text-red-400">official music releases</a>, community projects, and events, plus original artwork and merchandise. Feel free to reach out for character art, gaming, and music-related work.</p>
             <p className="text-sm text-gray-500 sm:text-base my-4">
               Past clients
             </p>
@@ -194,18 +194,17 @@ export default function Home() {
                 alt="Celeste strawberry"
                 className="h-12 w-auto"
               />
-              <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Hi! I'm Kyle. I'm a software engineer based in Vancouver B.C.</h2>
+              <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Hi! I'm Kyle, a software engineer based in Vancouver, B.C.</h2>
               <p className="mb-4 text-gray-800 text-sm sm:text-base">
                 I enjoy building products end-to-end, from the systems behind them to the
                 interfaces people use, whether that's a cloud platform, a developer tool, or
                 a personal side project.
               </p>
               <p className="mb-4 text-gray-800 text-sm sm:text-base">
-                I've always enjoyed making things, from art and graphic design to UI design.
+                I've always liked making things, from art and graphic design to UI design.
                 I started coding in Python in Grade 12, building a Discord bot, then studied
                 Interactive Arts and Technology at Simon Fraser University from 2021 to
-                September 2026. Along the way, I picked up software development and frontend
-                work as another way to bring ideas to life.
+                2026. Along the way, software became another creative outlet.
               </p>
               <p className="mb-8 text-gray-800 text-sm sm:text-base">
                 Outside of software, you'll usually find me drawing, maintaining my planted aquariums, gaming, and planning my next adventure. I also enjoy running, cycling, and backpacking.
