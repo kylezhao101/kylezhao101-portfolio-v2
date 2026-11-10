@@ -16,7 +16,7 @@ fullTitle: BC Children's Hospital Research Institute
     </div>
     <div>
     <strong>Tools</strong><br/>
-    Figma, React, Expo, Django, Linux
+    Figma, React Native, Expo, Django
     </div>
 </div>
 
@@ -24,28 +24,26 @@ fullTitle: BC Children's Hospital Research Institute
 
 At BCCHR, I worked in the AI and Data Science Unit on two projects supporting the institute's researchers through internal software and data science services.
 
-My role combined software engineering, data analysis, and user experience design, translating researcher requirements into technical solutions.
+My role combined software engineering, data analysis, and user experience design.
 
 **Please note that only one of the projects is shown here due to pending confidentiality agreements.**
 
 ## STARFISH
 
-STARFISH stands for **Self-management Techniques for Adolescents Recovering from Injury, Surgery or Hospitalization**.
+STARFISH stands for **Self-management Techniques for Adolescents Recovering from Injury, Surgery or Hospitalization**. The project was in its design phase during my co-op, so the flows and architecture below were proposals that could still change.
 
 **My Contributions**
 
-- **UI/UX Design**
+- **UI/UX design**, including onboarding and authentication workflows
 - **Translating researcher requirements** into technical specifications
-- Contributing to **React Native application development**
-- Developing a configuration-based onboarding form engine
-- Creating local SQLite database scaffolding
-- Planning offline-first data architecture
+- Early **React Native development**: a configuration-based onboarding form engine and local SQLite scaffolding
+- Planning offline-first architecture: local database schemas, data flows, and service-layer interactions
 
 ### Problem
 
 Adolescents recovering from injury, surgery, or hospitalization are often encouraged to practice wellness activities such as breathing exercises, meditation, and symptom monitoring. However, these resources are frequently disconnected from patients' daily routines, making it difficult to maintain engagement and build healthy habits outside of clinical settings.
 
-STARFISH was created to provide a centralized mobile platform that helps patients discover wellness activities, track their progress, and receive personalized recommendations throughout their recovery journey.
+STARFISH was planned as a centralized mobile platform that helps patients discover wellness activities, track their progress, and receive personalized recommendations throughout their recovery journey.
 
 ### Research & Requirements
 
@@ -57,54 +55,39 @@ Several key requirements emerged during the planning process:
 - The application should remain functional without a network connection.
 - The interface needed to be accessible and approachable for adolescent users.
 
-These requirements informed both the user experience design and the underlying application architecture.
-
-### Design Implementation
-
-To address these requirements, we designed STARFISH to be simple, accessible, and engaging. Its interface lets users browse and access wellness activities without creating an account.
+### Design
 
 **Guest-first onboarding**
 
-One of the primary goals was allowing patients to begin using the application immediately without requiring account creation. To support this, the onboarding flow was designed around a guest-first experience while still providing pathways for authenticated accounts and future data synchronization.
+Patients can start right away without an account. The first onboarding screen offers two labeled paths, "Synced" and "on-device only", so the tradeoff is clear up front. Guests are told their data lives on the device and that deleting the app loses their progress, and they can create an account later from settings.
 
 The confidential onboarding flow includes a researcher-designed questionnaire that personalizes suggested integrative medicine (IM) modalities for each user. I developed the configuration-based form engine that powers this workflow. Question text, field types, conditional logic, and response options are defined through configuration, allowing researchers to revise questionnaires without changing application code.
 
-![onboarding ui](/images/adsu/starfish-1.png)
+![Three onboarding screens: choosing a synced account or guest mode, a guest confirmation warning that deleting the app loses progress, and account creation](/images/adsu/starfish-1.png)
 
 **Activity discovery**
 
-Patients needed an intuitive way to browse and revisit techniques recommended throughout their recovery journey. Activities were organized into categories and designed with clear information hierarchies to improve discoverability and reduce cognitive load.
+Techniques are grouped into categories such as meditation and breathing, with search and a duration on each card. Patients can star a technique to pin it to the home page and return to it without browsing again.
 
-![techniques ui](/images/adsu/starfish-2.png)
+![Three technique screens: all techniques with search, starred techniques, and a list of breathing techniques](/images/adsu/starfish-2.png)
 
 **Ongoing engagement**
 
-Recovery often spans weeks or months. To encourage continued use, the application included personalized recommendations, progress tracking, and activity management features that helped users build routines and maintain consistency.
+Recovery often spans weeks or months, so patients can set a goal, schedule, and reminders for each technique. The home screen shows their practice streak, and completing a session can add a new fish to their cove.
 
-![home + activities](/images/adsu/starfish-3.png)
+![Four screens: home with practice streak and daily check-in, a technique detail page, goal and reminder preferences, and a post-session reward screen](/images/adsu/starfish-3.png)
 
 **Check-ins and progress tracking**
 
-Regular wellness check-ins allow users to monitor their recovery journey while providing researchers with valuable longitudinal data. The check-in experience was designed to be approachable, quick to complete, and easy to revisit over time.
+The daily check-in asks about body, mood, and sleep using three five-point face scales, so it takes only a few taps. Low scores lead to a matching technique, such as a breathing exercise after poor sleep, and a summary shows the week's trends. Check-ins were also intended to give researchers longitudinal data.
 
-![check-in ui](/images/adsu/starfish-4.png)
+![Four daily check-in screens: body, mood, and sleep questions, a recommended technique, a completion message, and a weekly trends summary](/images/adsu/starfish-4.png)
 
 ### Technical Architecture
 
-Alongside the user experience design, I contributed to the application's technical planning. A primary architectural goal was to support offline use through local persistence while preserving options for future account synchronization and cloud integration.
+Alongside the user experience design, I contributed to the application's technical planning. The proposed local-first architecture supports offline use, improves responsiveness, and reduces privacy concerns for guest users, while leaving room for future cloud synchronization and analytics.
 
-My contributions included:
-
-- Designing local database schemas
-- Planning offline-first data flows
-- Defining service layer interactions
-- Translating researcher requirements into technical specifications
-- Designing onboarding and authentication workflows
-- Early React Native development, including the onboarding form engine and local SQLite scaffolding.
-
-![architecture diagram](/images/adsu/starfish-5.png)
-
-A local-first architecture was chosen to support offline functionality, improve responsiveness, and reduce privacy concerns for guest users. I contributed to the planning of local persistence, synchronization pathways, and service-layer interactions, ensuring the application remained adaptable to future cloud synchronization and analytics requirements.
+![Architecture flowchart showing local SQLite reads and writes, guest and authenticated sessions, and syncing to Django and PostgreSQL](/images/adsu/starfish-5.png)
 
 ## Reflection
 
