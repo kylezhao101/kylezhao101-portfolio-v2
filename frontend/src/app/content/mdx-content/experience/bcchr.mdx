@@ -22,7 +22,7 @@ fullTitle: BC Children's Hospital Research Institute
 
 ## Overview
 
-At BCCHR, I worked in the AI and Data Science Unit on two projects supporting the institute's researchers through internal software and data science services.
+At BCCHR, I worked in the [AI and Data Science Unit (ADSU)](https://www.bcchr.ca/adsu/) on two projects supporting the institute's researchers through internal software and data science services.
 
 My role combined software engineering, data analysis, and user experience design.
 
@@ -30,7 +30,7 @@ My role combined software engineering, data analysis, and user experience design
 
 ## STARFISH
 
-STARFISH stands for **Self-management Techniques for Adolescents Recovering from Injury, Surgery or Hospitalization**. The project was in its design phase during my co-op, so the flows and architecture below were proposals that could still change.
+STARFISH stands for **Self-management Techniques for Adolescents Recovering from Injury, Surgery or Hospitalization**. The project was in its design phase during my co-op, so the flows and architecture below were proposals that could still change. The screens shown are not final designs.
 
 **My Contributions**
 
@@ -43,23 +43,31 @@ STARFISH stands for **Self-management Techniques for Adolescents Recovering from
 
 Adolescents recovering from injury, surgery, or hospitalization are often encouraged to practice wellness activities such as breathing exercises, meditation, and symptom monitoring. However, these resources are frequently disconnected from patients' daily routines, making it difficult to maintain engagement and build healthy habits outside of clinical settings.
 
+**How might we help adolescents recovering from injury, surgery, or hospitalization build wellness habits that fit their daily lives, without adding stress or risking their privacy, while giving researchers meaningful longitudinal data?**
+
 STARFISH was planned as a centralized mobile platform that helps patients discover wellness activities, track their progress, and receive personalized recommendations throughout their recovery journey.
 
 ### Research & Requirements
 
-Several key requirements emerged during the planning process:
+Requirements came from 5–6 working sessions with the project's two co-principal investigators, both MD-PhDs leading their own research teams, and a PhD researcher in our unit who had led a similar app. The co-PIs also connected us with another research group that had built a comparable tool.
+
+We started from the researchers' requirements document. I turned it into an initial low-fidelity design, and later sessions used those screens to work through design considerations, ethics, and where the IM modality content would be sourced from.
+
+The key requirements were:
 
 - Patients should be able to access wellness activities as guests, with a path to creating an account and recovering their data later.
 - Activities needed to be easy to discover, revisit, and save for later use.
 - Progress tracking and daily check-ins should encourage habit formation without feeling overwhelming.
 - The application should remain functional without a network connection.
-- The interface needed to be accessible and approachable for adolescent users.
+- The interface needed to be accessible, approachable, friendly, and considerate towards adolescent users who may be experiencing pain and stress.
 
 ### Design
 
 **Guest-first onboarding**
 
 Patients can start right away without an account. The first onboarding screen offers two labeled paths, "Synced" and "on-device only", so the tradeoff is clear up front. Guests are told their data lives on the device and that deleting the app loses their progress, and they can create an account later from settings.
+
+Guest mode was driven by privacy. Adolescents can try the app without handing over personal information, and nothing leaves the device unless they choose to sync.
 
 The confidential onboarding flow includes a researcher-designed questionnaire that personalizes suggested integrative medicine (IM) modalities for each user. I developed the configuration-based form engine that powers this workflow. Question text, field types, conditional logic, and response options are defined through configuration, allowing researchers to revise questionnaires without changing application code.
 
@@ -75,13 +83,19 @@ Techniques are grouped into categories such as meditation and breathing, with se
 
 Recovery often spans weeks or months, so patients can set a goal, schedule, and reminders for each technique. The home screen shows their practice streak, and completing a session can add a new fish to their cove.
 
+An earlier concept was a sandbox island where patients would grow and harvest plants and feed animals, with their activities driving growth and earning points to spend. We chose the simpler fish and cove because it complements the wellness activities instead of becoming a much larger game alongside them, and it keeps the reward from adding to the feeling of being overwhelmed.
+
 ![Four screens: home with practice streak and daily check-in, a technique detail page, goal and reminder preferences, and a post-session reward screen](/images/adsu/starfish-3.png)
 
 **Check-ins and progress tracking**
 
-The daily check-in asks about body, mood, and sleep using three five-point face scales, so it takes only a few taps. Low scores lead to a matching technique, such as a breathing exercise after poor sleep, and a summary shows the week's trends. Check-ins were also intended to give researchers longitudinal data.
+The daily check-in asks about body, mood, and sleep using three five-point face scales, so it takes only a few taps. Face scales were chosen over sliders because they are quicker to answer and easier to read at a glance. Low scores lead to a matching technique, such as a breathing exercise after poor sleep, and a summary shows the week's trends. Check-ins were also intended to give researchers longitudinal data.
 
 ![Four daily check-in screens: body, mood, and sleep questions, a recommended technique, a completion message, and a weekly trends summary](/images/adsu/starfish-4.png)
+
+**Accessibility**
+
+Designs were checked for readable text sizes, minimum contrast on interface elements, and alternative color palettes for color-blind users.
 
 ### Technical Architecture
 
@@ -91,4 +105,4 @@ Alongside the user experience design, I contributed to the application's technic
 
 ## Reflection
 
-Working alongside researchers taught me to design for requirements that keep evolving. For the onboarding form engine, that meant defining question text, response options, and conditional logic through configuration, so questionnaires could change without rewriting the form's UI. I also enjoyed contributing to a project meant to help adolescents through their recovery.
+Working alongside researchers taught me to design for requirements that keep evolving. For the onboarding form engine, that meant defining question text, response options, and conditional logic through configuration, so questionnaires could change without rewriting the form's UI. I also enjoyed contributing to a project meant to help adolescents through their recovery. Designing for users who may be in pain or under stress pushed me to keep each interaction short, gentle, and easy to understand, from the few-tap check-in to the low-pressure rewards.
