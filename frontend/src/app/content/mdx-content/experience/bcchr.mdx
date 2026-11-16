@@ -26,7 +26,7 @@ At BCCHR, I worked in the [AI and Data Science Unit (ADSU)](https://www.bcchr.ca
 
 My role combined software engineering, data analysis, and user experience design.
 
-**Please note that only one of the projects is shown here due to pending confidentiality agreements.**
+**Please note that only one of the projects is shown in full here due to pending confidentiality agreements.**
 
 ## STARFISH
 
@@ -49,7 +49,7 @@ STARFISH was planned as a centralized mobile platform that helps patients discov
 
 ### Research & Requirements
 
-Requirements came from 5–6 working sessions with the project's two co-principal investigators, both MD-PhDs leading their own research teams, and a PhD researcher in our unit who had led a similar app. The co-PIs also connected us with another research group that had built a comparable tool.
+Requirements came from 5–6 working sessions with the project's two co-principal investigators, both MD-PhDs leading their own research teams, and a PhD researcher in our unit who had led a similar app. The co-PIs shaped their asks around feedback from the patient groups they work with, and were in contact with another research group that had built a comparable tool.
 
 We started from the researchers' requirements document. I turned it into an initial low-fidelity design, and later sessions used those screens to work through design considerations, ethics, and where the IM modality content would be sourced from.
 
@@ -102,6 +102,16 @@ Designs were checked for readable text sizes, minimum contrast on interface elem
 Alongside the user experience design, I contributed to the application's technical planning. The proposed local-first architecture supports offline use, improves responsiveness, and reduces privacy concerns for guest users, while leaving room for future cloud synchronization and analytics.
 
 ![Architecture flowchart showing local SQLite reads and writes, guest and authenticated sessions, and syncing to Django and PostgreSQL](/images/adsu/starfish-5.png)
+
+## Other Work
+
+The second project was a public-facing health risk assessment tool built with React and Django. Users complete a questionnaire and can have a PDF report of their results emailed to them.
+
+I worked on protecting the email endpoint from abuse:
+
+- Rate limiting with Django and NGINX
+- A honeypot form field to catch automated submissions
+- Logging of each blocked IP address and the reason it was blocked
 
 ## Reflection
 
