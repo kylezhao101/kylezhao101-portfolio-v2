@@ -9,6 +9,11 @@ export const tagStyles = {
     dot: "bg-violet-500",
   },
 
+  Embedded: {
+    badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    dot: "bg-emerald-500",
+  },
+
   Cloud: {
     badge: "bg-sky-50 text-sky-700 border-sky-200",
     dot: "bg-sky-500",
@@ -36,6 +41,27 @@ export const tagStyles = {
 };
 
 export const otherWork = [
+
+  {
+    slug: "esp32-bike-computer",
+    title: "ESP32 Bike Computer",
+    category: "Embedded",
+    description:
+      "A DIY bike computer with Bluetooth speed and cadence, offline maps, and .fit ride recording.",
+    technologies: [
+      "ESP32",
+      "C++",
+      "ESP-IDF",
+      "LVGL",
+    ],
+    timeframe: "09.2026 - ongoing",
+    type: "Personal Project",
+    tags: [
+      "Embedded",
+    ],
+    internalLink: "/projects/esp32-bike-computer",
+    externalLink: "https://github.com/kylezhao101/esp32-bike-computer"
+  },
 
   {
     slug: "auto-media-publisher",

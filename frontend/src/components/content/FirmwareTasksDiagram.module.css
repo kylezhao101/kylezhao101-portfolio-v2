@@ -1,0 +1,129 @@
+.diagram {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.card {
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 14px;
+  background: hsl(var(--background));
+}
+
+.accent {
+  border: 1.5px solid var(--demo-accent);
+}
+
+.cardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 8px;
+  margin-bottom: 6px;
+}
+
+.cardHeader code {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  background: none;
+  padding: 0;
+}
+
+.cardHeader span,
+.card ul {
+  color: hsl(var(--muted-foreground));
+}
+
+.card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card li {
+  margin: 3px 0;
+  line-height: 1.5;
+}
+
+/* Connector between rows: a short vertical line with an arrowhead, plus a label. */
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-left: 16px;
+  color: hsl(var(--muted-foreground));
+  font-size: 14px;
+}
+
+.line {
+  position: relative;
+  flex-shrink: 0;
+  width: 0;
+  height: 22px;
+  border-left: 1.5px solid hsl(var(--muted-foreground));
+}
+
+.line::after {
+  content: "";
+  position: absolute;
+  left: -5px;
+  bottom: -2px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 6px solid hsl(var(--muted-foreground));
+}
+
+.queue .line {
+  border-left: 2px solid var(--demo-accent);
+}
+
+.queue .line::after {
+  border-top-color: var(--demo-accent);
+}
+
+.storage .line {
+  border-left-style: dashed;
+  border-left-width: 1px;
+}
+
+.sd {
+  margin-top: 16px;
+  padding: 8px 12px;
+  border: 1px dashed hsl(var(--muted-foreground));
+  border-radius: 6px;
+  background: hsl(var(--muted) / 0.5);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.diagram .snapshotKey,
+.diagram .queueKey,
+.diagram .storageKey {
+  width: 16px;
+  height: 0;
+}
+
+.diagram .snapshotKey {
+  border-top: 1.5px solid hsl(var(--muted-foreground));
+}
+
+.diagram .queueKey {
+  border-top: 2px solid var(--demo-accent);
+}
+
+.diagram .storageKey {
+  border-top: 1px dashed hsl(var(--muted-foreground));
+}

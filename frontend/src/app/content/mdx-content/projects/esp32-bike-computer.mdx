@@ -1,0 +1,80 @@
+---
+title: ESP32 Bike Computer
+---
+
+import FirmwareTasksDiagram from "@/components/content/FirmwareTasksDiagram";
+
+# ESP32 Bike Computer
+
+09.2026 - ongoing
+
+Brand-name bike computers are expensive, but under the hood they are mostly a screen, a GPS, and a couple of sensors. I wanted to see if I could build my own without nuking my wallet. It shows speed and cadence, follows me on an offline map, and records rides in the same file format Garmin devices use. The electronics and firmware are working, and the housing is still in progress so I can mount it on my bike.
+
+[View the code on GitHub](https://github.com/kylezhao101/esp32-bike-computer)
+
+{/* PHOTO: hero shot of the device (on the bike once the housing is done) */}
+
+## What it does
+
+- **Speed and cadence** from a Bluetooth sensor on the bike
+- **Offline maps** loaded from an SD card, with a dot that follows my GPS position
+- **Ride recording** as `.fit` files, which apps like Strava can import
+- **Wi-Fi file browser** so I can download rides from my phone or laptop without pulling the SD card
+
+{/* PHOTO: dashboard screen and map screen side by side */}
+
+## The build
+
+It runs on an ESP32 with a 320×240 touchscreen (the CYD ESP32) and an SD card slot, plus a Matek M10Q-5883 GPS module and a BK805 speed and cadence sensor that connects over Bluetooth. The firmware is C++ on ESP-IDF, with LVGL for the interface.
+
+I went with the CYD because it is cheap and puts the screen, touch, and SD card on one board. For power, an ultra-thin phone power bank connects through a rigid U-shaped USB-C connector, so there is no loose cable to snag. A USB-C breakout board sits in between and adds the resistors the CYD is missing, so the power bank recognizes it as a device and turns on.
+
+The firmware is split into a few FreeRTOS tasks, each with one job. They share data through small locked snapshots and queues, so a slow SD card write never freezes the screen.
+
+<FirmwareTasksDiagram />
+
+### Some planned improvements
+
+- **Give ride logic its own task.** Right now `ui_task` also updates ride stats and takes the once-per-second sample for the `.fit` file. If a heavy map redraw makes one pass of the UI loop run long, that second's sample is skipped. Moving ride logic into a small `ride_task` (or a 1-second timer) would mean recording never depends on how fast the screen draws.
+- **Pin tasks to cores.** The ESP32 has two cores, and right now FreeRTOS decides where each task runs. If the UI ever stutters, the usual fix is to keep the Bluetooth and GPS work on one core and the UI and map loading on the other.
+
+{/* PHOTO: the bare board and wiring */}
+
+## Some problems I ran into
+
+### Fitting a map into very little memory
+
+The ESP32 has about 520 KB of RAM, and a single map tile in the usual format is 128 KB. Loading a few of those to fill the screen was not going to work.
+
+The tiles themselves come from [Geoapify](https://www.geoapify.com/), downloaded for my area with [Offline Map Downloader](https://github.com/0015/offlinemapdownloader).
+
+I converted the tiles ahead of time to a 16-color format, which shrinks each one to about 32 KB while keeping the full resolution. On the device, a background task loads only the part of the map the screen needs into one of two 40 KB buffers. While one buffer is on screen, the other is being filled, so the map never freezes while the next section loads. If a tile is missing or corrupted, that patch stays gray and the rest of the map keeps working.
+
+### Running out of pins
+
+The GPS module I picked, the Matek M10Q-5883, also has a built-in compass. The CYD packs so much onto one board that it leaves very few free GPIO pins, and after the GPS there were not enough left to wire up the compass. For now, the map shows where I am as a dot but not which way I am facing.
+
+### Sensors that fall asleep
+
+The speed and cadence sensor goes to sleep when the bike sits still, and I wanted that to be a non-event:
+
+- When the sensor drops, the device gets one 30-second window to reconnect on its own before asking me to tap Search.
+- While it is disconnected, speed and cadence show `--` instead of `0`, so I never mistake missing data for standing still.
+- The ride timer keeps running, and reconnecting does not add a sudden jump to the distance.
+
+### Not losing a ride
+
+Rides are written to a temporary file while I ride and only renamed to `.fit` when I end the ride. If the power cuts out halfway, the incomplete file never pretends to be a finished ride. If the SD card has a problem, the screen tells me right away instead of failing silently.
+
+### Getting rides off the device
+
+At first, checking a ride meant popping the SD card out, plugging it into my PC, and putting it back. That got old fast, so I added a Wi-Fi file browser. The device joins my Wi-Fi and serves a simple page where I can browse the SD card and download rides from any browser. The first time, it opens its own setup hotspot so I can enter my Wi-Fi details.
+
+## What's next
+
+- **Housing.** It needs a case that mounts to the handlebars, survives some rain, and still lets me reach the SD card and USB port.
+- **Battery life.** Once it is in a case, I want to know how long it lasts on a ride.
+- **A better screen.** The CYD kept costs down, but a transflective LCD would be much easier to read in direct sunlight.
+- **A real test ride.** The plan is a full ride with the map running, then importing the `.fit` file into Strava.
+
+{/* PHOTO: housing sketches or prints as they come together */}
