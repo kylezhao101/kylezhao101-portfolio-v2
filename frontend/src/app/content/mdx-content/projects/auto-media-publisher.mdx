@@ -96,7 +96,7 @@ To add credential files manually, use these file names and locations:
 - Create and manage organizations with owner, admin, publisher, and member roles
 - Invite organization members through email with role-based access control
 - Create and share organization publishing presets
-- Connect and manage shared organization YouTube channels
+- Connect and manage shared organization YouTube channels and playlists
 - Publish to organization channels without distributing long-lived Google credentials to members
 - Receive desktop notifications for completed uploads and warnings
 - Automatically update Windows installations
@@ -122,8 +122,6 @@ Publishing recorded services involved several manual steps:
 - Managing errors and failed uploads
 
 This process was time-consuming and difficult to delegate to volunteers with varying technical backgrounds.
-
-**How might we reduce the technical overhead of publishing media content while making the workflow accessible to non-technical users?**
 
 ### Requirements
 1. Support large video files (including MXF recordings)
@@ -163,54 +161,51 @@ Automating media processing solved only part of our AV team's workflow. Delegati
 
 I added an organization backend so an authorized administrator could connect the channel centrally and volunteers could publish through a shared workspace according to their assigned role. Media processing stayed on the desktop, while the backend managed organization membership, shared presets, and channel authorization.
 
+<figure
+  style={{ maxWidth: "800px", margin: "24px auto", overflow: "hidden", borderRadius: "8px" }}
+>
   <img
     src="/images/projects/amp-org-manage.png"
     alt="Organization management workspace in Auto Media Publisher"
     style={{ width: "100%", display: "block" }}
   />
+</figure>
 
+The backend runs on FastAPI and Supabase/PostgreSQL, managing shared state and authentication for organization workspaces.
 
-
-The desktop application also supports shared organization workspaces for teams managing a common YouTube channel. While personal publishing keeps Google credentials locally on the user's device, organization workspaces use a deployed FastAPI and Supabase/PostgreSQL backend to manage shared state and authentication.
-
-Organizations support:
-
-- Owner, admin, publisher, and member roles with role-based access control
-- Email-based invitations and member management
-- Shared publishing presets
-- Organization-level YouTube connections
-- Shared playlist access and publishing permissions
-
-
-
+<figure
+  style={{ maxWidth: "800px", margin: "24px auto", overflow: "hidden", borderRadius: "8px" }}
+>
   <img
     src="/images/projects/amp-org-member.png"
     alt="Organization member management in Auto Media Publisher"
     style={{ width: "100%", display: "block" }}
   />
-
+</figure>
 
 Organization invitations are delivered by email through Resend. After accepting an invitation through the web application, users can sign in to the desktop app and access the shared workspace based on their assigned role.
 
 YouTube authentication is handled differently for personal and organization publishing. Personal credentials remain on-device, while organization refresh tokens are encrypted with Fernet before being stored server-side. For organization uploads, the backend exchanges the stored refresh token for a short-lived Google access token, so the desktop worker never receives the organization's long-lived credential.
 
-
-
+<figure
+  style={{ maxWidth: "800px", margin: "24px auto", overflow: "hidden", borderRadius: "8px" }}
+>
   <img
     src="/images/projects/amp-org-activity.png"
     alt="Organization activity audit log in Auto Media Publisher"
     style={{ width: "100%", display: "block" }}
   />
+</figure>
 
 Organization actions are recorded in an audit log to provide visibility into changes made within a shared workspace. Events such as invitations, role changes, preset updates, and YouTube connection changes record the actor, timestamp, action, and relevant context.
 
 ### Original Azure Architecture
 
-![cloud diagram](/images/projects/amp-2.webp)
+![Original Azure architecture: a React dashboard uploads clips to Blob Storage through SAS URLs, a FastAPI service enqueues jobs in Queue Storage, a background worker merges and processes clips with FFmpeg and publishes to the YouTube Data API, and secrets are fetched from Key Vault](/images/projects/amp-2.webp)
 
 The project originally began as a cloud-based media processing platform built on Azure. The system was designed around asynchronous job processing to support large media uploads and long-running transcoding tasks.
 
 Media files and generated assets were stored in Azure Blob Storage, while job requests were submitted through a FastAPI backend and processed by background workers. Azure Queue Storage was used to decouple the user interface from video processing workloads, allowing uploads, transcoding, thumbnail generation, and publishing operations to execute independently. Job progress and status updates were streamed back to the dashboard to provide real-time feedback.
 
-The architecture was intentionally designed around distributed services to improve scalability and fault tolerance. However, because weekly recordings frequently exceeded tens of gigabytes, storage and compute costs quickly became impractical under student cloud credits. This ultimately motivated a redesign into a desktop-first application that leveraged local compute resources while preserving much of the original job-based workflow.
+The architecture was intentionally designed around distributed services to improve scalability and fault tolerance. In practice, weekly recordings often exceeded tens of gigabytes, so storage and compute costs outgrew the student credits and led to the desktop redesign.
 
