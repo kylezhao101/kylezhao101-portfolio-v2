@@ -10,8 +10,8 @@ export const tagStyles = {
   },
 
   Embedded: {
-    badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    dot: "bg-emerald-500",
+    badge: "bg-red-50 text-red-700 border-red-200",
+    dot: "bg-red-500",
   },
 
   Cloud: {
@@ -78,7 +78,6 @@ export const otherWork = [
     timeframe: "03.2026 - ongoing",
     type: "Internal Tooling",
     tags: [
-      "Cloud",
       "Automation",
     ],
     internalLink: "/projects/auto-media-publisher",
@@ -120,7 +119,6 @@ export const otherWork = [
     timeframe: "09.2024 - 12.2024",
     type: "Non-profit",
     tags: [
-      "Design",
       "Frontend",
     ],
     externalLink: "https://www.helpingbrainsheal.ca"

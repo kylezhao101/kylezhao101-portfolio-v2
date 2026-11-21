@@ -6,7 +6,7 @@ import { Status, StatusIndicator } from "@/components/ui/status";
 export default function ProfileMetaTable() {
     const rows: [string, React.ReactNode][] = [
         ["focus", "product + systems engineering"],
-        ["also", "interface design · visual systems · illustration"],
+        ["also", "illustration & aquariums"],
         [
             "status",
             <Status status="open-to-work" variant="outline" >
