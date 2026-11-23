@@ -19,7 +19,7 @@ import { CurrentlyListening } from "@/components/home/about/CurrentlyListening";
 import { useCarouselSelection } from "@/hooks/use-carousel-selection";
 import { SectionDivider } from "@/components/home/SectionDivider";
 
-const illustrationSources = ["/artworks/art_irl.jpg", "/artworks/pc.webp", "/artworks/mo.webp"];
+const illustrationSources = ["/artworks/art_irl.jpg", "/artworks/mo.webp"];
 
 export default function Home() {
   const { setApi: setArtApi, activeIndex: activeArtIndex } = useCarouselSelection();
@@ -104,7 +104,7 @@ export default function Home() {
             </p>
             <h2 className="mb-4 text-xl font-semibold md:text-3xl text-gray-800">Digital illustration</h2>
             <p className="text-sm text-gray-800 sm:text-base">
-              I create character illustrations for osu! <a href="https://www.youtube.com/@osugamearchive" target="_blank" rel="noopener noreferrer" className="underline text-red-500 hover:text-red-400">official music releases</a>, community projects, and events, plus original artwork and merchandise. Feel free to reach out for character art, gaming, and music-related work.</p>
+              In addition to building software, I also create character illustrations for osu! <a href="https://www.youtube.com/@osugamearchive" target="_blank" rel="noopener noreferrer" className="underline text-red-500 hover:text-red-400">official music releases</a>, community projects, and events, plus original artwork and merchandise. Feel free to reach out for character art, gaming, and music-related work! :D</p>
             <p className="text-sm text-gray-500 sm:text-base my-4">
               Past clients
             </p>
@@ -138,14 +138,6 @@ export default function Home() {
                 <CarouselItem>
                   <img
                     src={illustrationSources[1]}
-                    alt="celtix - Primordial Complex"
-                    loading="lazy"
-                    className="w-full aspect-video object-cover rounded-md"
-                  />
-                </CarouselItem>
-                <CarouselItem>
-                  <img
-                    src={illustrationSources[2]}
                     alt="Studio SIAT"
                     loading="lazy"
                     className="w-full aspect-video object-contain rounded-md"
